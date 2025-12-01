@@ -1,0 +1,38 @@
+spring:
+  jpa:
+    open-in-view: false
+    generate-ddl: false
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
+        timezone.default_storage: NORMALIZE_UTC
+        jdbc.time_zone: UTC
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  application:
+    name: blackwhitemap-api
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/blackwhitemap
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
