@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<configuration>
+    <property name="LOG_PATH" value="logs" />
+
+    <!-- 콘솔 출력 설정 -->
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 파일 출력 설정 (날짜별 + 시간별로 롤링) -->
+    <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/blackwhitemap.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 시간별 로그 파일 + 날짜별 폴더링 -->
+            <fileNamePattern>${LOG_PATH}/%d{yyyy-MM-dd}/blackwhitemap.%d{yyyy-MM-dd-HH}.%i.log</fileNamePattern>
+            <!-- 단일 파일 최대 크기 -->
+            <maxFileSize>500MB</maxFileSize>
+            <!-- 보관 시간 (시간 단위) - 30일(720시간) -->
+            <maxHistory>720</maxHistory>
+            <!-- 전체 로그 파일 크기 제한 -->
+            <totalSizeCap>3GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <!-- local 환경 -->
+    <springProfile name="local">
+        <root level="INFO">
+            <appender-ref ref="Console"/>
+        </root>
+        <logger name="com.blackwhitemap" level="DEBUG" />
+        <logger name="org.hibernate.SQL" level="DEBUG" />
+        <logger name="org.hibernate.orm.jdbc.bind" level="TRACE" />
+    </springProfile>
+
+    <!-- 프로필이 지정되지 않은 경우 기본 설정 (local과 동일) -->
+    <springProfile name="default">
+        <root level="INFO">
+            <appender-ref ref="Console"/>
+        </root>
+        <logger name="com.blackwhitemap" level="DEBUG" />
+    </springProfile>
+
+    <!-- prod 환경: 콘솔 + 파일 사용 -->
+    <springProfile name="prod">
+        <root level="INFO">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="RollingFile"/>
+        </root>
+        <logger name="com.blackwhitemap" level="INFO" />
+    </springProfile>
+</configuration>
