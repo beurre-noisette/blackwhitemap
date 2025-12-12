@@ -55,13 +55,29 @@ public class Restaurant {
         this.instagramUrl = instagramUrl;
     }
 
-    public static Restaurant of(PerformerCommand.CreateCategory command) {
+    public static Restaurant of(
+            String address,
+            Category category,
+            String naverReservationUrl,
+            String catchTableUrl,
+            String instagramUrl
+    ) {
+        boolean hasRestaurantInfo = address != null
+                || category != null
+                || naverReservationUrl != null
+                || catchTableUrl != null
+                || instagramUrl != null;
+
+        if (!hasRestaurantInfo) {
+            return null;
+        }
+
         return new Restaurant(
-                command.address(),
-                command.restaurantCategory(),
-                command.naverReservationUrl(),
-                command.catchTableUrl(),
-                command.instagramUrl()
+                address,
+                category,
+                naverReservationUrl,
+                catchTableUrl,
+                instagramUrl
         );
     }
 }

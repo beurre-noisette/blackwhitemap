@@ -13,7 +13,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -21,7 +20,6 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ChefImages {
 
-    private static final int MIN_IMAGE_COUNT = 1;
     private static final int MAX_IMAGE_COUNT = 3;
 
     @ElementCollection
@@ -35,21 +33,23 @@ public class ChefImages {
 
     private ChefImages(List<String> imageUrls) {
         validateImageUrls(imageUrls);
-        this.imageUrls = new ArrayList<>(imageUrls);
+        this.imageUrls = imageUrls != null ? new ArrayList<>(imageUrls) : new ArrayList<>();
     }
 
     public static ChefImages of(List<String> imageUrls) {
         return new ChefImages(imageUrls);
     }
 
-    public static ChefImages of(String... imageUrls) {
-        return new ChefImages(List.of(imageUrls));
-    }
-
+    /**
+     * 이미지 URL 목록 검증
+     * - 이미지가 없는 경우 허용
+     * - 최대 3개까지만 허용
+     */
     private void validateImageUrls(List<String> imageUrls) {
         if (imageUrls == null || imageUrls.isEmpty()) {
-            throw new CoreException(ErrorType.BAD_REQUEST, "최소 " + MIN_IMAGE_COUNT + "개의 이미지가 필요합니다.");
+            return;
         }
+
         if (imageUrls.size() > MAX_IMAGE_COUNT) {
             throw new CoreException(ErrorType.BAD_REQUEST, "최대 " + MAX_IMAGE_COUNT + "개의 이미지만 등록할 수 있습니다.");
         }

@@ -1,14 +1,13 @@
 package com.blackwhitemap.blackwhitemap_back.domain.performer;
 
 import com.blackwhitemap.blackwhitemap_back.domain.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
-import jakarta.persistence.Version;
-import lombok.*;
+import com.blackwhitemap.blackwhitemap_back.support.error.CoreException;
+import com.blackwhitemap.blackwhitemap_back.support.error.ErrorType;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Getter
 @Entity
@@ -64,13 +63,51 @@ public class Chef extends BaseEntity {
     }
 
     public static Chef of(PerformerCommand.CreateChef command) {
+        validateChefInfo(
+                command.name(),
+                command.nickname(),
+                command.type()
+        );
+
+        Restaurant restaurant = Restaurant.of(
+                command.address(),
+                command.restaurantCategory(),
+                command.naverReservationUrl(),
+                command.catchTableUrl(),
+                command.instagramUrl()
+        );
+        ChefImages images = ChefImages.of(command.imageUrls());
+
         return new Chef(
                 command.name(),
                 command.nickname(),
                 command.type(),
-                command.restaurant(),
-                command.chefImages()
+                restaurant,
+                images
         );
+    }
+
+    /**
+     * 셰프 정보 검증
+     * - Type은 필수
+     * - name과 nickname 중 하나는 필수 (둘 다 없으면 안 됨)
+     * - restaurant와 images는 선택적 (null 가능)
+     */
+    private static void validateChefInfo(
+            String name,
+            String nickname,
+            Type type
+    ) {
+        if (type == null) {
+            throw new CoreException(ErrorType.BAD_REQUEST, "셰프 타입은 필수입니다.");
+        }
+
+        boolean hasName = name != null && !name.isBlank();
+        boolean hasNickname = nickname != null && !nickname.isBlank();
+
+        if (!hasName && !hasNickname) {
+            throw new CoreException(ErrorType.BAD_REQUEST, "이름 또는 별명 중 하나는 필수입니다.");
+        }
     }
 
 }
