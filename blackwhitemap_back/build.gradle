@@ -44,6 +44,20 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // Testcontainers 최신 버전 (취약점 해결)
+    testImplementation 'org.testcontainers:testcontainers:1.20.6'
+    testImplementation 'org.testcontainers:postgresql:1.20.6'
+    testImplementation 'org.testcontainers:junit-jupiter:1.20.6'
+
+    // CVE-2024-25710, CVE-2024-26308 취약점 해결을 위한 commons-compress 버전 오버라이드
+    testImplementation 'org.apache.commons:commons-compress:1.26.0'
+
+    // CVE-2025-48924 취약점 해결을 위한 commons-lang3 버전 오버라이드
+    testImplementation 'org.apache.commons:commons-lang3:3.18.0'
+
+    // JNA 최신 버전 (잠재적 취약점 방지)
+    testImplementation 'net.java.dev.jna:jna:5.16.0'
 }
 
 def generated = 'build/generated/sources/annotationProcessor/java/main'
