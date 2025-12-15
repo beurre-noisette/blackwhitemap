@@ -21,12 +21,12 @@ class PerformerTest {
 
     @Nested
     @DisplayName("Chef 엔티티를 생성 할 때")
-    class CreateChef {
+    class RegisterChef {
         @Test
         @DisplayName("백요리사의 경우 이름만 제공되어도 성공적으로 생성된다.")
         void createWhiteChef_WithNameOnly() {
             // given
-            PerformerCommand.CreateChef command = new PerformerCommand.CreateChef(
+            PerformerCommand.RegisterChef command = new PerformerCommand.RegisterChef(
                     "손종원",
                     null,
                     Chef.Type.WHITE,
@@ -52,7 +52,7 @@ class PerformerTest {
         @DisplayName("흑요리사의 경우 별명만 제공되어도 성공적으로 생성된다.")
         void createBlackChef_WithNicknameOnly() {
             // given
-            PerformerCommand.CreateChef command = new PerformerCommand.CreateChef(
+            PerformerCommand.RegisterChef command = new PerformerCommand.RegisterChef(
                     null,
                     "나폴리맛피아",
                     Chef.Type.BLACK,
@@ -77,7 +77,7 @@ class PerformerTest {
         @DisplayName("흑요리사의 경우 이름과 별명이 모두 제공되어도 성공적으로 생성된다.")
         void createBlackChef_WithBothNameAndNickname() {
             // given
-            PerformerCommand.CreateChef command = new PerformerCommand.CreateChef(
+            PerformerCommand.RegisterChef command = new PerformerCommand.RegisterChef(
                     "권성준",
                     "나폴리맛피아",
                     Chef.Type.BLACK,
@@ -102,7 +102,7 @@ class PerformerTest {
         @DisplayName("Restaurant 정보가 포함된 Chef가 정상적으로 생성된다.")
         void createChef_WithRestaurant() {
             // given
-            PerformerCommand.CreateChef command = new PerformerCommand.CreateChef(
+            PerformerCommand.RegisterChef command = new PerformerCommand.RegisterChef(
                     "권성준",
                     "나폴리맛피아",
                     Chef.Type.BLACK,
@@ -132,7 +132,7 @@ class PerformerTest {
                     "https://example.com/image1.jpg",
                     "https://example.com/image2.jpg"
             );
-            PerformerCommand.CreateChef command = new PerformerCommand.CreateChef(
+            PerformerCommand.RegisterChef command = new PerformerCommand.RegisterChef(
                     "손종원",
                     null,
                     Chef.Type.WHITE,
@@ -162,7 +162,7 @@ class PerformerTest {
                     "https://example.com/image2.jpg",
                     "https://example.com/image3.jpg"
             );
-            PerformerCommand.CreateChef command = new PerformerCommand.CreateChef(
+            PerformerCommand.RegisterChef command = new PerformerCommand.RegisterChef(
                     "손종원",
                     null,
                     Chef.Type.WHITE,
@@ -191,7 +191,7 @@ class PerformerTest {
         @DisplayName("타입이 제공되지 않을 경우 BAD_REQUEST 예외를 반환한다.")
         void throwBadRequestException_whenTypeIsNull() {
             // given
-            PerformerCommand.CreateChef command = new PerformerCommand.CreateChef(
+            PerformerCommand.RegisterChef command = new PerformerCommand.RegisterChef(
                     "손종원",
                     null,
                     null,
@@ -216,7 +216,7 @@ class PerformerTest {
         @DisplayName("이름과 별명이 모두 없을 경우 BAD_REQUEST 예외를 반환한다.")
         void throwBadRequestException_whenNameAndNicknameBothNull() {
             // given
-            PerformerCommand.CreateChef command = new PerformerCommand.CreateChef(
+            PerformerCommand.RegisterChef command = new PerformerCommand.RegisterChef(
                     null,
                     null,
                     Chef.Type.BLACK,
@@ -242,7 +242,7 @@ class PerformerTest {
         @EmptySource
         void throwBadRequestException_whenNameAndNicknameBothEmpty(String emptySource) {
             // given
-            PerformerCommand.CreateChef command = new PerformerCommand.CreateChef(
+            PerformerCommand.RegisterChef command = new PerformerCommand.RegisterChef(
                     emptySource,
                     emptySource,
                     Chef.Type.WHITE,
@@ -266,7 +266,7 @@ class PerformerTest {
 
     @Nested
     @DisplayName("ChefImages 생성 할 때")
-    class CreateChefImages {
+    class RegisterChefImages {
 
         @ParameterizedTest
         @DisplayName("이미지가 없을 때(null, empty) 정상적으로 생성된다")

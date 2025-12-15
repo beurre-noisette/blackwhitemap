@@ -1,8 +1,16 @@
 package com.blackwhitemap.blackwhitemap_back.domain.performer;
 
+import com.blackwhitemap.blackwhitemap_back.support.error.CoreException;
+import com.blackwhitemap.blackwhitemap_back.support.error.ErrorType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @Getter
 @Embeddable
@@ -39,6 +47,24 @@ public class Restaurant {
         CAFE("카페/베이커리");
 
         private final String koreanLabel;
+
+        public static Category fromNullable(String value) {
+            if (value == null || value.isBlank()) {
+                return null;  // 선택적 필드
+            }
+
+            try {
+                return Category.valueOf(value.trim().toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new CoreException(
+                        ErrorType.BAD_REQUEST,
+                        "유효하지 않은 레스토랑 카테고리입니다. 가능한 값: " +
+                                Arrays.stream(Category.values())
+                                        .map(Enum::name)
+                                        .collect(Collectors.joining(", "))
+                );
+            }
+        }
     }
 
     private Restaurant(

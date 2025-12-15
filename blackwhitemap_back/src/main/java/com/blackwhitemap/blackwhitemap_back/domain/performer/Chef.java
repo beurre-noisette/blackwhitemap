@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Chef extends BaseEntity {
 
-    @Column(name = "name", nullable = false, length = 5)
+    @Column(name = "name", length = 5)
     private String name;
 
     @Column(name = "nickname", length = 15)
@@ -45,6 +45,19 @@ public class Chef extends BaseEntity {
         WHITE("백요리사");
 
         private final String description;
+
+        public static Type from(String value) {
+            if (value == null || value.isBlank()) {
+                throw new CoreException(ErrorType.BAD_REQUEST, "셰프 타입은 필수입니다.");
+            }
+
+            try {
+                return Type.valueOf(value.trim().toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new CoreException(ErrorType.BAD_REQUEST,
+                        "유효하지 않은 셰프 타입입니다. 가능한 값: BLACK, WHITE");
+            }
+        }
     }
 
     private Chef(
@@ -62,7 +75,7 @@ public class Chef extends BaseEntity {
         this.viewCount = 0L;
     }
 
-    public static Chef of(PerformerCommand.CreateChef command) {
+    public static Chef of(PerformerCommand.RegisterChef command) {
         validateChefInfo(
                 command.name(),
                 command.nickname(),

@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 @Getter
@@ -32,12 +33,24 @@ public class ChefImages {
     private List<String> imageUrls = new ArrayList<>();
 
     private ChefImages(List<String> imageUrls) {
-        validateImageUrls(imageUrls);
-        this.imageUrls = imageUrls != null ? new ArrayList<>(imageUrls) : new ArrayList<>();
+        List<String> deduplicatedUrls = deduplicateImageUrls(imageUrls);
+        validateImageUrls(deduplicatedUrls);
+        this.imageUrls = deduplicatedUrls;
     }
 
     public static ChefImages of(List<String> imageUrls) {
         return new ChefImages(imageUrls);
+    }
+
+    /**
+     * 이미지 중복 URL 제거 (순서는 유지 됨)
+     */
+    private List<String> deduplicateImageUrls(List<String> imageUrls) {
+        if (imageUrls == null || imageUrls.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return new ArrayList<>(new LinkedHashSet<>(imageUrls));
     }
 
     /**

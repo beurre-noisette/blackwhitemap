@@ -1,17 +1,17 @@
-package com.blackwhitemap.blackwhitemap_back.domain.performer;
+package com.blackwhitemap.blackwhitemap_back.application.performer;
 
 import java.util.List;
 
-public class PerformerCommand {
+public class PerformerCriteria {
 
     public record RegisterChef(
             String name,
             String nickname,
-            Chef.Type type,
+            String chefType,
 
             // Restaurant 관련 필드
             String address,
-            Restaurant.Category restaurantCategory,
+            String restaurantCategory,
             String naverReservationUrl,
             String catchTableUrl,
             String instagramUrl,
