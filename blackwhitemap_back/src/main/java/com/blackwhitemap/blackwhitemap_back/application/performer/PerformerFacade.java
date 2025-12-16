@@ -31,4 +31,24 @@ public class PerformerFacade {
 
         performerService.registerChef(registerCommand);
     }
+
+    public void updateChef(PerformerCriteria.UpdateChef updateCriteria) {
+        Chef.Type chefType = Chef.Type.fromNullable(updateCriteria.chefType());
+        Restaurant.Category restaurantCategory = Restaurant.Category.fromNullable(updateCriteria.restaurantCategory());
+
+        PerformerCommand.UpdateChef updateCommand = new PerformerCommand.UpdateChef(
+                updateCriteria.chefId(),
+                updateCriteria.name(),
+                updateCriteria.nickname(),
+                chefType,
+                updateCriteria.address(),
+                restaurantCategory,
+                updateCriteria.naverReservationUrl(),
+                updateCriteria.catchTableUrl(),
+                updateCriteria.instagramUrl(),
+                updateCriteria.imageUrls()
+        );
+
+        performerService.updateChef(updateCommand);
+    }
 }
