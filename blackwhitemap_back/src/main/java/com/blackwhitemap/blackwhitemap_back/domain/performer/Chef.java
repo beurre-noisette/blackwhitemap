@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @Entity
 @Table(name = "chef")
@@ -76,11 +78,8 @@ public class Chef extends BaseEntity {
     }
 
     public static Chef of(PerformerCommand.RegisterChef command) {
-        validateChefInfo(
-                command.name(),
-                command.nickname(),
-                command.type()
-        );
+        validateChefType(command.type());
+        validateNameOrNickname(command.name(), command.nickname());
 
         Restaurant restaurant = Restaurant.of(
                 command.address(),
@@ -100,27 +99,79 @@ public class Chef extends BaseEntity {
         );
     }
 
-    /**
-     * 셰프 정보 검증
-     * - Type은 필수
-     * - name과 nickname 중 하나는 필수 (둘 다 없으면 안 됨)
-     * - restaurant와 images는 선택적 (null 가능)
-     */
-    private static void validateChefInfo(
-            String name,
-            String nickname,
-            Type type
-    ) {
+    private static void validateChefType(Type type) {
         if (type == null) {
             throw new CoreException(ErrorType.BAD_REQUEST, "셰프 타입은 필수입니다.");
         }
+    }
 
+    /**
+     * name과 nickname 중 하나는 반드시 존재해야 함
+     */
+    private static void validateNameOrNickname(String name, String nickname) {
         boolean hasName = name != null && !name.isBlank();
         boolean hasNickname = nickname != null && !nickname.isBlank();
 
         if (!hasName && !hasNickname) {
             throw new CoreException(ErrorType.BAD_REQUEST, "이름 또는 별명 중 하나는 필수입니다.");
         }
+    }
+
+    /**
+     * 셰프 이름 수정
+     * - name과 nickname 중 하나는 필수이므로, name을 null로 변경 시 nickname이 있어야 함
+     */
+    public void updateName(String name) {
+        validateNameOrNickname(name, this.nickname);
+        this.name = name;
+    }
+
+    /**
+     * 셰프 별명 수정
+     * - name과 nickname 중 하나는 필수이므로, nickname을 null로 변경 시 name이 있어야 함
+     */
+    public void updateNickname(String nickname) {
+        validateNameOrNickname(this.name, nickname);
+        this.nickname = nickname;
+    }
+
+    /**
+     * 셰프 타입 수정
+     * - Type은 필수 필드
+     */
+    public void updateType(Type type) {
+        if (type == null) {
+            throw new CoreException(ErrorType.BAD_REQUEST, "셰프 타입은 필수입니다.");
+        }
+        this.type = type;
+    }
+
+    /**
+     * 셰프 레스토랑 정보 수정
+     * - 새로운 Restaurant 객체를 생성하여 교체
+     */
+    public void updateRestaurant(
+            String address,
+            Restaurant.Category category,
+            String naverReservationUrl,
+            String catchTableUrl,
+            String instagramUrl
+    ) {
+        this.restaurant = Restaurant.of(
+                address,
+                category,
+                naverReservationUrl,
+                catchTableUrl,
+                instagramUrl
+        );
+    }
+
+    /**
+     * 셰프 이미지 수정
+     * - 새로운 ChefImages 객체를 생성하여 교체
+     */
+    public void updateImages(List<String> imageUrls) {
+        this.images = ChefImages.of(imageUrls);
     }
 
 }
