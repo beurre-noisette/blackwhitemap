@@ -31,6 +31,7 @@ class PerformerApiE2ETest {
 
     private static final String ENDPOINT_REGISTER_CHEF = "/performer/chef";
     private static final String ENDPOINT_UPDATE_CHEF_INFO = "/performer/chef/";
+    private static final String ENDPOINT_GET_CHEFS = "/performer/chefs";
 
     @Autowired
     private TestRestTemplate testRestTemplate;
@@ -1007,6 +1008,380 @@ class PerformerApiE2ETest {
 
             // then
             assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Nested
+    @DisplayName("GET /performer/chefs")
+    class GetChefs {
+
+        @Test
+        @DisplayName("type이 ALL인 경우 address가 있는 모든 Chef를 조회한다")
+        void getChefs_withTypeAll() {
+            // given - BLACK 요리사 (address 있음)
+            PerformerRequest.RegisterChef blackChefRegisterRequest = new PerformerRequest.RegisterChef(
+                    "권성준",
+                    "나폴리맛피아",
+                    "BLACK",
+                    "서울시 강남구",
+                    "ITALIAN",
+                    null,
+                    null,
+                    null,
+                    List.of("https://example.com/image1.jpg")
+            );
+
+            // given - WHITE 요리사 (address 있음)
+            PerformerRequest.RegisterChef whiteChefRegisterRequest = new PerformerRequest.RegisterChef(
+                    "손종원",
+                    null,
+                    "WHITE",
+                    "서울시 서초구",
+                    "KOREAN",
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            // given - BLACK 요리사 (address 없음 - 조회되지 않아야 함)
+            PerformerRequest.RegisterChef blackChefWithoutAddress = new PerformerRequest.RegisterChef(
+                    "안유성",
+                    null,
+                    "BLACK",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(blackChefRegisterRequest),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+            );
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(whiteChefRegisterRequest),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+            );
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(blackChefWithoutAddress),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+            );
+
+            // when
+            ResponseEntity<ApiResponse<List<PerformerResponse.ChefInfo>>> response = testRestTemplate.exchange(
+                    ENDPOINT_GET_CHEFS + "?type=ALL",
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<>() {}
+            );
+
+            // then
+            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+            assertThat(response.getBody()).isNotNull();
+            assertThat(response.getBody().data()).hasSize(2);  // address가 있는 2명만 조회
+        }
+
+        @Test
+        @DisplayName("type이 BLACK인 경우 address가 있는 흑요리사만 조회한다")
+        void getChefs_withTypeBlack() {
+            // given - BLACK 요리사 (address 있음)
+            PerformerRequest.RegisterChef blackChef1 = new PerformerRequest.RegisterChef(
+                    "권성준",
+                    "나폴리맛피아",
+                    "BLACK",
+                    "서울시 강남구",
+                    "ITALIAN",
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            // given - BLACK 요리사 (address 있음)
+            PerformerRequest.RegisterChef blackChef2 = new PerformerRequest.RegisterChef(
+                    "안유성",
+                    null,
+                    "BLACK",
+                    "서울시 종로구",
+                    "KOREAN",
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            // given - WHITE 요리사 (address 있음 - 조회되지 않아야 함)
+            PerformerRequest.RegisterChef whiteChef = new PerformerRequest.RegisterChef(
+                    "손종원",
+                    null,
+                    "WHITE",
+                    "서울시 서초구",
+                    "KOREAN",
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(blackChef1),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+            );
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(blackChef2),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+            );
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(whiteChef),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+            );
+
+            // when
+            ResponseEntity<ApiResponse<List<PerformerResponse.ChefInfo>>> response = testRestTemplate.exchange(
+                    ENDPOINT_GET_CHEFS + "?type=BLACK",
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<>() {}
+            );
+
+            // then
+            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+            assertThat(response.getBody()).isNotNull();
+            assertThat(response.getBody().data()).hasSize(2);
+            assertThat(response.getBody().data())
+                    .extracting(PerformerResponse.ChefInfo::type)
+                    .containsOnly("BLACK");
+        }
+
+        @Test
+        @DisplayName("type이 WHITE인 경우 address가 있는 백요리사만 조회한다")
+        void getChefs_withTypeWhite() {
+            // given - WHITE 요리사 (address 있음)
+            PerformerRequest.RegisterChef whiteChef1 = new PerformerRequest.RegisterChef(
+                    "손종원",
+                    null,
+                    "WHITE",
+                    "서울시 서초구",
+                    "KOREAN",
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            // given - BLACK 요리사 (address 있음 - 조회되지 않아야 함)
+            PerformerRequest.RegisterChef blackChef = new PerformerRequest.RegisterChef(
+                    "권성준",
+                    "나폴리맛피아",
+                    "BLACK",
+                    "서울시 강남구",
+                    "ITALIAN",
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(whiteChef1),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+            );
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(blackChef),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+            );
+
+            // when
+            ResponseEntity<ApiResponse<List<PerformerResponse.ChefInfo>>> response = testRestTemplate.exchange(
+                    ENDPOINT_GET_CHEFS + "?type=WHITE",
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<>() {}
+            );
+
+            // then
+            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+            assertThat(response.getBody()).isNotNull();
+            assertThat(response.getBody().data()).hasSize(1);
+            assertThat(response.getBody().data().getFirst().type()).isEqualTo("WHITE");
+        }
+
+        @Test
+        @DisplayName("type이 없으면 address가 있는 모든 Chef를 조회한다")
+        void getChefs_withoutType() {
+            // given
+            PerformerRequest.RegisterChef blackChef = new PerformerRequest.RegisterChef(
+                    "권성준",
+                    "나폴리맛피아",
+                    "BLACK",
+                    "서울시 강남구",
+                    "ITALIAN",
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            PerformerRequest.RegisterChef whiteChef = new PerformerRequest.RegisterChef(
+                    "손종원",
+                    null,
+                    "WHITE",
+                    "서울시 서초구",
+                    "KOREAN",
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(blackChef),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+            );
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(whiteChef),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+            );
+
+            // when
+            ResponseEntity<ApiResponse<List<PerformerResponse.ChefInfo>>> response = testRestTemplate.exchange(
+                    ENDPOINT_GET_CHEFS,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<>() {}
+            );
+
+            // then
+            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+            assertThat(response.getBody()).isNotNull();
+            assertThat(response.getBody().data()).hasSize(2);
+        }
+
+        @Test
+        @DisplayName("address가 없는 Chef는 조회되지 않는다")
+        void getChefs_excludesChefsWithoutAddress() {
+            // given - address 없음
+            PerformerRequest.RegisterChef chefWithoutAddress = new PerformerRequest.RegisterChef(
+                    "안유성",
+                    null,
+                    "BLACK",
+                    null,  // address 없음
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(chefWithoutAddress),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+                    );
+
+            // when
+            ResponseEntity<ApiResponse<List<PerformerResponse.ChefInfo>>> response = testRestTemplate.exchange(
+                    ENDPOINT_GET_CHEFS + "?type=ALL",
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<>() {}
+            );
+
+            // then
+            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+            assertThat(response.getBody()).isNotNull();
+            assertThat(response.getBody().data()).isEmpty();
+        }
+
+        @Test
+        @DisplayName("잘못된 type 값이 주어지면 400 BAD_REQUEST를 반환한다")
+        void getChefs_invalidType() {
+            // when
+            ResponseEntity<ApiResponse<List<PerformerResponse.ChefInfo>>> response = testRestTemplate.exchange(
+                    ENDPOINT_GET_CHEFS + "?type=YELLOW",
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<>() {}
+            );
+
+            // then
+            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        }
+
+        @Test
+        @DisplayName("조회된 Chef는 모든 필드 정보를 포함한다")
+        void getChefs_includesAllFields() {
+            // given
+            PerformerRequest.RegisterChef request = new PerformerRequest.RegisterChef(
+                    "권성준",
+                    "나폴리맛피아",
+                    "BLACK",
+                    "서울시 강남구",
+                    "ITALIAN",
+                    "https://naver.com/reservation",
+                    "https://catchtable.com",
+                    "https://instagram.com/chef",
+                    List.of("https://example.com/image1.jpg", "https://example.com/image2.jpg")
+            );
+
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(request),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+            );
+
+            // when
+            ResponseEntity<ApiResponse<List<PerformerResponse.ChefInfo>>> response = testRestTemplate.exchange(
+                    ENDPOINT_GET_CHEFS + "?type=BLACK",
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<>() {}
+            );
+
+            // then
+            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+            assertThat(response.getBody()).isNotNull();
+            assertThat(response.getBody().data()).hasSize(1);
+
+            PerformerResponse.ChefInfo chef = response.getBody().data().getFirst();
+            assertAll(
+                    () -> assertThat(chef.id()).isNotNull(),
+                    () -> assertThat(chef.name()).isEqualTo("권성준"),
+                    () -> assertThat(chef.nickname()).isEqualTo("나폴리맛피아"),
+                    () -> assertThat(chef.type()).isEqualTo("BLACK"),
+                    () -> assertThat(chef.address()).isEqualTo("서울시 강남구"),
+                    () -> assertThat(chef.category()).isEqualTo("ITALIAN"),
+                    () -> assertThat(chef.naverReservationUrl()).isEqualTo("https://naver.com/reservation"),
+                    () -> assertThat(chef.catchTableUrl()).isEqualTo("https://catchtable.com"),
+                    () -> assertThat(chef.instagramUrl()).isEqualTo("https://instagram.com/chef"),
+                    () -> assertThat(chef.imageUrls()).hasSize(2),
+                    () -> assertThat(chef.viewCount()).isEqualTo(0L)
+            );
         }
     }
 }
