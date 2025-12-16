@@ -820,7 +820,7 @@ class PerformerTest {
         }
 
         @Test
-        @DisplayName("모든 필드를 null로 전달하면 restaurant가 null로 변경된다.")
+        @DisplayName("모든 필드를 null로 전달하면 restaurant는 변경되지 않는다.")
         void updateRestaurant_toNull_whenAllFieldsAreNull() {
             // given
             PerformerCommand.RegisterChef command = new PerformerCommand.RegisterChef(
@@ -835,12 +835,19 @@ class PerformerTest {
                     null
             );
             Chef chef = Chef.of(command);
+            Restaurant originalRestaurant = chef.getRestaurant();
 
             // when
-            chef.updateRestaurant(null, null, null, null, null);
+            chef.updateRestaurant(
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+            );
 
             // then
-            assertThat(chef.getRestaurant()).isNull();
+            assertThat(chef.getRestaurant()).isSameAs(originalRestaurant);
         }
 
         @Test

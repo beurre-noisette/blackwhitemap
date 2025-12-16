@@ -60,6 +60,19 @@ public class Chef extends BaseEntity {
                         "유효하지 않은 셰프 타입입니다. 가능한 값: BLACK, WHITE");
             }
         }
+
+        public static Type fromNullable(String value) {
+            if (value == null || value.isBlank()) {
+                return null;
+            }
+
+            try {
+                return Type.valueOf(value.trim().toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new CoreException(ErrorType.BAD_REQUEST,
+                        "유효하지 않은 셰프 타입입니다. 가능한 값: BLACK, WHITE");
+            }
+        }
     }
 
     private Chef(
@@ -149,6 +162,7 @@ public class Chef extends BaseEntity {
     /**
      * 셰프 레스토랑 정보 수정
      * - 새로운 Restaurant 객체를 생성하여 교체
+     * - 모든 필드가 null인 경우 업데이트하지 않음
      */
     public void updateRestaurant(
             String address,
@@ -157,6 +171,17 @@ public class Chef extends BaseEntity {
             String catchTableUrl,
             String instagramUrl
     ) {
+        // 업데이트할 필드가 하나라도 있는지 확인
+        boolean hasUpdate = address != null
+                || category != null
+                || naverReservationUrl != null
+                || catchTableUrl != null
+                || instagramUrl != null;
+
+        if (!hasUpdate) {
+            return;
+        }
+
         this.restaurant = Restaurant.of(
                 address,
                 category,
