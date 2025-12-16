@@ -32,6 +32,8 @@ public class Restaurant {
     @Column(name = "instagram_url", length = 100)
     private String instagramUrl;
 
+    // TODO 가격, 휴무일 필드 추가될 수 있음
+
     @Getter
     @RequiredArgsConstructor
     public enum Category {
