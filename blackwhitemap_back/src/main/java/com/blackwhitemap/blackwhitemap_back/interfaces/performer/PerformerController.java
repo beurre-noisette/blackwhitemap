@@ -5,10 +5,7 @@ import com.blackwhitemap.blackwhitemap_back.application.performer.PerformerFacad
 import com.blackwhitemap.blackwhitemap_back.interfaces.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/performer")
@@ -32,6 +29,29 @@ public class PerformerController {
         );
 
         performerFacade.registerChef(registerCriteria);
+
+        return ApiResponse.success();
+    }
+
+    @PatchMapping("/chef/{chefId}")
+    public ApiResponse<Object> updateChefInfo(
+            @PathVariable Long chefId,
+            @Valid @RequestBody PerformerRequest.UpdateChefInfo updateRequest
+    ) {
+        PerformerCriteria.UpdateChef updateCriteria = new PerformerCriteria.UpdateChef(
+                chefId,
+                updateRequest.name(),
+                updateRequest.nickname(),
+                updateRequest.chefType(),
+                updateRequest.address(),
+                updateRequest.restaurantCategory(),
+                updateRequest.naverReservationUrl(),
+                updateRequest.catchTableUrl(),
+                updateRequest.instagramUrl(),
+                updateRequest.imageUrls()
+        );
+
+        performerFacade.updateChef(updateCriteria);
 
         return ApiResponse.success();
     }
