@@ -30,6 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 class PerformerApiE2ETest {
 
     private static final String ENDPOINT_REGISTER_CHEF = "/performer/chef";
+    private static final String ENDPOINT_UPDATE_CHEF_INFO = "/performer/chef/";
 
     @Autowired
     private TestRestTemplate testRestTemplate;
@@ -455,7 +456,7 @@ class PerformerApiE2ETest {
 
             // when
             ResponseEntity<ApiResponse<Object>> response = testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF + "/" + chefId,
+                    ENDPOINT_UPDATE_CHEF_INFO + chefId,
                     HttpMethod.PATCH,
                     new HttpEntity<>(updateRequest),
                     new ParameterizedTypeReference<>() {}
@@ -505,7 +506,7 @@ class PerformerApiE2ETest {
 
             // when
             ResponseEntity<ApiResponse<Object>> response = testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF + "/" + chefId,
+                    ENDPOINT_UPDATE_CHEF_INFO + chefId,
                     HttpMethod.PATCH,
                     new HttpEntity<>(updateRequest),
                     new ParameterizedTypeReference<>() {}
@@ -555,7 +556,7 @@ class PerformerApiE2ETest {
 
             // when
             ResponseEntity<ApiResponse<Object>> response = testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF + "/" + chefId,
+                    ENDPOINT_UPDATE_CHEF_INFO + chefId,
                     HttpMethod.PATCH,
                     new HttpEntity<>(updateRequest),
                     new ParameterizedTypeReference<>() {}
@@ -604,7 +605,7 @@ class PerformerApiE2ETest {
 
             // when
             ResponseEntity<ApiResponse<Object>> response = testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF + "/" + chefId,
+                    ENDPOINT_UPDATE_CHEF_INFO + chefId,
                     HttpMethod.PATCH,
                     new HttpEntity<>(updateRequest),
                     new ParameterizedTypeReference<>() {}
@@ -661,7 +662,7 @@ class PerformerApiE2ETest {
 
             // when
             ResponseEntity<ApiResponse<Object>> response = testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF + "/" + chefId,
+                    ENDPOINT_UPDATE_CHEF_INFO + chefId,
                     HttpMethod.PATCH,
                     new HttpEntity<>(updateRequest),
                     new ParameterizedTypeReference<>() {}
@@ -717,7 +718,7 @@ class PerformerApiE2ETest {
 
             // when
             ResponseEntity<ApiResponse<Object>> response = testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF + "/" + chefId,
+                    ENDPOINT_UPDATE_CHEF_INFO + chefId,
                     HttpMethod.PATCH,
                     new HttpEntity<>(updateRequest),
                     new ParameterizedTypeReference<>() {}
@@ -746,7 +747,7 @@ class PerformerApiE2ETest {
 
             // when
             ResponseEntity<ApiResponse<Object>> response = testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF + "/" + nonExistentId,
+                    ENDPOINT_UPDATE_CHEF_INFO + nonExistentId,
                     HttpMethod.PATCH,
                     new HttpEntity<>(updateRequest),
                     new ParameterizedTypeReference<>() {}
@@ -795,7 +796,7 @@ class PerformerApiE2ETest {
 
             // when
             ResponseEntity<ApiResponse<Object>> response = testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF + "/" + chefId,
+                    ENDPOINT_UPDATE_CHEF_INFO + chefId,
                     HttpMethod.PATCH,
                     new HttpEntity<>(updateRequest),
                     new ParameterizedTypeReference<>() {}
@@ -843,7 +844,7 @@ class PerformerApiE2ETest {
 
             // when
             ResponseEntity<ApiResponse<Object>> response = testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF + "/" + chefId,
+                    ENDPOINT_UPDATE_CHEF_INFO + chefId,
                     HttpMethod.PATCH,
                     new HttpEntity<>(updateRequest),
                     new ParameterizedTypeReference<>() {}
@@ -892,7 +893,7 @@ class PerformerApiE2ETest {
 
             // when
             ResponseEntity<ApiResponse<Object>> response = testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF + "/" + chefId,
+                    ENDPOINT_UPDATE_CHEF_INFO + chefId,
                     HttpMethod.PATCH,
                     new HttpEntity<>(updateRequest),
                     new ParameterizedTypeReference<>() {}
@@ -945,7 +946,7 @@ class PerformerApiE2ETest {
 
             // when
             ResponseEntity<ApiResponse<Object>> response = testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF + "/" + chefId,
+                    ENDPOINT_UPDATE_CHEF_INFO + chefId,
                     HttpMethod.PATCH,
                     new HttpEntity<>(updateRequest),
                     new ParameterizedTypeReference<>() {}
@@ -998,7 +999,7 @@ class PerformerApiE2ETest {
 
             // when
             ResponseEntity<ApiResponse<Object>> response = testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF + "/" + chefId,
+                    ENDPOINT_UPDATE_CHEF_INFO + chefId,
                     HttpMethod.PATCH,
                     new HttpEntity<>(updateRequest),
                     new ParameterizedTypeReference<>() {}
