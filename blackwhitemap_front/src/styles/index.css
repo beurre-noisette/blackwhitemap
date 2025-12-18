@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS Variables로 색상 팔레트 정의 */
+/* RGB 값은 공백으로 구분하여 Tailwind의 opacity 기능과 호환됩니다 */
+:root {
+    /* Red 계열 색상 */
+    --color-red-50: 255 241 241;
+    --color-red-100: 255 222 222;
+    --color-red-200: 255 187 186;
+    --color-red-300: 255 157 156;
+    --color-red-400: 244 112 110;
+    --color-red-500: 243 78 75;
+    --color-red-600: 238 45 43;
+    --color-red-700: 223 26 23;
+    --color-red-800: 205 17 14;
+
+    /* Purple 계열 색상 */
+    --color-purple-50: 245 246 255;
+    --color-purple-100: 232 234 250;
+    --color-purple-200: 205 209 245;
+    --color-purple-300: 180 186 240;
+    --color-purple-400: 162 170 240;
+    --color-purple-500: 140 150 241;
+    --color-purple-600: 101 115 243;
+    --color-purple-700: 72 93 244;
+    --color-purple-800: 57 72 210;
+
+    /* Gray 계열 색상 및 기본 색상 */
+    --color-white: 255 255 255;
+    --color-gray-100: 0 0 93;
+    --color-gray-200: 0 2 89;
+    --color-gray-300: 0 1 83;
+    --color-gray-400: 0 1 72;
+    --color-gray-500: 0 0 53;
+    --color-gray-600: 0 0 25;
+    --color-gray-700: 0 0 18;
+    --color-gray-800: 0 0 12;
+    --color-gray-900: 0 0 7;
+    --color-black: 14 13 13;
+}
