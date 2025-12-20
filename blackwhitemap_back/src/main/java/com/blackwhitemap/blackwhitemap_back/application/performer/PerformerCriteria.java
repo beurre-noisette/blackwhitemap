@@ -10,6 +10,7 @@ public class PerformerCriteria {
             String chefType,
 
             // Restaurant 관련 필드
+            String restaurantName,
             String address,
             String restaurantCategory,
             String naverReservationUrl,
@@ -32,6 +33,7 @@ public class PerformerCriteria {
             String chefType,
 
             // Restaurant 관련 필드
+            String restaurantName,
             String address,
             String restaurantCategory,
             String naverReservationUrl,

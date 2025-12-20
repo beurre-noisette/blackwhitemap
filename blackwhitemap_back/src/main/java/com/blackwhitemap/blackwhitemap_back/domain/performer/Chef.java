@@ -95,6 +95,7 @@ public class Chef extends BaseEntity {
         validateNameOrNickname(command.name(), command.nickname());
 
         Restaurant restaurant = Restaurant.of(
+                command.restaurantName(),
                 command.address(),
                 command.restaurantCategory(),
                 command.naverReservationUrl(),
@@ -165,6 +166,7 @@ public class Chef extends BaseEntity {
      * - 모든 필드가 null인 경우 업데이트하지 않음
      */
     public void updateRestaurant(
+            String restaurantName,
             String address,
             Restaurant.Category category,
             String naverReservationUrl,
@@ -172,7 +174,8 @@ public class Chef extends BaseEntity {
             String instagramUrl
     ) {
         // 업데이트할 필드가 하나라도 있는지 확인
-        boolean hasUpdate = address != null
+        boolean hasUpdate = restaurantName != null && !restaurantName.isBlank()
+                || address != null
                 || category != null
                 || naverReservationUrl != null
                 || catchTableUrl != null
@@ -183,6 +186,7 @@ public class Chef extends BaseEntity {
         }
 
         this.restaurant = Restaurant.of(
+                restaurantName,
                 address,
                 category,
                 naverReservationUrl,

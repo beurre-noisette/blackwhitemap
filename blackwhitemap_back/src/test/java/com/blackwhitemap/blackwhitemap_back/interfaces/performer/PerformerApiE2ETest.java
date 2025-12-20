@@ -1,6 +1,5 @@
 package com.blackwhitemap.blackwhitemap_back.interfaces.performer;
 
-import com.blackwhitemap.blackwhitemap_back.domain.performer.Chef;
 import com.blackwhitemap.blackwhitemap_back.infrastructure.performer.ChefJpaRepository;
 import com.blackwhitemap.blackwhitemap_back.interfaces.ApiResponse;
 import com.blackwhitemap.blackwhitemap_back.support.testcontainers.PostgreSQLTestContainersConfig;
@@ -64,6 +63,7 @@ class PerformerApiE2ETest {
                 null,
                 null,
                 null,
+                null,
                 null
             );
 
@@ -94,6 +94,7 @@ class PerformerApiE2ETest {
                 "권성준",
                 "나폴리맛피아",
                 "BLACK",
+                "비아톨레도 파스타바",
                 "서울시 강남구",
                 "ITALIAN",
                 "https://naver.com/reservation",
@@ -120,15 +121,16 @@ class PerformerApiE2ETest {
         void throwsBadRequest_whenChefTypeIsNull() {
             // given
             PerformerRequest.RegisterChef request = new PerformerRequest.RegisterChef(
-                "손종원",
-                null,
-                null,  // chefType null
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
+                    "손종원",
+                    null,
+                    null,  // chefType null
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
             );
 
             // when
@@ -151,15 +153,16 @@ class PerformerApiE2ETest {
         void throwsBadRequest_whenChefTypeIsEmpty() {
             // given
             PerformerRequest.RegisterChef request = new PerformerRequest.RegisterChef(
-                "손종원",
-                null,
-                "",  // 빈 문자열
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
+                    "손종원",
+                    null,
+                    "",  // 빈 문자열
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
             );
 
             // when
@@ -182,15 +185,16 @@ class PerformerApiE2ETest {
         void throwsBadRequest_whenInvalidChefType() {
             // given
             PerformerRequest.RegisterChef request = new PerformerRequest.RegisterChef(
-                "손종원",
-                null,
-                "YELLOW",  // 잘못된 값
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
+                    "손종원",
+                    null,
+                    "YELLOW",  // 잘못된 값
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
             );
 
             // when
@@ -213,15 +217,16 @@ class PerformerApiE2ETest {
         void registerChef_withLowercaseChefType() {
             // given
             PerformerRequest.RegisterChef request = new PerformerRequest.RegisterChef(
-                "권성준",
-                null,
-                "black",  // 소문자
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
+                    "권성준",
+                    null,
+                    "black",  // 소문자
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
             );
 
             // when
@@ -247,6 +252,7 @@ class PerformerApiE2ETest {
                 "손종원입니다",  // 6자
                 null,
                 "WHITE",
+                null,
                 null,
                 null,
                 null,
@@ -280,6 +286,7 @@ class PerformerApiE2ETest {
                 null,
                 null,
                 null,
+                null,
                 null
             );
 
@@ -303,6 +310,7 @@ class PerformerApiE2ETest {
                 "손종원",
                 null,
                 "WHITE",
+                null,
                 null,
                 null,
                 "not-a-url",  // 잘못된 URL
@@ -336,6 +344,7 @@ class PerformerApiE2ETest {
                 null,
                 null,
                 null,
+                null,
                 List.of("not-a-url", "12345")  // 잘못된 URL
             );
 
@@ -359,6 +368,7 @@ class PerformerApiE2ETest {
                 "손종원",
                 null,
                 "WHITE",
+                "라망 시크레",
                 "서울시 강남구",
                 "MEXICAN",  // 존재하지 않는 카테고리
                 null,
@@ -390,6 +400,7 @@ class PerformerApiE2ETest {
                 null,  // 이름 없음
                 null,  // 별명 없음
                 "WHITE",
+                null,
                 null,
                 null,
                 null,
@@ -431,6 +442,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
 
@@ -445,6 +457,7 @@ class PerformerApiE2ETest {
 
             PerformerRequest.UpdateChefInfo updateRequest = new PerformerRequest.UpdateChefInfo(
                     "안유성",  // 이름 변경
+                    null,
                     null,
                     null,
                     null,
@@ -481,6 +494,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
 
@@ -496,6 +510,7 @@ class PerformerApiE2ETest {
             PerformerRequest.UpdateChefInfo updateRequest = new PerformerRequest.UpdateChefInfo(
                     null,
                     "이탈리안마스터",  // 별명 변경
+                    null,
                     null,
                     null,
                     null,
@@ -531,6 +546,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
 
@@ -547,6 +563,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     "WHITE",  // 타입 변경
+                    null,
                     null,
                     null,
                     null,
@@ -580,6 +597,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
 
@@ -596,6 +614,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
+                    "라망 시크레",
                     "서울시 강남구",
                     "KOREAN",
                     "https://naver.com/reservation",
@@ -619,6 +638,11 @@ class PerformerApiE2ETest {
                         Assertions.assertNotNull(chefJpaRepository.findById(chefId).orElseThrow().getRestaurant());
                         assertThat(chefJpaRepository.findById(chefId).orElseThrow().getRestaurant().getAddress())
                                 .isEqualTo("서울시 강남구");
+                    },
+                    () -> {
+                        Assertions.assertNotNull(chefJpaRepository.findById(chefId).orElseThrow().getRestaurant());
+                        assertThat(chefJpaRepository.findById(chefId).orElseThrow().getRestaurant().getName())
+                                .isEqualTo("라망 시크레");
                     }
             );
         }
@@ -637,6 +661,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
 
@@ -650,6 +675,7 @@ class PerformerApiE2ETest {
             Long chefId = chefJpaRepository.findAll().getFirst().getId();
 
             PerformerRequest.UpdateChefInfo updateRequest = new PerformerRequest.UpdateChefInfo(
+                    null,
                     null,
                     null,
                     null,
@@ -693,6 +719,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
 
@@ -709,6 +736,7 @@ class PerformerApiE2ETest {
                     "새이름",
                     "새별명",
                     "WHITE",
+                    null,
                     "새주소",
                     "CAFE",
                     null,
@@ -736,6 +764,7 @@ class PerformerApiE2ETest {
             Long nonExistentId = 99999L;
             PerformerRequest.UpdateChefInfo updateRequest = new PerformerRequest.UpdateChefInfo(
                     "새이름",
+                    null,
                     null,
                     null,
                     null,
@@ -771,6 +800,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
 
@@ -785,6 +815,7 @@ class PerformerApiE2ETest {
 
             PerformerRequest.UpdateChefInfo updateRequest = new PerformerRequest.UpdateChefInfo(
                     "손종원입니다",  // 6자
+                    null,
                     null,
                     null,
                     null,
@@ -820,6 +851,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
 
@@ -834,6 +866,7 @@ class PerformerApiE2ETest {
             PerformerRequest.UpdateChefInfo updateRequest = new PerformerRequest.UpdateChefInfo(
                     null,
                     "나폴리맛피아입니다만최고입니다요",  // 16자
+                    null,
                     null,
                     null,
                     null,
@@ -868,6 +901,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
 
@@ -881,6 +915,7 @@ class PerformerApiE2ETest {
             Long chefId = chefJpaRepository.findAll().getFirst().getId();
 
             PerformerRequest.UpdateChefInfo updateRequest = new PerformerRequest.UpdateChefInfo(
+                    null,
                     null,
                     null,
                     null,
@@ -921,6 +956,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
 
@@ -937,6 +973,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     wrongValue,
+                    null,
                     null,
                     null,
                     null,
@@ -974,6 +1011,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
 
@@ -987,6 +1025,7 @@ class PerformerApiE2ETest {
             Long chefId = chefJpaRepository.findAll().getFirst().getId();
 
             PerformerRequest.UpdateChefInfo updateRequest = new PerformerRequest.UpdateChefInfo(
+                    null,
                     null,
                     null,
                     null,
@@ -1023,6 +1062,7 @@ class PerformerApiE2ETest {
                     "권성준",
                     "나폴리맛피아",
                     "BLACK",
+                    "비아톨레도 파스타바",
                     "서울시 강남구",
                     "ITALIAN",
                     null,
@@ -1036,6 +1076,7 @@ class PerformerApiE2ETest {
                     "손종원",
                     null,
                     "WHITE",
+                    "라망 시크레",
                     "서울시 서초구",
                     "KOREAN",
                     null,
@@ -1049,6 +1090,7 @@ class PerformerApiE2ETest {
                     "안유성",
                     null,
                     "BLACK",
+                    "흑 가게",
                     null,
                     null,
                     null,
@@ -1098,6 +1140,7 @@ class PerformerApiE2ETest {
                     "권성준",
                     "나폴리맛피아",
                     "BLACK",
+                    "비아톨레도 파스타바",
                     "서울시 강남구",
                     "ITALIAN",
                     null,
@@ -1111,6 +1154,7 @@ class PerformerApiE2ETest {
                     "안유성",
                     null,
                     "BLACK",
+                    "가게 이름",
                     "서울시 종로구",
                     "KOREAN",
                     null,
@@ -1124,6 +1168,7 @@ class PerformerApiE2ETest {
                     "손종원",
                     null,
                     "WHITE",
+                    "라망 시크레",
                     "서울시 서초구",
                     "KOREAN",
                     null,
@@ -1176,6 +1221,7 @@ class PerformerApiE2ETest {
                     "손종원",
                     null,
                     "WHITE",
+                    "라망 시크레",
                     "서울시 서초구",
                     "KOREAN",
                     null,
@@ -1189,6 +1235,7 @@ class PerformerApiE2ETest {
                     "권성준",
                     "나폴리맛피아",
                     "BLACK",
+                    "비아톨레도 파스타바",
                     "서울시 강남구",
                     "ITALIAN",
                     null,
@@ -1233,6 +1280,7 @@ class PerformerApiE2ETest {
                     "권성준",
                     "나폴리맛피아",
                     "BLACK",
+                    "비아톨레도 파스타바",
                     "서울시 강남구",
                     "ITALIAN",
                     null,
@@ -1245,6 +1293,7 @@ class PerformerApiE2ETest {
                     "손종원",
                     null,
                     "WHITE",
+                    "라망 시크레",
                     "서울시 서초구",
                     "KOREAN",
                     null,
@@ -1288,6 +1337,7 @@ class PerformerApiE2ETest {
                     "안유성",
                     null,
                     "BLACK",
+                    "가게 이름",
                     null,  // address 없음
                     null,
                     null,
@@ -1340,6 +1390,7 @@ class PerformerApiE2ETest {
                     "권성준",
                     "나폴리맛피아",
                     "BLACK",
+                    "비아톨레도 파스타바",
                     "서울시 강남구",
                     "ITALIAN",
                     "https://naver.com/reservation",
@@ -1374,6 +1425,7 @@ class PerformerApiE2ETest {
                     () -> assertThat(chef.name()).isEqualTo("권성준"),
                     () -> assertThat(chef.nickname()).isEqualTo("나폴리맛피아"),
                     () -> assertThat(chef.type()).isEqualTo("BLACK"),
+                    () -> assertThat(chef.restaurantName()).isEqualTo("비아톨레도 파스타바"),
                     () -> assertThat(chef.address()).isEqualTo("서울시 강남구"),
                     () -> assertThat(chef.category()).isEqualTo("ITALIAN"),
                     () -> assertThat(chef.naverReservationUrl()).isEqualTo("https://naver.com/reservation"),

@@ -17,10 +17,13 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Restaurant {
 
-    @Column(name = "store_address", length = 50)
+    @Column(name = "restaurant_name", length = 15)
+    private String name;
+
+    @Column(name = "restaurant_address", length = 50)
     private String address;
 
-    @Column(name = "store_category", length = 10)
+    @Column(name = "restaurant_category", length = 10)
     private Category category;
 
     @Column(name = "naver_reservation_url", length = 100)
@@ -70,12 +73,14 @@ public class Restaurant {
     }
 
     private Restaurant(
+            String restaurantName,
             String address,
             Category category,
             String naverReservationUrl,
             String catchTableUrl,
             String instagramUrl
     ) {
+        this.name = restaurantName;
         this.address = address;
         this.category = category;
         this.naverReservationUrl = naverReservationUrl;
@@ -84,6 +89,7 @@ public class Restaurant {
     }
 
     public static Restaurant of(
+            String restaurantName,
             String address,
             Category category,
             String naverReservationUrl,
@@ -101,6 +107,7 @@ public class Restaurant {
         }
 
         return new Restaurant(
+                restaurantName,
                 address,
                 category,
                 naverReservationUrl,

@@ -17,6 +17,7 @@ public class PerformerResult {
             String type,
 
             // Restaurant 정보
+            String restaurantName,
             String address,
             String category,
             String naverReservationUrl,
@@ -35,6 +36,7 @@ public class PerformerResult {
                     chef.getName(),
                     chef.getNickname(),
                     chef.getType() != null ? chef.getType().name() : null,
+                    chef.getRestaurant() != null ? chef.getRestaurant().getName() : null,
                     chef.getRestaurant() != null ? chef.getRestaurant().getAddress() : null,
                     chef.getRestaurant() != null && chef.getRestaurant().getCategory() != null
                             ? chef.getRestaurant().getCategory().name()

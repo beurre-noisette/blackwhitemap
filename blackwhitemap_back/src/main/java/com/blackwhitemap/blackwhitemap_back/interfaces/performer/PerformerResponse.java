@@ -15,6 +15,7 @@ public class PerformerResponse {
             String type,
 
             // Restaurant 정보
+            String restaurantName,
             String address,
             String category,
             String naverReservationUrl,

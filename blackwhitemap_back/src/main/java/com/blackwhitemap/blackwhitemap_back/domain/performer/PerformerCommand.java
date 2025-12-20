@@ -10,6 +10,7 @@ public class PerformerCommand {
             Chef.Type type,
 
             // Restaurant 관련 필드
+            String restaurantName,
             String address,
             Restaurant.Category restaurantCategory,
             String naverReservationUrl,
@@ -32,6 +33,7 @@ public class PerformerCommand {
             Chef.Type type,
 
             // Restaurant 관련 필드
+            String restaurantName,
             String address,
             Restaurant.Category restaurantCategory,
             String naverReservationUrl,
