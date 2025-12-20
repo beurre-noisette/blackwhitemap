@@ -5,6 +5,7 @@ import {
   BottomSheetState,
   BOTTOM_SHEET_SPECS,
   DRAG_THRESHOLD,
+  STATE_TRANSITIONS,
 } from "@/types/bottomSheet";
 
 export interface BottomSheetProps {
@@ -35,26 +36,6 @@ export interface BottomSheetProps {
   id?: string;
 }
 
-/**
- * BottomSheet 컴포넌트
- *
- * 바텀시트 껍데기 컴포넌트로, 3가지 상태를 가집니다.
- * - minimized: 접힌 모습 (94px, top: 718px)
- * - default: 기본 모습 (346px, top: 466px)
- * - expanded: 늘린 모습 (730px, top: 82px)
- *
- * 핸들을 드래그하여 상태를 전환할 수 있습니다.
- * 임계점(50px) 이상 드래그 시 다음 상태로 스냅됩니다.
- *
- * @example
- * ```tsx
- * const [sheetState, setSheetState] = useState<BottomSheetState>("default");
- *
- * <BottomSheet state={sheetState} onStateChange={setSheetState}>
- *   <BestChefContent data={bestChefs} />
- * </BottomSheet>
- * ```
- */
 export const BottomSheet = ({
   state,
   onStateChange,
@@ -82,23 +63,14 @@ export const BottomSheet = ({
       return;
     }
 
-    // 드래그 방향에 따라 상태 전환
-    if (offsetY > 0) {
-      // 아래로 드래그 → 축소
-      if (state === "expanded") {
-        onStateChange("default");
-      } else if (state === "default") {
-        onStateChange("minimized");
-      }
-      // minimized는 더 이상 축소 불가
-    } else {
-      // 위로 드래그 → 확대
-      if (state === "minimized") {
-        onStateChange("default");
-      } else if (state === "default") {
-        onStateChange("expanded");
-      }
-      // expanded는 더 이상 확대 불가
+    const transitions = STATE_TRANSITIONS[state];
+
+    if (offsetY > 0 && transitions.down) {
+      // 아래로 드래그 -> 축소
+      onStateChange(transitions.down);
+    } else if (offsetY < 0 && transitions.up) {
+      // 위로 드래그 -> 확대
+      onStateChange(transitions.up);
     }
   };
 
@@ -112,7 +84,8 @@ export const BottomSheet = ({
         "rounded-t-[32px]", // border-top-left/right-radius: 32px
         "bg-white",
         "shadow-[0px_0px_32px_0px_rgba(0,0,0,0.24)]", // box-shadow
-        "overflow-hidden", // 내용 넘침 방지
+        // "overflow-hidden", // 내용 넘침 방지
+        state.includes("minimized") ? "overflow-visible" : "overflow-hidden", // minimized는 overflow visible
         "z-50", // 다른 요소 위에 표시
         className,
       )}
@@ -161,7 +134,7 @@ export const BottomSheet = ({
         className={cn(
           "w-full h-[calc(100%-19px)]", // 전체 높이 - 핸들 높이
           "overflow-y-auto", // 세로 스크롤
-          "px-4", // 좌우 padding
+          "px-5", // 좌우 padding
           // 스크롤바 숨김
           "[&::-webkit-scrollbar]:hidden", // Chrome, Safari
           "[-ms-overflow-style:none]", // IE, Edge
