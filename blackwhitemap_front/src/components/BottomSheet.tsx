@@ -1,0 +1,177 @@
+import { ReactNode } from "react";
+import { motion, PanInfo } from "framer-motion";
+import { cn } from "@/utils/cn";
+import {
+  BottomSheetState,
+  BOTTOM_SHEET_SPECS,
+  DRAG_THRESHOLD,
+} from "@/types/bottomSheet";
+
+export interface BottomSheetProps {
+  /**
+   * BottomSheet 상태 (minimized, default, expanded)
+   */
+  state: BottomSheetState;
+
+  /**
+   * 상태 변경 콜백
+   * @param newState - 새로운 상태
+   */
+  onStateChange: (newState: BottomSheetState) => void;
+
+  /**
+   * BottomSheet 내부에 표시될 콘텐츠
+   */
+  children: ReactNode;
+
+  /**
+   * 추가 CSS 클래스 (선택적)
+   */
+  className?: string;
+
+  /**
+   * HTML id 속성 (선택적)
+   */
+  id?: string;
+}
+
+/**
+ * BottomSheet 컴포넌트
+ *
+ * 바텀시트 껍데기 컴포넌트로, 3가지 상태를 가집니다.
+ * - minimized: 접힌 모습 (94px, top: 718px)
+ * - default: 기본 모습 (346px, top: 466px)
+ * - expanded: 늘린 모습 (730px, top: 82px)
+ *
+ * 핸들을 드래그하여 상태를 전환할 수 있습니다.
+ * 임계점(50px) 이상 드래그 시 다음 상태로 스냅됩니다.
+ *
+ * @example
+ * ```tsx
+ * const [sheetState, setSheetState] = useState<BottomSheetState>("default");
+ *
+ * <BottomSheet state={sheetState} onStateChange={setSheetState}>
+ *   <BestChefContent data={bestChefs} />
+ * </BottomSheet>
+ * ```
+ */
+export const BottomSheet = ({
+  state,
+  onStateChange,
+  children,
+  className,
+  id,
+}: BottomSheetProps) => {
+  const spec = BOTTOM_SHEET_SPECS[state];
+
+  /**
+   * 드래그 종료 시 이동 거리를 계산하여 상태 전환
+   *
+   * @param _event - 드래그 이벤트 (사용하지 않음)
+   * @param info - 드래그 정보 (offset: 이동 거리)
+   */
+  const handleDragEnd = (
+    _event: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo,
+  ) => {
+    const offsetY = info.offset.y; // 드래그 시작점으로부터 Y 이동 거리
+
+    // 임계값 이상 드래그했는지 확인
+    if (Math.abs(offsetY) < DRAG_THRESHOLD) {
+      // 임계값 미만 → 원래 상태 유지
+      return;
+    }
+
+    // 드래그 방향에 따라 상태 전환
+    if (offsetY > 0) {
+      // 아래로 드래그 → 축소
+      if (state === "expanded") {
+        onStateChange("default");
+      } else if (state === "default") {
+        onStateChange("minimized");
+      }
+      // minimized는 더 이상 축소 불가
+    } else {
+      // 위로 드래그 → 확대
+      if (state === "minimized") {
+        onStateChange("default");
+      } else if (state === "default") {
+        onStateChange("expanded");
+      }
+      // expanded는 더 이상 확대 불가
+    }
+  };
+
+  return (
+    <motion.div
+      id={id}
+      className={cn(
+        // 기본 스타일
+        "absolute left-0 right-0", // 부모 기준 위치
+        "w-full", // 부모 너비에 맞춤 (375px)
+        "rounded-t-[32px]", // border-top-left/right-radius: 32px
+        "bg-white",
+        "shadow-[0px_0px_32px_0px_rgba(0,0,0,0.24)]", // box-shadow
+        "overflow-hidden", // 내용 넘침 방지
+        "z-50", // 다른 요소 위에 표시
+        className,
+      )}
+      // 상태별 고정 높이
+      style={{
+        height: `${spec.height}px`,
+      }}
+      // framer-motion 애니메이션 설정
+      animate={{
+        top: spec.top, // 상태 변경 시 top 위치 애니메이션
+      }}
+      transition={{
+        type: "spring", // 스프링 애니메이션
+        stiffness: 400, // 강성 증가 (더 빠르게 스냅)
+        damping: 40, // 감쇠 증가 (빠르게 정지)
+        duration: 0.3, // 최대 애니메이션 시간
+      }}
+      // 드래그 설정
+      drag="y" // Y축(세로)으로만 드래그
+      dragElastic={0} // 탄성 제거 (경계 밖으로 드래그 불가)
+      dragConstraints={{
+        top: 0, // 위쪽 제한 (부모 기준)
+        bottom: 0, // 아래쪽 제한 (부모 기준, 현재 위치 고정)
+      }}
+      dragSnapToOrigin // 드래그 종료 시 원래 위치로 돌아감 (스냅 효과)
+      onDragEnd={handleDragEnd}
+    >
+      {/* 핸들 영역 */}
+      <div
+        className="relative w-full h-[19px] flex items-center justify-center cursor-grab
+  active:cursor-grabbing"
+      >
+        <div
+          className={cn(
+            "w-[50px] h-1", // width: 50px, height: 4px
+            "rounded-[100px]", // border-radius: 100px
+            "bg-gray-300", // background: #D3D2D2
+            "mt-2", // top: 8px
+          )}
+          aria-label="바텀시트 핸들"
+        />
+      </div>
+
+      {/* 콘텐츠 영역 */}
+      <div
+        className={cn(
+          "w-full h-[calc(100%-19px)]", // 전체 높이 - 핸들 높이
+          "overflow-y-auto", // 세로 스크롤
+          "px-4", // 좌우 padding
+          // 스크롤바 숨김
+          "[&::-webkit-scrollbar]:hidden", // Chrome, Safari
+          "[-ms-overflow-style:none]", // IE, Edge
+          "[scrollbar-width:none]", // Firefox
+        )}
+      >
+        {children}
+      </div>
+    </motion.div>
+  );
+};
+
+BottomSheet.displayName = "BottomSheet";
