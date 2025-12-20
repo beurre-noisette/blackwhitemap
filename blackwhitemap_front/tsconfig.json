@@ -29,5 +29,4 @@
     }
   },
   "include": ["src"],                            // 타입 체크 대상 디렉토리
-  "references": [{ "path": "./tsconfig.node.json" }]
 }
