@@ -8,6 +8,9 @@ import chefWhite from "../assets/icons/chef-white.svg";
 import watch from "../assets/icons/watch.svg";
 import price from "../assets/icons/price.svg";
 import share from "../assets/icons/share.svg";
+import category from "../assets/icons/category.svg";
+import location from "../assets/icons/location.svg";
+import usdCircle from "../assets/icons/usdCircle.svg";
 
 export type IconName =
   | "catchtable"
@@ -16,7 +19,10 @@ export type IconName =
   | "chef-white"
   | "watch"
   | "price"
-  | "share";
+  | "share"
+  | "category"
+  | "location"
+  | "usdCircle";
 
 export type IconSize = "extraSmall" | "small" | "medium" | "large";
 
@@ -62,6 +68,9 @@ const ICON_MAP: Record<IconName, string> = {
   watch: watch,
   price: price,
   share: share,
+  category: category,
+  location: location,
+  usdCircle: usdCircle,
 };
 
 /**

@@ -1,8 +1,7 @@
 import { ChefDetail } from "@/types/chef";
 import { cn } from "@/utils/cn";
-import { Icon } from "./Icon";
-import { Button } from "./Button";
-import { ShareButton } from "@/components/ShareButton.tsx";
+import { ChefInfoRow } from "./ChefInfoRow";
+import { ChefActionButtons } from "./ChefActionButtons";
 
 export interface ChefCardProps {
   chef: ChefDetail;
@@ -15,8 +14,8 @@ export interface ChefCardProps {
  * ChefCard 컴포넌트
  *
  * variant:
- * - bestChef: 인스타그램, 공유 버튼 제거
- * - chefDetail: 모든 정보 표시
+ * - bestChef: 인스타그램 제거, 공유 버튼 제거
+ * - chefDetail: 모든 정보 표시, 공유 버튼 표시
  */
 export const ChefCard = ({
   chef,
@@ -24,17 +23,6 @@ export const ChefCard = ({
   onReservationClick,
   className,
 }: ChefCardProps) => {
-  const handleReservation = () => {
-    if (onReservationClick) {
-      onReservationClick();
-    } else {
-      const url = chef.catchTableUrl || chef.naverReservationUrl;
-      if (url) {
-        window.open(url, "_blank");
-      }
-    }
-  };
-
   return (
     <div
       className={cn(
@@ -68,55 +56,18 @@ export const ChefCard = ({
             </p>
           </div>
 
-          {/* 카테고리 | 바베큐 */}
-          <div className="flex items-center gap-1 h-3">
-            <Icon
-              name="watch"
-              size="extraSmall"
-              className="text-gray-500 flex-shrink-0"
-            />
-            <span className="text-xs font-normal leading-none tracking-tight text-gray-500">
-              카테고리
-            </span>
-            <span className="text-xs font-normal leading-none tracking-tight text-gray-400">
-              |
-            </span>
-            <span className="text-xs font-normal leading-none tracking-tight text-gray-500 truncate">
-              {chef.category}
-            </span>
-          </div>
+          {/* 카테고리 */}
+          <ChefInfoRow iconName="category" label="카테고리">
+            {chef.category}
+          </ChefInfoRow>
 
-          {/* 위치 | x */}
-          <div className="flex items-center gap-1 h-3">
-            <Icon
-              name="watch"
-              size="extraSmall"
-              className="text-gray-500 flex-shrink-0"
-            />
-            <span className="text-xs font-normal leading-none tracking-tight text-gray-500">
-              위치
-            </span>
-            <span className="text-xs font-normal leading-none tracking-tight text-gray-400">
-              |
-            </span>
-            <span className="text-xs font-normal leading-none tracking-tight text-gray-500 truncate">
-              {chef.address.split(" ")[2] || chef.address.split(" ")[1]}
-            </span>
-          </div>
+          {/* 위치 */}
+          <ChefInfoRow iconName="location" label="위치">
+            {chef.address.split(" ")[2] || chef.address.split(" ")[1]}
+          </ChefInfoRow>
 
-          {/* 휴무일 | 일 · 월 */}
-          <div className="flex items-center gap-1 h-3">
-            <Icon
-              name="watch"
-              size="extraSmall"
-              className="text-gray-500 flex-shrink-0"
-            />
-            <span className="text-xs font-normal leading-none tracking-tight text-gray-500">
-              휴무일
-            </span>
-            <span className="text-xs font-normal leading-none tracking-tight text-gray-400">
-              |
-            </span>
+          {/* 휴무일 */}
+          <ChefInfoRow iconName="watch" label="휴무일">
             {chef.closedDays.map((day, index) => (
               <div key={day} className="flex items-center gap-1">
                 {index > 0 && (
@@ -127,22 +78,11 @@ export const ChefCard = ({
                 </span>
               </div>
             ))}
-          </div>
+          </ChefInfoRow>
 
           {/* 인스타그램 (chefDetail에서만 표시) */}
           {variant === "chefDetail" && chef.instagramUrl && (
-            <div className="flex items-center gap-1 h-3">
-              <Icon
-                name="share"
-                size="extraSmall"
-                className="text-gray-500 flex-shrink-0"
-              />
-              <span className="text-xs font-normal leading-none tracking-tight text-gray-500">
-                공유하기
-              </span>
-              <span className="text-xs font-normal leading-none tracking-tight text-gray-400">
-                |
-              </span>
+            <ChefInfoRow iconName="usdCircle" label="공유하기">
               <a
                 href={chef.instagramUrl}
                 target="_blank"
@@ -152,34 +92,17 @@ export const ChefCard = ({
               >
                 인스타그램
               </a>
-            </div>
+            </ChefInfoRow>
           )}
         </div>
       </div>
 
       {/* 예약하기 버튼 (bestChef는 버튼만, chefDetail은 공유+버튼) */}
-      <div className="flex gap-6">
-        {variant === "chefDetail" && (
-          <ShareButton
-            title={chef.restaurantName}
-            text={chef.nickname ?? chef.name}
-          />
-        )}
-
-        <Button
-          onClick={handleReservation}
-          icon={
-            chef.catchTableUrl ? (
-              <Icon name="catchtable" />
-            ) : chef.naverReservationUrl ? (
-              <Icon name="naver" />
-            ) : undefined
-          }
-          className={variant === "bestChef" ? "w-full" : "flex-1"}
-        >
-          예약하기
-        </Button>
-      </div>
+      <ChefActionButtons
+        chef={chef}
+        onReservationClick={onReservationClick}
+        showShareButton={variant === "chefDetail"}
+      />
     </div>
   );
 };
