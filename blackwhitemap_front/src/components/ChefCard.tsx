@@ -41,7 +41,12 @@ export const ChefCard = ({
         <img
           src={chef.imageUrls[0]}
           alt={chef.name}
-          className="w-[100px] h-[120px] rounded-[16px] object-cover bg-black flex-shrink-0"
+          className={cn(
+            "w-[100px] rounded-[16px] object-cover flex-shrink-0",
+            variant === "chefDetail"
+              ? "h-[140px]" // ChefDetail: 140px 높이
+              : "h-[120px]", // BestChef: 120px 높이
+          )}
         />
 
         {/* 가게 정보 */}
@@ -55,7 +60,12 @@ export const ChefCard = ({
             </p>
           </div>
 
-          <div className="flex flex-col gap-2 mt-4">
+          <div
+            className={cn(
+              "flex flex-col gap-2",
+              variant === "chefDetail" ? "mt-3" : "mt-4", // ChefDetail: 12px, BestChef: 16px
+            )}
+          >
             {/* 카테고리 */}
             <ChefInfoRow iconName="category" label="카테고리">
               {chef.category}
@@ -79,22 +89,21 @@ export const ChefCard = ({
                 </div>
               ))}
             </ChefInfoRow>
-          </div>
 
-          {/* 인스타그램 (chefDetail에서만 표시) */}
-          {variant === "chefDetail" && chef.instagramUrl && (
-            <ChefInfoRow iconName="usdCircle" label="공유하기">
-              <a
-                href={chef.instagramUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs font-normal leading-none tracking-tight text-blue-600 underline
-  truncate"
-              >
-                인스타그램
-              </a>
-            </ChefInfoRow>
-          )}
+            {/* 인스타그램 (chefDetail에서만 표시) */}
+            {variant === "chefDetail" && chef.instagramUrl && (
+              <ChefInfoRow iconName="usdCircle" label="공유하기">
+                <a
+                  href={chef.instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-normal leading-none tracking-tight text-blue-600 underline truncate"
+                >
+                  인스타그램
+                </a>
+              </ChefInfoRow>
+            )}
+          </div>
         </div>
       </div>
 
