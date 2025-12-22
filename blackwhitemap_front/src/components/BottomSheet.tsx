@@ -133,12 +133,8 @@ export const BottomSheet = ({
       <div
         className={cn(
           "w-full h-[calc(100%-19px)]", // 전체 높이 - 핸들 높이
-          "overflow-y-auto", // 세로 스크롤
+          "overflow-hidden", // 스크롤 비활성화 (마우스 및 터치 스크롤 방지)
           "px-5", // 좌우 padding
-          // 스크롤바 숨김
-          "[&::-webkit-scrollbar]:hidden", // Chrome, Safari
-          "[-ms-overflow-style:none]", // IE, Edge
-          "[scrollbar-width:none]", // Firefox
         )}
       >
         {children}
