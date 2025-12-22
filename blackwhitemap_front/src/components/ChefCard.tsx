@@ -45,8 +45,7 @@ export const ChefCard = ({
         />
 
         {/* 가게 정보 */}
-        <div className="flex flex-col gap-3 flex-1 min-w-0">
-          {/* 가게명 + 이름 */}
+        <div className="flex flex-col py-[5px] flex-1 min-w-0">
           <div className="flex flex-col gap-2">
             <h3 className="text-xl font-bold leading-none tracking-tight text-black truncate">
               {chef.restaurantName}
@@ -56,29 +55,31 @@ export const ChefCard = ({
             </p>
           </div>
 
-          {/* 카테고리 */}
-          <ChefInfoRow iconName="category" label="카테고리">
-            {chef.category}
-          </ChefInfoRow>
+          <div className="flex flex-col gap-2 mt-4">
+            {/* 카테고리 */}
+            <ChefInfoRow iconName="category" label="카테고리">
+              {chef.category}
+            </ChefInfoRow>
 
-          {/* 위치 */}
-          <ChefInfoRow iconName="location" label="위치">
-            {chef.address.split(" ")[2] || chef.address.split(" ")[1]}
-          </ChefInfoRow>
+            {/* 위치 */}
+            <ChefInfoRow iconName="location" label="위치">
+              {chef.address.split(" ")[2] || chef.address.split(" ")[1]}
+            </ChefInfoRow>
 
-          {/* 휴무일 */}
-          <ChefInfoRow iconName="watch" label="휴무일">
-            {chef.closedDays.map((day, index) => (
-              <div key={day} className="flex items-center gap-1">
-                {index > 0 && (
-                  <div className="w-1 h-1 rounded-full bg-gray-200" />
-                )}
-                <span className="text-xs font-normal leading-none tracking-tight text-gray-500">
-                  {day}
-                </span>
-              </div>
-            ))}
-          </ChefInfoRow>
+            {/* 휴무일 */}
+            <ChefInfoRow iconName="watch" label="휴무일">
+              {chef.closedDays.map((day, index) => (
+                <div key={day} className="flex items-center gap-1">
+                  {index > 0 && (
+                    <div className="w-1 h-1 rounded-full bg-gray-200" />
+                  )}
+                  <span className="text-xs font-normal leading-none tracking-tight text-gray-500">
+                    {day}
+                  </span>
+                </div>
+              ))}
+            </ChefInfoRow>
+          </div>
 
           {/* 인스타그램 (chefDetail에서만 표시) */}
           {variant === "chefDetail" && chef.instagramUrl && (

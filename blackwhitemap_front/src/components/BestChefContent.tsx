@@ -6,7 +6,6 @@ import { Pagination } from "swiper/modules";
 // Swiper 스타일 import
 import "swiper/css";
 import "swiper/css/pagination";
-import { cn } from "@/utils/cn.ts";
 
 export interface BestChefContentProps {
   chefs: ChefDetail[];
@@ -25,19 +24,13 @@ export interface BestChefContentProps {
 export const BestChefContent = ({
   chefs,
   onChefClick,
-  showPreview = false,
 }: BestChefContentProps) => {
   if (!chefs.length) {
     return <p className="text-gray-500 text-center py-8">데이터가 없습니다</p>;
   }
 
   return (
-    <div
-      className={cn(
-        "w-full",
-        showPreview && "-mt-5", // minimized에서 카드를 위로 20px 올림
-      )}
-    >
+    <div className="w-full">
       <Swiper
         modules={[Pagination]}
         slidesPerView="auto" // 카드 크기에 맞춤
