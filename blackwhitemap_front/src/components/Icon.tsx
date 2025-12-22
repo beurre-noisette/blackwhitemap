@@ -60,7 +60,7 @@ export interface IconProps extends Omit<
  *
  * 새로운 아이콘을 추가하려면 여기에 추가하면 됩니다.
  */
-const ICON_MAP: Record<IconName, string> = {
+export const ICON_MAP: Record<IconName, string> = {
   catchtable: catchtable,
   naver: naver,
   "chef-black": chefBlack,

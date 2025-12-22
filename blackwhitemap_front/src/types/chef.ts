@@ -11,6 +11,8 @@ export interface ChefInfo {
   type: ChefType;
   restaurantName: string;
   address: string;
+  latitude: number;
+  longitude: number;
   category: string;
   naverReservationUrl: string | null;
   catchTableUrl: string | null;

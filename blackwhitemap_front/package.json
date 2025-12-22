@@ -17,6 +17,7 @@
     "prettier": "^3.7.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-kakao-maps-sdk": "^1.2.0",
     "swiper": "^12.0.3",
     "tailwind-merge": "^3.4.0"
   },
