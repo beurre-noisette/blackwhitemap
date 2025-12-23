@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Chef extends BaseEntity {
 
-    @Column(name = "name", length = 5)
+    @Column(name = "name", length = 15)
     private String name;
 
     @Column(name = "nickname", length = 15)
