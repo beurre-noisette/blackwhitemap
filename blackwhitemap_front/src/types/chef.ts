@@ -29,3 +29,12 @@ export interface ChefInfo {
 export interface ChefDetail extends ChefInfo {
   closedDays: string[]; // ["일", "월"]
 }
+
+/**
+ * 이번주 Best Chef 정보
+ * - ChefDetail의 모든 정보 포함
+ * - rank: 주간 랭킹 순위 (1 ~ 5)
+ */
+export interface BestChef extends ChefDetail {
+  rank: number;
+}

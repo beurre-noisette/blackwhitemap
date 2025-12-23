@@ -1,9 +1,9 @@
-import { ChefDetail } from "@/types/chef.ts";
+import { BestChef } from "@/types/chef.ts";
 
 /**
  * Mock 데이터: 이번주 Best Chef 5명
  */
-export const mockBestChefs: ChefDetail[] = [
+export const mockBestChefs: BestChef[] = [
   {
     id: 1,
     name: "유용욱",
@@ -22,6 +22,7 @@ export const mockBestChefs: ChefDetail[] = [
     ],
     viewCount: 12345,
     closedDays: ["일", "월"],
+    rank: 1,
   },
   {
     id: 2,
@@ -40,6 +41,7 @@ export const mockBestChefs: ChefDetail[] = [
     imageUrls: ["https://via.placeholder.com/100x120/2a2a2a/ffffff?text=Chef2"],
     viewCount: 10234,
     closedDays: ["월", "화"],
+    rank: 2,
   },
   {
     id: 3,
@@ -57,6 +59,7 @@ export const mockBestChefs: ChefDetail[] = [
     imageUrls: ["https://via.placeholder.com/100x120/3a3a3a/ffffff?text=Chef3"],
     viewCount: 9876,
     closedDays: ["일"],
+    rank: 3,
   },
   {
     id: 4,
@@ -74,6 +77,7 @@ export const mockBestChefs: ChefDetail[] = [
     imageUrls: ["https://via.placeholder.com/100x120/4a4a4a/ffffff?text=Chef4"],
     viewCount: 8765,
     closedDays: ["화"],
+    rank: 4,
   },
   {
     id: 5,
@@ -91,5 +95,6 @@ export const mockBestChefs: ChefDetail[] = [
     imageUrls: ["https://via.placeholder.com/100x120/5a5a5a/ffffff?text=Chef5"],
     viewCount: 7654,
     closedDays: ["일", "월"],
+    rank: 5,
   },
 ];

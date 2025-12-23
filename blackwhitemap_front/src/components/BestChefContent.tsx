@@ -1,4 +1,4 @@
-import { ChefDetail } from "@/types/chef";
+import { BestChef } from "@/types/chef";
 import { ChefCard } from "./ChefCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
@@ -8,8 +8,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 export interface BestChefContentProps {
-  chefs: ChefDetail[];
-  onChefClick?: (chef: ChefDetail) => void;
+  chefs: BestChef[];
+  onChefClick?: (chef: BestChef) => void;
   showPreview?: boolean; // minimized에서 미리보기 표시 여부
 }
 
