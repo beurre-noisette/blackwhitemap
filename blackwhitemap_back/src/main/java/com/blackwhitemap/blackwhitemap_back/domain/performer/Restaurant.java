@@ -4,6 +4,8 @@ import com.blackwhitemap.blackwhitemap_back.support.error.CoreException;
 import com.blackwhitemap.blackwhitemap_back.support.error.ErrorType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +25,7 @@ public class Restaurant {
     @Column(name = "restaurant_address", length = 50)
     private String address;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "restaurant_category", length = 10)
     private Category category;
 
