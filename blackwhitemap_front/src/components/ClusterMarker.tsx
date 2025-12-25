@@ -46,7 +46,9 @@ export const ClusterMarker = ({ cluster, onClick }: ClusterMarkerProps) => {
         "pt-1 pr-3 pb-[6px] pl-3", // padding: 4px 12px 6px 12px
         "gap-[10px]",
         "h-[26px]",
-        // width는 제거 - hug contents로 자동 조절
+        {
+          /* 1. 행간이 안맞나 2. 텍스트(하위 컨테이너)가 가운데 정렬이 안되나 3. 상위 컨테이너 서울+(숫자)의 컨테이너가 버튼의 가운데 정렬로 정의되지 않았나 */
+        },
       )}
     >
       <div

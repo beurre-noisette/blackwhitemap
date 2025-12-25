@@ -34,4 +34,20 @@ public class PerformerQuery {
 
         return performerQueryRepository.findChefsByType(chefType);
     }
+
+    /**
+     * Chef 클러스터 조회 (캐싱 적용)
+     * - 시/도별 그룹화된 셰프 통계 정보 반환
+     * - 캐시 TTL: 1시간
+     * -캐시 키: "ALL"
+     *
+     * @return 시/도별 Chef 클러스터 정보 리스트
+     */
+    @Cacheable(
+            value = "chefClusters",
+            key = "'ALL'"
+    )
+    public List<PerformerResult.ChefClusterInfo> getChefClusters() {
+        return performerQueryRepository.findChefClusters();
+    }
 }

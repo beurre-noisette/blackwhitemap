@@ -31,6 +31,7 @@ class PerformerApiE2ETest {
     private static final String ENDPOINT_REGISTER_CHEF = "/performer/chef";
     private static final String ENDPOINT_UPDATE_CHEF_INFO = "/performer/chef/";
     private static final String ENDPOINT_GET_CHEFS = "/performer/chefs";
+    private static final String ENDPOINT_GET_CHEF_CLUSTERS = "/performer/chefs/cluster";
 
     @Autowired
     private TestRestTemplate testRestTemplate;
@@ -1433,6 +1434,401 @@ class PerformerApiE2ETest {
                     () -> assertThat(chef.instagramUrl()).isEqualTo("https://instagram.com/chef"),
                     () -> assertThat(chef.imageUrls()).hasSize(2),
                     () -> assertThat(chef.viewCount()).isEqualTo(0L)
+            );
+        }
+    }
+
+    @Nested
+    @DisplayName("GET /performer/chefs/cluster")
+    class GetChefClusters {
+
+        @Test
+        @DisplayName("클러스터 데이터를 조회하면 200 OK를 반환한다")
+        void getChefClusters_returnsOk() {
+            // given - 서울특별시에 흑요리사 2명, 백요리사 1명
+            PerformerRequest.RegisterChef seoulBlackChef1 = new PerformerRequest.RegisterChef(
+                    "권성준",
+                    "나폴리맛피아",
+                    "BLACK",
+                    "비아톨레도 파스타바",
+                    "서울특별시 강남구 테헤란로 123",
+                    "ITALIAN",
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            PerformerRequest.RegisterChef seoulBlackChef2 = new PerformerRequest.RegisterChef(
+                    "안유성",
+                    null,
+                    "BLACK",
+                    "흑가게",
+                    "서울특별시 종로구 종로 1",
+                    "KOREAN",
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            PerformerRequest.RegisterChef seoulWhiteChef = new PerformerRequest.RegisterChef(
+                    "손종원",
+                    null,
+                    "WHITE",
+                    "라망 시크레",
+                    "서울특별시 서초구 강남대로 456",
+                    "KOREAN",
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            // given - 부산광역시에 흑요리사 1명
+            PerformerRequest.RegisterChef busanBlackChef = new PerformerRequest.RegisterChef(
+                    "김부산",
+                    null,
+                    "BLACK",
+                    "부산가게",
+                    "부산광역시 해운대구 해운대로 789",
+                    "JAPANESE",
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(seoulBlackChef1),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+            );
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(seoulBlackChef2),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+            );
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(seoulWhiteChef),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+            );
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(busanBlackChef),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+            );
+
+            // when
+            ResponseEntity<ApiResponse<List<PerformerResponse.ChefClusterInfo>>> response = testRestTemplate.exchange(
+                    ENDPOINT_GET_CHEF_CLUSTERS,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<>() {}
+            );
+
+            // then
+            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+            assertThat(response.getBody()).isNotNull();
+            assertThat(response.getBody().data()).hasSize(2);  // 서울, 부산
+        }
+
+        @Test
+        @DisplayName("시/도별로 흑요리사와 백요리사 수를 정확히 집계한다")
+        void getChefClusters_aggregatesCorrectly() {
+            // given - 서울특별시에 흑2, 백1
+            PerformerRequest.RegisterChef seoulBlackChef1 = new PerformerRequest.RegisterChef(
+                    "권성준",
+                    null,
+                    "BLACK",
+                    "가게1",
+                    "서울특별시 강남구 테헤란로 123",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            PerformerRequest.RegisterChef seoulBlackChef2 = new PerformerRequest.RegisterChef(
+                    "안유성",
+                    null,
+                    "BLACK",
+                    "가게2",
+                    "서울특별시 종로구 종로 1",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            PerformerRequest.RegisterChef seoulWhiteChef = new PerformerRequest.RegisterChef(
+                    "손종원",
+                    null,
+                    "WHITE",
+                    "가게3",
+                    "서울특별시 서초구 강남대로 456",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(seoulBlackChef1),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+            );
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(seoulBlackChef2),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+            );
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(seoulWhiteChef),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+            );
+
+            // when
+            ResponseEntity<ApiResponse<List<PerformerResponse.ChefClusterInfo>>> response = testRestTemplate.exchange(
+                    ENDPOINT_GET_CHEF_CLUSTERS,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<>() {}
+            );
+
+            // then
+            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+            assertThat(response.getBody()).isNotNull();
+
+            PerformerResponse.ChefClusterInfo seoulCluster = response.getBody().data()
+                    .stream()
+                    .filter(cluster -> cluster.region().equals("서울특별시"))
+                    .findFirst()
+                    .orElseThrow();
+
+            assertAll(
+                    () -> assertThat(seoulCluster.region()).isEqualTo("서울특별시"),
+                    () -> assertThat(seoulCluster.blackCount()).isEqualTo(2),
+                    () -> assertThat(seoulCluster.whiteCount()).isEqualTo(1),
+                    () -> assertThat(seoulCluster.latitude()).isEqualTo(37.5665),
+                    () -> assertThat(seoulCluster.longitude()).isEqualTo(126.978)
+            );
+        }
+
+        @Test
+        @DisplayName("address가 없는 Chef는 클러스터 집계에서 제외된다")
+        void getChefClusters_excludesChefsWithoutAddress() {
+            // given - address가 없는 Chef
+            PerformerRequest.RegisterChef chefWithoutAddress = new PerformerRequest.RegisterChef(
+                    "안유성",
+                    null,
+                    "BLACK",
+                    "가게",
+                    null,  // address 없음
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(chefWithoutAddress),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+            );
+
+            // when
+            ResponseEntity<ApiResponse<List<PerformerResponse.ChefClusterInfo>>> response = testRestTemplate.exchange(
+                    ENDPOINT_GET_CHEF_CLUSTERS,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<>() {}
+            );
+
+            // then
+            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+            assertThat(response.getBody()).isNotNull();
+            assertThat(response.getBody().data()).isEmpty();  // 클러스터 데이터 없음
+        }
+
+        @Test
+        @DisplayName("Region enum에 없는 주소는 클러스터 집계에서 제외된다")
+        void getChefClusters_excludesUnknownRegions() {
+            // given - Region enum에 없는 주소 (예: 잘못된 형식)
+            PerformerRequest.RegisterChef chefWithInvalidAddress = new PerformerRequest.RegisterChef(
+                    "김철수",
+                    null,
+                    "BLACK",
+                    "가게",
+                    "알수없는지역 어딘가 123",  // Region enum에 없음
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(chefWithInvalidAddress),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+            );
+
+            // when
+            ResponseEntity<ApiResponse<List<PerformerResponse.ChefClusterInfo>>> response = testRestTemplate.exchange(
+                    ENDPOINT_GET_CHEF_CLUSTERS,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<>() {}
+            );
+
+            // then
+            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+            assertThat(response.getBody()).isNotNull();
+            assertThat(response.getBody().data()).isEmpty();  // 매칭되는 Region 없어서 제외됨
+        }
+
+        @Test
+        @DisplayName("여러 시/도에 걸쳐 Chef가 있으면 각각 집계된다")
+        void getChefClusters_aggregatesMultipleRegions() {
+            // given - 서울, 부산, 경기도에 각각 Chef 등록
+            PerformerRequest.RegisterChef seoulChef = new PerformerRequest.RegisterChef(
+                    "서울셰프",
+                    null,
+                    "BLACK",
+                    "서울가게",
+                    "서울특별시 강남구 테헤란로 123",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            PerformerRequest.RegisterChef busanChef = new PerformerRequest.RegisterChef(
+                    "부산셰프",
+                    null,
+                    "WHITE",
+                    "부산가게",
+                    "부산광역시 해운대구 해운대로 456",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            PerformerRequest.RegisterChef gyeonggiChef = new PerformerRequest.RegisterChef(
+                    "경기셰프",
+                    null,
+                    "BLACK",
+                    "경기가게",
+                    "경기도 성남시 분당구 판교역로 789",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(seoulChef),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+            );
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(busanChef),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+            );
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(gyeonggiChef),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+            );
+
+            // when
+            ResponseEntity<ApiResponse<List<PerformerResponse.ChefClusterInfo>>> response = testRestTemplate.exchange(
+                    ENDPOINT_GET_CHEF_CLUSTERS,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<>() {}
+            );
+
+            // then
+            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+            assertThat(response.getBody()).isNotNull();
+            assertThat(response.getBody().data()).hasSize(3);  // 서울, 부산, 경기도
+
+            List<String> regionNames = response.getBody().data().stream()
+                    .map(PerformerResponse.ChefClusterInfo::region)
+                    .toList();
+
+            assertThat(regionNames).containsExactlyInAnyOrder("서울특별시", "부산광역시", "경기도");
+        }
+
+        @Test
+        @DisplayName("응답 데이터는 모든 필드를 포함한다")
+        void getChefClusters_includesAllFields() {
+            // given
+            PerformerRequest.RegisterChef seoulChef = new PerformerRequest.RegisterChef(
+                    "권성준",
+                    null,
+                    "BLACK",
+                    "가게",
+                    "서울특별시 강남구 테헤란로 123",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            testRestTemplate.exchange(
+                    ENDPOINT_REGISTER_CHEF,
+                    HttpMethod.POST,
+                    new HttpEntity<>(seoulChef),
+                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
+            );
+
+            // when
+            ResponseEntity<ApiResponse<List<PerformerResponse.ChefClusterInfo>>> response = testRestTemplate.exchange(
+                    ENDPOINT_GET_CHEF_CLUSTERS,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<>() {}
+            );
+
+            // then
+            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+            assertThat(response.getBody()).isNotNull();
+            assertThat(response.getBody().data()).hasSize(1);
+
+            PerformerResponse.ChefClusterInfo cluster = response.getBody().data().getFirst();
+            assertAll(
+                    () -> assertThat(cluster.region()).isNotNull(),
+                    () -> assertThat(cluster.blackCount()).isNotNull(),
+                    () -> assertThat(cluster.whiteCount()).isNotNull(),
+                    () -> assertThat(cluster.latitude()).isNotNull(),
+                    () -> assertThat(cluster.longitude()).isNotNull()
             );
         }
     }

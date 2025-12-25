@@ -17,6 +17,7 @@ public class PerformerResponse {
             // Restaurant 정보
             String restaurantName,
             String address,
+            // TODO longitude, latitude 추가
             String category,
             String naverReservationUrl,
             String catchTableUrl,
@@ -27,5 +28,18 @@ public class PerformerResponse {
 
             // 조회수
             Long viewCount
+    ) {}
+
+    /**
+     * 지도 클러스터 조회 응답
+     * - 시/도별로 그룹화된 셰프 통계 정보
+     * - 지도 줌 아웃 시 클러스터 마커에 사용
+     */
+    public record ChefClusterInfo(
+            String region,
+            Integer blackCount,
+            Integer whiteCount,
+            Double latitude,
+            Double longitude
     ) {}
 }

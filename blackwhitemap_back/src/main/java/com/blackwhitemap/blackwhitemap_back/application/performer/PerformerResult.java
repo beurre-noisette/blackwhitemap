@@ -49,4 +49,17 @@ public class PerformerResult {
             );
         }
     }
+
+    /**
+     * Chef 클러스터 조회 결과
+     * - 시/도별로 그룹화된 셰프 통계 정보
+     * - Region enum의 좌표 정보 포함
+     */
+    public record ChefClusterInfo(
+            String region,
+            Integer blackCount,
+            Integer whiteCount,
+            Double latitude,
+            Double longitude
+    ) {}
 }

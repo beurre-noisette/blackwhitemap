@@ -95,4 +95,31 @@ public class PerformerController {
 
         return ApiResponse.success(chefInfos);
     }
+
+    /**
+     * 지도에 표시할 클러스터 데이터 조회
+     * <p>
+     * 시/도 단위로 그룹화된 셰프 통계 정보를 반환합니다.
+     * - 서비스 초기 로드 시 getChefs API와 함께 호출
+     * - 프론트엔드에서 지도 줌 아웃 시 클러스터 마커로 표시
+     * - 캐싱 적용 (1시간 TTL)
+     *
+     * @return 클러스터 정보 리스트
+     */
+    @GetMapping("/chefs/cluster")
+    public ApiResponse<List<PerformerResponse.ChefClusterInfo>> getChefClusters() {
+        List<PerformerResult.ChefClusterInfo> queryResults = performerQuery.getChefClusters();
+
+        List<PerformerResponse.ChefClusterInfo> response = queryResults.stream()
+                .map(result -> new PerformerResponse.ChefClusterInfo(
+                        result.region(),
+                        result.blackCount(),
+                        result.whiteCount(),
+                        result.latitude(),
+                        result.longitude()
+                ))
+                .toList();
+
+        return ApiResponse.success(response);
+    }
 }

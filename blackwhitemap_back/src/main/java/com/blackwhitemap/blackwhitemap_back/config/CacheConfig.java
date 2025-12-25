@@ -23,7 +23,8 @@ public class CacheConfig {
     public CacheManager cacheManager() {
         CaffeineCacheManager cacheManager = new CaffeineCacheManager(
                 "chefs",
-                "weeklyBestChefs"
+                "weeklyBestChefs",
+                "chefClusters"
         );
         cacheManager.setCaffeine(caffeineCacheBuilder());
         return cacheManager;
