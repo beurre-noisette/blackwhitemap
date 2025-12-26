@@ -35,11 +35,6 @@ class RankingQueryTest {
     @AfterEach
     void tearDown() {
         databaseCleanUp.truncateAllTables();
-
-        Cache cache = cacheManager.getCache("weeklyBestChefs");
-        if (cache != null) {
-            cache.clear();
-        }
     }
 
     @Nested

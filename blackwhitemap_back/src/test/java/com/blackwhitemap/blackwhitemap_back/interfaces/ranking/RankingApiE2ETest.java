@@ -41,11 +41,6 @@ class RankingApiE2ETest {
     @AfterEach
     void tearDown() {
         databaseCleanUp.truncateAllTables();
-        // 캐시 클리어 (캐싱된 데이터가 다음 테스트에 영향을 주지 않도록)
-        var cache = cacheManager.getCache("weeklyBestChefs");
-        if (cache != null) {
-            cache.clear();
-        }
     }
 
     @Nested
