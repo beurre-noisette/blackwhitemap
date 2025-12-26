@@ -62,25 +62,25 @@ class PerformerQueryRepositoryImplTest {
             assertThat(clusters).hasSize(2);
 
             PerformerResult.ChefClusterInfo seoulCluster = clusters.stream()
-                    .filter(cluster -> cluster.region().equals("서울특별시"))
+                    .filter(cluster -> cluster.region().equals("SEOUL"))
                     .findFirst()
                     .orElseThrow();
 
             PerformerResult.ChefClusterInfo busanCluster = clusters.stream()
-                    .filter(cluster -> cluster.region().equals("부산광역시"))
+                    .filter(cluster -> cluster.region().equals("BUSAN"))
                     .findFirst()
                     .orElseThrow();
 
             assertAll(
                     // 서울 검증
-                    () -> assertThat(seoulCluster.region()).isEqualTo("서울특별시"),
+                    () -> assertThat(seoulCluster.region()).isEqualTo("SEOUL"),
                     () -> assertThat(seoulCluster.blackCount()).isEqualTo(2),
                     () -> assertThat(seoulCluster.whiteCount()).isEqualTo(1),
                     () -> assertThat(seoulCluster.latitude()).isEqualTo(37.5665),
                     () -> assertThat(seoulCluster.longitude()).isEqualTo(126.978),
 
                     // 부산 검증
-                    () -> assertThat(busanCluster.region()).isEqualTo("부산광역시"),
+                    () -> assertThat(busanCluster.region()).isEqualTo("BUSAN"),
                     () -> assertThat(busanCluster.blackCount()).isEqualTo(1),
                     () -> assertThat(busanCluster.whiteCount()).isEqualTo(2),
                     () -> assertThat(busanCluster.latitude()).isEqualTo(35.1796),
@@ -104,7 +104,7 @@ class PerformerQueryRepositoryImplTest {
 
             PerformerResult.ChefClusterInfo seoulCluster = clusters.getFirst();
             assertAll(
-                    () -> assertThat(seoulCluster.region()).isEqualTo("서울특별시"),
+                    () -> assertThat(seoulCluster.region()).isEqualTo("SEOUL"),
                     () -> assertThat(seoulCluster.blackCount()).isEqualTo(1),
                     () -> assertThat(seoulCluster.whiteCount()).isEqualTo(0)
             );
@@ -122,7 +122,7 @@ class PerformerQueryRepositoryImplTest {
 
             // then
             assertThat(clusters).hasSize(1);
-            assertThat(clusters.getFirst().region()).isEqualTo("서울특별시");
+            assertThat(clusters.getFirst().region()).isEqualTo("SEOUL");
         }
 
         @Test
@@ -146,11 +146,11 @@ class PerformerQueryRepositoryImplTest {
                     .toList();
 
             assertThat(regionNames).containsExactlyInAnyOrder(
-                    "서울특별시",
-                    "부산광역시",
-                    "경기도",
-                    "인천광역시",
-                    "제주특별자치도"
+                    "SEOUL",
+                    "BUSAN",
+                    "GYEONGGI",
+                    "INCHEON",
+                    "JEJU"
             );
         }
 
@@ -170,7 +170,7 @@ class PerformerQueryRepositoryImplTest {
 
             PerformerResult.ChefClusterInfo seoulCluster = clusters.getFirst();
             assertAll(
-                    () -> assertThat(seoulCluster.region()).isEqualTo("서울특별시"),
+                    () -> assertThat(seoulCluster.region()).isEqualTo("SEOUL"),
                     () -> assertThat(seoulCluster.blackCount()).isEqualTo(3),
                     () -> assertThat(seoulCluster.whiteCount()).isEqualTo(0)
             );
@@ -191,7 +191,7 @@ class PerformerQueryRepositoryImplTest {
 
             PerformerResult.ChefClusterInfo gyeonggiCluster = clusters.getFirst();
             assertAll(
-                    () -> assertThat(gyeonggiCluster.region()).isEqualTo("경기도"),
+                    () -> assertThat(gyeonggiCluster.region()).isEqualTo("GYEONGGI"),
                     () -> assertThat(gyeonggiCluster.blackCount()).isEqualTo(0),
                     () -> assertThat(gyeonggiCluster.whiteCount()).isEqualTo(2)
             );
@@ -231,7 +231,7 @@ class PerformerQueryRepositoryImplTest {
         @Test
         @DisplayName("결과는 지역명으로 정렬되어 반환된다")
         void resultsSortedByRegionName() {
-            // given - 여러 시/도에 Chef 등록 (가나다순이 아닌 순서로)
+            // given
             registerChef("제주셰프", Chef.Type.BLACK, "제주특별자치도 제주시 첨단로 1");
             registerChef("경기셰프", Chef.Type.BLACK, "경기도 성남시 분당구 판교역로 2");
             registerChef("서울셰프", Chef.Type.BLACK, "서울특별시 강남구 테헤란로 3");
@@ -247,12 +247,11 @@ class PerformerQueryRepositoryImplTest {
                     .map(PerformerResult.ChefClusterInfo::region)
                     .toList();
 
-            // 가나다순 정렬 확인
             assertThat(regionNames).containsExactly(
-                    "경기도",
-                    "부산광역시",
-                    "서울특별시",
-                    "제주특별자치도"
+                    "BUSAN",
+                    "GYEONGGI",
+                    "JEJU",
+                    "SEOUL"
             );
         }
     }
