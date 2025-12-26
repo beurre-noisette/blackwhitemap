@@ -1,40 +1,48 @@
 export type ChefType = "BLACK" | "WHITE";
 
 /**
- * 셰프 정보 인터페이스
- * - PerformerResponse의 ChefInfo DTO와 동일한 구조
+ * 기본 셰프 정보 (공통 필드)
  */
-export interface ChefInfo {
+export interface ChefBase {
   id: number;
   name: string;
   nickname: string;
   type: ChefType;
   restaurantName: string;
   address: string;
-  latitude: number;
-  longitude: number;
   category: string;
-  naverReservationUrl: string | null;
-  catchTableUrl: string | null;
-  instagramUrl: string | null;
   imageUrls: string[];
   viewCount: number;
 }
 
 /**
- * FIXME 도메인 변경 가능성 있음
- * 셰프 상세 정보
- * - closedDays: 휴무일 목록
+ * 셰프 정보 (GET /performer/chefs 응답)
+ * - 지도에 표시할 전체 셰프 목록
  */
-export interface ChefDetail extends ChefInfo {
-  closedDays: string[]; // ["일", "월"]
+export interface ChefInfo extends ChefBase {
+  latitude: number;           // 지도 마커용
+  longitude: number;          // 지도 마커용
+  naverReservationUrl: string | null;
+  catchTableUrl: string | null;
+  instagramUrl: string | null;
 }
 
 /**
- * 이번주 Best Chef 정보
- * - ChefDetail의 모든 정보 포함
- * - rank: 주간 랭킹 순위 (1 ~ 5)
+ * 셰프 상세 정보
+ * - ChefDetailContent에서 사용
  */
-export interface BestChef extends ChefDetail {
+export interface ChefDetail extends ChefInfo {
+  closedDays: string[];      // ["일", "월"]
+}
+
+/**
+ * 이번주 Best Chef (GET /ranking/weekly-best 응답)
+ * - BestChefContent에서만 사용
+ * - latitude, longitude, instagramUrl 없음
+ */
+export interface BestChef extends ChefBase {
+  naverReservationUrl: string | null;
+  catchTableUrl: string | null;
+  closedDays: string[];
   rank: number;
 }

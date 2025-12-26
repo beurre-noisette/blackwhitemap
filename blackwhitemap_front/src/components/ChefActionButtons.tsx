@@ -1,10 +1,10 @@
-import { ChefDetail } from "@/types/chef.ts";
+import { BestChef, ChefDetail } from "@/types/chef.ts";
 import { Icon } from "@/components/Icon.tsx";
 import { ShareButton } from "@/components/ShareButton.tsx";
 import { Button } from "@/components/Button.tsx";
 
 export interface ChefActionButtonsProps {
-  chef: ChefDetail;
+  chef: BestChef | ChefDetail;
 
   /**
    * 예약하기 버튼 클릭 콜백 (선택적 요소)

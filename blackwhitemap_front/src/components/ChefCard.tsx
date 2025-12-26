@@ -1,10 +1,10 @@
-import { ChefDetail } from "@/types/chef";
+import { BestChef, ChefDetail } from "@/types/chef";
 import { cn } from "@/utils/cn";
 import { ChefInfoRow } from "./ChefInfoRow";
 import { ChefActionButtons } from "./ChefActionButtons";
 
 export interface ChefCardProps {
-  chef: ChefDetail;
+  chef: BestChef | ChefDetail;
   variant?: "bestChef" | "chefDetail";
   onReservationClick?: () => void;
   className?: string;
@@ -91,7 +91,7 @@ export const ChefCard = ({
             </ChefInfoRow>
 
             {/* 인스타그램 (chefDetail에서만 표시) */}
-            {variant === "chefDetail" && chef.instagramUrl && (
+            {variant === "chefDetail" && "instagramUrl" in chef && chef.instagramUrl && (
               <ChefInfoRow iconName="usdCircle" label="공유하기">
                 <a
                   href={chef.instagramUrl}
