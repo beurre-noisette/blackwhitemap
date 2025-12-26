@@ -17,7 +17,9 @@ public class PerformerResponse {
             // Restaurant 정보
             String restaurantName,
             String address,
-            // TODO longitude, latitude 추가
+            Double latitude,
+            Double longitude,
+            String closedDays,
             String category,
             String naverReservationUrl,
             String catchTableUrl,

@@ -12,6 +12,9 @@ public class PerformerCommand {
             // Restaurant 관련 필드
             String restaurantName,
             String address,
+            Double latitude,
+            Double longitude,
+            String closedDays,
             Restaurant.Category restaurantCategory,
             String naverReservationUrl,
             String catchTableUrl,
@@ -35,6 +38,9 @@ public class PerformerCommand {
             // Restaurant 관련 필드
             String restaurantName,
             String address,
+            Double latitude,
+            Double longitude,
+            String closedDays,
             Restaurant.Category restaurantCategory,
             String naverReservationUrl,
             String catchTableUrl,

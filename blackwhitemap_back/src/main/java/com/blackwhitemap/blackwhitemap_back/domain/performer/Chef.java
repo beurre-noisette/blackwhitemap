@@ -97,6 +97,9 @@ public class Chef extends BaseEntity {
         Restaurant restaurant = Restaurant.of(
                 command.restaurantName(),
                 command.address(),
+                command.latitude(),
+                command.longitude(),
+                command.closedDays(),
                 command.restaurantCategory(),
                 command.naverReservationUrl(),
                 command.catchTableUrl(),
@@ -168,6 +171,9 @@ public class Chef extends BaseEntity {
     public void updateRestaurant(
             String restaurantName,
             String address,
+            Double latitude,
+            Double longitude,
+            String closedDays,
             Restaurant.Category category,
             String naverReservationUrl,
             String catchTableUrl,
@@ -176,6 +182,9 @@ public class Chef extends BaseEntity {
         // 업데이트할 필드가 하나라도 있는지 확인
         boolean hasUpdate = restaurantName != null && !restaurantName.isBlank()
                 || address != null
+                || latitude != null
+                || longitude != null
+                || closedDays != null
                 || category != null
                 || naverReservationUrl != null
                 || catchTableUrl != null
@@ -188,6 +197,9 @@ public class Chef extends BaseEntity {
         this.restaurant = Restaurant.of(
                 restaurantName,
                 address,
+                latitude,
+                longitude,
+                closedDays,
                 category,
                 naverReservationUrl,
                 catchTableUrl,

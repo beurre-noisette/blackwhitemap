@@ -25,6 +25,15 @@ public class Restaurant {
     @Column(name = "restaurant_address", length = 50)
     private String address;
 
+    @Column(name = "latitude")
+    private Double latitude;
+
+    @Column(name = "longitude")
+    private Double longitude;
+
+    @Column(name = "restaurant_closed_days", length = 50)
+    private String closedDays;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "restaurant_category", length = 10)
     private Category category;
@@ -37,8 +46,6 @@ public class Restaurant {
 
     @Column(name = "instagram_url", length = 100)
     private String instagramUrl;
-
-    // TODO 가격, 휴무일 필드 추가될 수 있음
 
     @Getter
     @RequiredArgsConstructor
@@ -79,6 +86,9 @@ public class Restaurant {
     private Restaurant(
             String restaurantName,
             String address,
+            Double latitude,
+            Double longitude,
+            String closedDays,
             Category category,
             String naverReservationUrl,
             String catchTableUrl,
@@ -86,6 +96,9 @@ public class Restaurant {
     ) {
         this.name = restaurantName;
         this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.closedDays = closedDays;
         this.category = category;
         this.naverReservationUrl = naverReservationUrl;
         this.catchTableUrl = catchTableUrl;
@@ -95,6 +108,9 @@ public class Restaurant {
     public static Restaurant of(
             String restaurantName,
             String address,
+            Double latitude,
+            Double longitude,
+            String closedDays,
             Category category,
             String naverReservationUrl,
             String catchTableUrl,
@@ -113,6 +129,9 @@ public class Restaurant {
         return new Restaurant(
                 restaurantName,
                 address,
+                latitude,
+                longitude,
+                closedDays,
                 category,
                 naverReservationUrl,
                 catchTableUrl,

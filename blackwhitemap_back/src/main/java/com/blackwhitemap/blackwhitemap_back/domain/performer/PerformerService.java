@@ -40,6 +40,9 @@ public class PerformerService {
         chef.updateRestaurant(
                 updateCommand.restaurantName(),
                 updateCommand.address(),
+                updateCommand.latitude(),
+                updateCommand.longitude(),
+                updateCommand.closedDays(),
                 updateCommand.restaurantCategory(),
                 updateCommand.naverReservationUrl(),
                 updateCommand.catchTableUrl(),
