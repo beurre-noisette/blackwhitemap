@@ -1,5 +1,8 @@
 package com.blackwhitemap.blackwhitemap_back.interfaces.performer;
 
+import com.blackwhitemap.blackwhitemap_back.domain.performer.Chef;
+import com.blackwhitemap.blackwhitemap_back.domain.performer.PerformerCommand;
+import com.blackwhitemap.blackwhitemap_back.domain.performer.Restaurant;
 import com.blackwhitemap.blackwhitemap_back.infrastructure.performer.ChefJpaRepository;
 import com.blackwhitemap.blackwhitemap_back.interfaces.ApiResponse;
 import com.blackwhitemap.blackwhitemap_back.support.testcontainers.PostgreSQLTestContainersConfig;
@@ -16,7 +19,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.List;
 
@@ -41,6 +44,9 @@ class PerformerApiE2ETest {
 
     @Autowired
     private DatabaseCleanUp databaseCleanUp;
+
+    @Autowired
+    private TransactionTemplate transactionTemplate;
 
     @AfterEach
     void tearDown() {
@@ -434,25 +440,20 @@ class PerformerApiE2ETest {
         @DisplayName("이름만 수정하면 200 OK를 반환한다")
         void updateChef_nameOnly() {
             // given
-            PerformerRequest.RegisterChef registerRequest = new PerformerRequest.RegisterChef(
-                    "손종원",
-                    "요리천재",
-                    "BLACK",
+            Chef targetChef = Chef.of(new PerformerCommand.RegisterChef(
+                    "권성준",
+                    "나폴리맛피아",
+                    Chef.Type.BLACK,
+                    "비아톨레도 파스타바",
+                    "서울시 강남구",
+                    Restaurant.Category.ITALIAN,
                     null,
                     null,
                     null,
-                    null,
-                    null,
-                    null,
-                    null
-            );
+                    List.of("https://example.com/image1.jpg")
+            ));
 
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(registerRequest),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
+            chefJpaRepository.save(targetChef);
 
             Long chefId = chefJpaRepository.findAll().getFirst().getId();
 
@@ -486,25 +487,20 @@ class PerformerApiE2ETest {
         @DisplayName("별명만 수정하면 200 OK를 반환한다")
         void updateChef_nicknameOnly() {
             // given
-            PerformerRequest.RegisterChef registerRequest = new PerformerRequest.RegisterChef(
+            Chef targetChef = Chef.of(new PerformerCommand.RegisterChef(
                     "권성준",
                     "나폴리맛피아",
-                    "BLACK",
+                    Chef.Type.BLACK,
+                    "비아톨레도 파스타바",
+                    "서울시 강남구",
+                    Restaurant.Category.ITALIAN,
                     null,
                     null,
                     null,
-                    null,
-                    null,
-                    null,
-                    null
-            );
+                    List.of("https://example.com/image1.jpg")
+            ));
 
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(registerRequest),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
+            chefJpaRepository.save(targetChef);
 
             Long chefId = chefJpaRepository.findAll().getFirst().getId();
 
@@ -538,25 +534,20 @@ class PerformerApiE2ETest {
         @DisplayName("타입을 수정하면 200 OK를 반환한다")
         void updateChef_type() {
             // given
-            PerformerRequest.RegisterChef registerRequest = new PerformerRequest.RegisterChef(
-                    "손종원",
+            Chef targetChef = Chef.of(new PerformerCommand.RegisterChef(
+                    "권성준",
+                    "나폴리맛피아",
+                    Chef.Type.BLACK,
+                    "비아톨레도 파스타바",
+                    "서울시 강남구",
+                    Restaurant.Category.ITALIAN,
                     null,
-                    "BLACK",
                     null,
                     null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-            );
+                    List.of("https://example.com/image1.jpg")
+            ));
 
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(registerRequest),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
+            chefJpaRepository.save(targetChef);
 
             Long chefId = chefJpaRepository.findAll().getFirst().getId();
 
@@ -589,25 +580,20 @@ class PerformerApiE2ETest {
         @DisplayName("레스토랑 정보를 수정하면 200 OK를 반환한다")
         void updateChef_restaurant() {
             // given
-            PerformerRequest.RegisterChef registerRequest = new PerformerRequest.RegisterChef(
-                    "손종원",
+            Chef targetChef = Chef.of(new PerformerCommand.RegisterChef(
+                    "권성준",
+                    "나폴리맛피아",
+                    Chef.Type.BLACK,
+                    "비아톨레도 파스타바",
+                    "부산시 광안리",
+                    Restaurant.Category.ITALIAN,
                     null,
-                    "WHITE",
                     null,
                     null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-            );
+                    List.of("https://example.com/image1.jpg")
+            ));
 
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(registerRequest),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
+            chefJpaRepository.save(targetChef);
 
             Long chefId = chefJpaRepository.findAll().getFirst().getId();
 
@@ -650,28 +636,22 @@ class PerformerApiE2ETest {
 
         @Test
         @DisplayName("이미지를 수정하면 200 OK를 반환한다")
-        @Transactional
         void updateChef_images() {
             // given
-            PerformerRequest.RegisterChef registerRequest = new PerformerRequest.RegisterChef(
-                    "손종원",
+            Chef targetChef = Chef.of(new PerformerCommand.RegisterChef(
+                    "권성준",
+                    "나폴리맛피아",
+                    Chef.Type.BLACK,
+                    "비아톨레도 파스타바",
+                    "서울시 강남구",
+                    Restaurant.Category.ITALIAN,
                     null,
-                    "WHITE",
                     null,
                     null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-            );
+                    List.of("https://example.com/image.jpg")
+            ));
 
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(registerRequest),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
+            chefJpaRepository.save(targetChef);
 
             Long chefId = chefJpaRepository.findAll().getFirst().getId();
 
@@ -700,9 +680,12 @@ class PerformerApiE2ETest {
             assertAll(
                     () -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
                     () -> {
-                        Assertions.assertNotNull(chefJpaRepository.findById(chefId).orElseThrow().getImages());
-                        assertThat(chefJpaRepository.findById(chefId).orElseThrow().getImages().getImageUrls())
-                                .hasSize(2);
+                        transactionTemplate.executeWithoutResult(status -> {
+                            Chef chef = chefJpaRepository.findById(chefId).orElseThrow();
+                            Assertions.assertNotNull(chef.getImages());
+                            assertThat(chef.getImages().getImageUrls())
+                                    .hasSize(2);
+                        });
                     }
             );
         }
@@ -711,25 +694,20 @@ class PerformerApiE2ETest {
         @DisplayName("여러 필드를 동시에 수정하면 200 OK를 반환한다")
         void updateChef_multipleFields() {
             // given
-            PerformerRequest.RegisterChef registerRequest = new PerformerRequest.RegisterChef(
-                    "손종원",
-                    "요리천재",
-                    "WHITE",
+            Chef targetChef = Chef.of(new PerformerCommand.RegisterChef(
+                    "권성준",
+                    "나폴리맛피아",
+                    Chef.Type.BLACK,
+                    "비아톨레도 파스타바",
+                    "서울시 강남구",
+                    Restaurant.Category.ITALIAN,
                     null,
                     null,
                     null,
-                    null,
-                    null,
-                    null,
-                    null
-            );
+                    List.of("https://example.com/image1.jpg")
+            ));
 
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(registerRequest),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
+            chefJpaRepository.save(targetChef);
 
             Long chefId = chefJpaRepository.findAll().getFirst().getId();
             
@@ -792,25 +770,20 @@ class PerformerApiE2ETest {
         @DisplayName("이름이 5자를 초과하면 400 BAD_REQUEST를 반환한다")
         void updateChef_nameTooLong() {
             // given
-            PerformerRequest.RegisterChef registerRequest = new PerformerRequest.RegisterChef(
-                    "손종원",
+            Chef targetChef = Chef.of(new PerformerCommand.RegisterChef(
+                    "권성준",
+                    "나폴리맛피아",
+                    Chef.Type.BLACK,
+                    "비아톨레도 파스타바",
+                    "서울시 강남구",
+                    Restaurant.Category.ITALIAN,
                     null,
-                    "WHITE",
                     null,
                     null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-            );
+                    List.of("https://example.com/image1.jpg")
+            ));
 
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(registerRequest),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
+            chefJpaRepository.save(targetChef);
 
             Long chefId = chefJpaRepository.findAll().getFirst().getId();
 
@@ -843,27 +816,23 @@ class PerformerApiE2ETest {
         @DisplayName("별명이 15자를 초과하면 400 BAD_REQUEST를 반환한다")
         void updateChef_nicknameTooLong() {
             // given
-            PerformerRequest.RegisterChef registerRequest = new PerformerRequest.RegisterChef(
-                    "손종원",
-                    "요리천재",
-                    "WHITE",
+            Chef targetChef = Chef.of(new PerformerCommand.RegisterChef(
+                    "권성준",
+                    "나폴리맛피아",
+                    Chef.Type.BLACK,
+                    "비아톨레도 파스타바",
+                    "서울시 강남구",
+                    Restaurant.Category.ITALIAN,
                     null,
                     null,
                     null,
-                    null,
-                    null,
-                    null,
-                    null
-            );
+                    List.of("https://example.com/image1.jpg")
+            ));
 
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(registerRequest),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
+            chefJpaRepository.save(targetChef);
 
             Long chefId = chefJpaRepository.findAll().getFirst().getId();
+
             PerformerRequest.UpdateChefInfo updateRequest = new PerformerRequest.UpdateChefInfo(
                     null,
                     "나폴리맛피아입니다만최고입니다요",  // 16자
@@ -893,25 +862,20 @@ class PerformerApiE2ETest {
         @DisplayName("잘못된 URL 형식이 주어지면 400 BAD_REQUEST를 반환한다")
         void updateChef_invalidUrlFormat() {
             // given
-            PerformerRequest.RegisterChef registerRequest = new PerformerRequest.RegisterChef(
-                    "손종원",
+            Chef targetChef = Chef.of(new PerformerCommand.RegisterChef(
+                    "권성준",
+                    "나폴리맛피아",
+                    Chef.Type.BLACK,
+                    "비아톨레도 파스타바",
+                    "서울시 강남구",
+                    Restaurant.Category.ITALIAN,
                     null,
-                    "WHITE",
                     null,
                     null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-            );
+                    List.of("https://example.com/image1.jpg")
+            ));
 
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(registerRequest),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
+            chefJpaRepository.save(targetChef);
 
             Long chefId = chefJpaRepository.findAll().getFirst().getId();
 
@@ -948,25 +912,20 @@ class PerformerApiE2ETest {
         })
         void updateChef_invalidChefType(String wrongValue) {
             // given
-            PerformerRequest.RegisterChef registerRequest = new PerformerRequest.RegisterChef(
-                    "손종원",
+            Chef targetChef = Chef.of(new PerformerCommand.RegisterChef(
+                    "권성준",
+                    "나폴리맛피아",
+                    Chef.Type.BLACK,
+                    "비아톨레도 파스타바",
+                    "서울시 강남구",
+                    Restaurant.Category.ITALIAN,
                     null,
-                    "WHITE",
                     null,
                     null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-            );
+                    List.of("https://example.com/image1.jpg")
+            ));
 
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(registerRequest),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
+            chefJpaRepository.save(targetChef);
 
             Long chefId = chefJpaRepository.findAll().getFirst().getId();
 
@@ -1003,25 +962,20 @@ class PerformerApiE2ETest {
         })
         void updateChef_invalidRestaurantCategory(String wrongValue) {
             // given
-            PerformerRequest.RegisterChef registerRequest = new PerformerRequest.RegisterChef(
-                    "손종원",
+            Chef targetChef = Chef.of(new PerformerCommand.RegisterChef(
+                    "권성준",
+                    "나폴리맛피아",
+                    Chef.Type.BLACK,
+                    "비아톨레도 파스타바",
+                    "서울시 강남구",
+                    Restaurant.Category.ITALIAN,
                     null,
-                    "WHITE",
                     null,
                     null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-            );
+                    List.of("https://example.com/image1.jpg")
+            ));
 
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(registerRequest),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
+            chefJpaRepository.save(targetChef);
 
             Long chefId = chefJpaRepository.findAll().getFirst().getId();
 
@@ -1059,38 +1013,38 @@ class PerformerApiE2ETest {
         @DisplayName("type이 ALL인 경우 address가 있는 모든 Chef를 조회한다")
         void getChefs_withTypeAll() {
             // given - BLACK 요리사 (address 있음)
-            PerformerRequest.RegisterChef blackChefRegisterRequest = new PerformerRequest.RegisterChef(
+            Chef blackChefWithAddress = Chef.of(new PerformerCommand.RegisterChef(
                     "권성준",
                     "나폴리맛피아",
-                    "BLACK",
+                    Chef.Type.BLACK,
                     "비아톨레도 파스타바",
                     "서울시 강남구",
-                    "ITALIAN",
+                    Restaurant.Category.ITALIAN,
                     null,
                     null,
                     null,
                     List.of("https://example.com/image1.jpg")
-            );
+            ));
 
             // given - WHITE 요리사 (address 있음)
-            PerformerRequest.RegisterChef whiteChefRegisterRequest = new PerformerRequest.RegisterChef(
+            Chef whiteChefWithAddress = Chef.of(new PerformerCommand.RegisterChef(
                     "손종원",
                     null,
-                    "WHITE",
+                    Chef.Type.WHITE,
                     "라망 시크레",
                     "서울시 서초구",
-                    "KOREAN",
+                    Restaurant.Category.KOREAN,
                     null,
                     null,
                     null,
                     null
-            );
+            ));
 
             // given - BLACK 요리사 (address 없음 - 조회되지 않아야 함)
-            PerformerRequest.RegisterChef blackChefWithoutAddress = new PerformerRequest.RegisterChef(
+            Chef blackChefWithoutAddress = Chef.of(new PerformerCommand.RegisterChef(
                     "안유성",
                     null,
-                    "BLACK",
+                    Chef.Type.BLACK,
                     "흑 가게",
                     null,
                     null,
@@ -1098,26 +1052,11 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null
-            );
+            ));
 
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(blackChefRegisterRequest),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(whiteChefRegisterRequest),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(blackChefWithoutAddress),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
+            chefJpaRepository.save(blackChefWithAddress);
+            chefJpaRepository.save(whiteChefWithAddress);
+            chefJpaRepository.save(blackChefWithoutAddress);
 
             // when
             ResponseEntity<ApiResponse<List<PerformerResponse.ChefInfo>>> response = testRestTemplate.exchange(
@@ -1137,65 +1076,51 @@ class PerformerApiE2ETest {
         @DisplayName("type이 BLACK인 경우 address가 있는 흑요리사만 조회한다")
         void getChefs_withTypeBlack() {
             // given - BLACK 요리사 (address 있음)
-            PerformerRequest.RegisterChef blackChef1 = new PerformerRequest.RegisterChef(
+            Chef blackChefWithAddress = Chef.of(new PerformerCommand.RegisterChef(
                     "권성준",
                     "나폴리맛피아",
-                    "BLACK",
+                    Chef.Type.BLACK,
                     "비아톨레도 파스타바",
                     "서울시 강남구",
-                    "ITALIAN",
+                    Restaurant.Category.ITALIAN,
                     null,
                     null,
                     null,
-                    null
-            );
+                    List.of("https://example.com/image1.jpg")
+            ));
 
             // given - BLACK 요리사 (address 있음)
-            PerformerRequest.RegisterChef blackChef2 = new PerformerRequest.RegisterChef(
-                    "안유성",
+            Chef blackChefWithAddress2 = Chef.of(new PerformerCommand.RegisterChef(
+                    "윤남노",
+                    "요리하는돌아이",
+                    Chef.Type.BLACK,
+                    "디핀",
+                    "서울시 강남구",
+                    Restaurant.Category.FRENCH,
                     null,
-                    "BLACK",
-                    "가게 이름",
-                    "서울시 종로구",
-                    "KOREAN",
                     null,
                     null,
-                    null,
-                    null
-            );
+                    List.of("https://example.com/image1.jpg")
+            ));
 
             // given - WHITE 요리사 (address 있음 - 조회되지 않아야 함)
-            PerformerRequest.RegisterChef whiteChef = new PerformerRequest.RegisterChef(
+            Chef whiteChefWithAddress = Chef.of(new PerformerCommand.RegisterChef(
                     "손종원",
                     null,
-                    "WHITE",
+                    Chef.Type.WHITE,
                     "라망 시크레",
                     "서울시 서초구",
-                    "KOREAN",
+                    Restaurant.Category.KOREAN,
                     null,
                     null,
                     null,
                     null
-            );
+            ));
 
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(blackChef1),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(blackChef2),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(whiteChef),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
+            chefJpaRepository.save(blackChefWithAddress);
+            chefJpaRepository.save(blackChefWithAddress2);
+            chefJpaRepository.save(whiteChefWithAddress);
+            
 
             // when
             ResponseEntity<ApiResponse<List<PerformerResponse.ChefInfo>>> response = testRestTemplate.exchange(
@@ -1218,45 +1143,36 @@ class PerformerApiE2ETest {
         @DisplayName("type이 WHITE인 경우 address가 있는 백요리사만 조회한다")
         void getChefs_withTypeWhite() {
             // given - WHITE 요리사 (address 있음)
-            PerformerRequest.RegisterChef whiteChef1 = new PerformerRequest.RegisterChef(
+            Chef whiteChefWithAddress = Chef.of(new PerformerCommand.RegisterChef(
                     "손종원",
                     null,
-                    "WHITE",
+                    Chef.Type.WHITE,
                     "라망 시크레",
                     "서울시 서초구",
-                    "KOREAN",
+                    Restaurant.Category.KOREAN,
                     null,
                     null,
                     null,
                     null
-            );
+            ));
 
             // given - BLACK 요리사 (address 있음 - 조회되지 않아야 함)
-            PerformerRequest.RegisterChef blackChef = new PerformerRequest.RegisterChef(
+            Chef blackChefWithAddress = Chef.of(new PerformerCommand.RegisterChef(
                     "권성준",
                     "나폴리맛피아",
-                    "BLACK",
+                    Chef.Type.BLACK,
                     "비아톨레도 파스타바",
                     "서울시 강남구",
-                    "ITALIAN",
+                    Restaurant.Category.ITALIAN,
                     null,
                     null,
                     null,
-                    null
-            );
+                    List.of("https://example.com/image1.jpg")
+            ));
 
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(whiteChef1),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(blackChef),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
+            chefJpaRepository.save(whiteChefWithAddress);
+            chefJpaRepository.save(blackChefWithAddress);
+            
 
             // when
             ResponseEntity<ApiResponse<List<PerformerResponse.ChefInfo>>> response = testRestTemplate.exchange(
@@ -1277,44 +1193,35 @@ class PerformerApiE2ETest {
         @DisplayName("type이 없으면 address가 있는 모든 Chef를 조회한다")
         void getChefs_withoutType() {
             // given
-            PerformerRequest.RegisterChef blackChef = new PerformerRequest.RegisterChef(
+            Chef blackChefWithAddress = Chef.of(new PerformerCommand.RegisterChef(
                     "권성준",
                     "나폴리맛피아",
-                    "BLACK",
+                    Chef.Type.BLACK,
                     "비아톨레도 파스타바",
                     "서울시 강남구",
-                    "ITALIAN",
+                    Restaurant.Category.ITALIAN,
                     null,
                     null,
                     null,
-                    null
-            );
+                    List.of("https://example.com/image1.jpg")
+            ));
 
-            PerformerRequest.RegisterChef whiteChef = new PerformerRequest.RegisterChef(
+            Chef whiteChefWithAddress = Chef.of(new PerformerCommand.RegisterChef(
                     "손종원",
                     null,
-                    "WHITE",
+                    Chef.Type.WHITE,
                     "라망 시크레",
                     "서울시 서초구",
-                    "KOREAN",
+                    Restaurant.Category.KOREAN,
                     null,
                     null,
                     null,
                     null
-            );
+            ));
 
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(blackChef),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(whiteChef),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
+            chefJpaRepository.save(blackChefWithAddress);
+            chefJpaRepository.save(whiteChefWithAddress);
+            
 
             // when
             ResponseEntity<ApiResponse<List<PerformerResponse.ChefInfo>>> response = testRestTemplate.exchange(
@@ -1334,25 +1241,21 @@ class PerformerApiE2ETest {
         @DisplayName("address가 없는 Chef는 조회되지 않는다")
         void getChefs_excludesChefsWithoutAddress() {
             // given - address 없음
-            PerformerRequest.RegisterChef chefWithoutAddress = new PerformerRequest.RegisterChef(
+            Chef blackChefWithoutAddress = Chef.of(new PerformerCommand.RegisterChef(
                     "안유성",
                     null,
-                    "BLACK",
-                    "가게 이름",
-                    null,  // address 없음
+                    Chef.Type.BLACK,
+                    "흑 가게",
+                    null,
                     null,
                     null,
                     null,
                     null,
                     null
-            );
+            ));
 
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(chefWithoutAddress),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-                    );
+            chefJpaRepository.save(blackChefWithoutAddress);
+            
 
             // when
             ResponseEntity<ApiResponse<List<PerformerResponse.ChefInfo>>> response = testRestTemplate.exchange(
@@ -1387,25 +1290,21 @@ class PerformerApiE2ETest {
         @DisplayName("조회된 Chef는 모든 필드 정보를 포함한다")
         void getChefs_includesAllFields() {
             // given
-            PerformerRequest.RegisterChef request = new PerformerRequest.RegisterChef(
+            Chef blackChefWithAddress = Chef.of(new PerformerCommand.RegisterChef(
                     "권성준",
                     "나폴리맛피아",
-                    "BLACK",
+                    Chef.Type.BLACK,
                     "비아톨레도 파스타바",
                     "서울시 강남구",
-                    "ITALIAN",
+                    Restaurant.Category.ITALIAN,
                     "https://naver.com/reservation",
                     "https://catchtable.com",
                     "https://instagram.com/chef",
                     List.of("https://example.com/image1.jpg", "https://example.com/image2.jpg")
-            );
+            ));
 
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(request),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
+            chefJpaRepository.save((blackChefWithAddress));
+            
 
             // when
             ResponseEntity<ApiResponse<List<PerformerResponse.ChefInfo>>> response = testRestTemplate.exchange(
@@ -1446,83 +1345,64 @@ class PerformerApiE2ETest {
         @DisplayName("클러스터 데이터를 조회하면 200 OK를 반환한다")
         void getChefClusters_returnsOk() {
             // given - 서울특별시에 흑요리사 2명, 백요리사 1명
-            PerformerRequest.RegisterChef seoulBlackChef1 = new PerformerRequest.RegisterChef(
+            Chef seoulBlackChef1 = Chef.of(new PerformerCommand.RegisterChef(
                     "권성준",
                     "나폴리맛피아",
-                    "BLACK",
+                    Chef.Type.BLACK,
                     "비아톨레도 파스타바",
                     "서울특별시 강남구 테헤란로 123",
-                    "ITALIAN",
+                    Restaurant.Category.ITALIAN,
                     null,
                     null,
                     null,
                     null
-            );
+            ));
 
-            PerformerRequest.RegisterChef seoulBlackChef2 = new PerformerRequest.RegisterChef(
+            Chef seoulBlackChef2 = Chef.of(new PerformerCommand.RegisterChef(
                     "안유성",
                     null,
-                    "BLACK",
+                    Chef.Type.BLACK,
                     "흑가게",
                     "서울특별시 종로구 종로 1",
-                    "KOREAN",
+                    Restaurant.Category.KOREAN,
                     null,
                     null,
                     null,
                     null
-            );
+            ));
 
-            PerformerRequest.RegisterChef seoulWhiteChef = new PerformerRequest.RegisterChef(
+            Chef seoulWhiteChef = Chef.of(new PerformerCommand.RegisterChef(
                     "손종원",
                     null,
-                    "WHITE",
+                    Chef.Type.WHITE,
                     "라망 시크레",
                     "서울특별시 서초구 강남대로 456",
-                    "KOREAN",
+                    Restaurant.Category.KOREAN,
                     null,
                     null,
                     null,
                     null
-            );
+            ));
 
             // given - 부산광역시에 흑요리사 1명
-            PerformerRequest.RegisterChef busanBlackChef = new PerformerRequest.RegisterChef(
+            Chef busanBlackChef = Chef.of(new PerformerCommand.RegisterChef(
                     "김부산",
                     null,
-                    "BLACK",
+                    Chef.Type.BLACK,
                     "부산가게",
                     "부산광역시 해운대구 해운대로 789",
-                    "JAPANESE",
+                    Restaurant.Category.JAPANESE,
                     null,
                     null,
                     null,
                     null
-            );
+            ));
 
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(seoulBlackChef1),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(seoulBlackChef2),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(seoulWhiteChef),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(busanBlackChef),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
+            chefJpaRepository.save(seoulBlackChef1);
+            chefJpaRepository.save(seoulBlackChef2);
+            chefJpaRepository.save(seoulWhiteChef);
+            chefJpaRepository.save(busanBlackChef);
+            
 
             // when
             ResponseEntity<ApiResponse<List<PerformerResponse.ChefClusterInfo>>> response = testRestTemplate.exchange(
@@ -1542,10 +1422,10 @@ class PerformerApiE2ETest {
         @DisplayName("시/도별로 흑요리사와 백요리사 수를 정확히 집계한다")
         void getChefClusters_aggregatesCorrectly() {
             // given - 서울특별시에 흑2, 백1
-            PerformerRequest.RegisterChef seoulBlackChef1 = new PerformerRequest.RegisterChef(
+            Chef seoulBlackChef1 = Chef.of(new PerformerCommand.RegisterChef(
                     "권성준",
                     null,
-                    "BLACK",
+                    Chef.Type.BLACK,
                     "가게1",
                     "서울특별시 강남구 테헤란로 123",
                     null,
@@ -1553,12 +1433,12 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null
-            );
+            ));
 
-            PerformerRequest.RegisterChef seoulBlackChef2 = new PerformerRequest.RegisterChef(
+            Chef seoulBlackChef2 = Chef.of(new PerformerCommand.RegisterChef(
                     "안유성",
                     null,
-                    "BLACK",
+                    Chef.Type.BLACK,
                     "가게2",
                     "서울특별시 종로구 종로 1",
                     null,
@@ -1566,12 +1446,12 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null
-            );
+            ));
 
-            PerformerRequest.RegisterChef seoulWhiteChef = new PerformerRequest.RegisterChef(
+            Chef seoulWhiteChef = Chef.of(new PerformerCommand.RegisterChef(
                     "손종원",
                     null,
-                    "WHITE",
+                    Chef.Type.WHITE,
                     "가게3",
                     "서울특별시 서초구 강남대로 456",
                     null,
@@ -1579,26 +1459,12 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null
-            );
+            ));
 
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(seoulBlackChef1),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(seoulBlackChef2),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(seoulWhiteChef),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
+            chefJpaRepository.save(seoulBlackChef1);
+            chefJpaRepository.save(seoulBlackChef2);
+            chefJpaRepository.save(seoulWhiteChef);
+            
 
             // when
             ResponseEntity<ApiResponse<List<PerformerResponse.ChefClusterInfo>>> response = testRestTemplate.exchange(
@@ -1614,12 +1480,12 @@ class PerformerApiE2ETest {
 
             PerformerResponse.ChefClusterInfo seoulCluster = response.getBody().data()
                     .stream()
-                    .filter(cluster -> cluster.region().equals("서울특별시"))
+                    .filter(cluster -> cluster.region().equals("SEOUL"))
                     .findFirst()
                     .orElseThrow();
 
             assertAll(
-                    () -> assertThat(seoulCluster.region()).isEqualTo("서울특별시"),
+                    () -> assertThat(seoulCluster.region()).isEqualTo("SEOUL"),
                     () -> assertThat(seoulCluster.blackCount()).isEqualTo(2),
                     () -> assertThat(seoulCluster.whiteCount()).isEqualTo(1),
                     () -> assertThat(seoulCluster.latitude()).isEqualTo(37.5665),
@@ -1630,11 +1496,11 @@ class PerformerApiE2ETest {
         @Test
         @DisplayName("address가 없는 Chef는 클러스터 집계에서 제외된다")
         void getChefClusters_excludesChefsWithoutAddress() {
-            // given - address가 없는 Chef
-            PerformerRequest.RegisterChef chefWithoutAddress = new PerformerRequest.RegisterChef(
+            // given
+            PerformerCommand.RegisterChef registerCommand = new PerformerCommand.RegisterChef(
                     "안유성",
                     null,
-                    "BLACK",
+                    Chef.Type.BLACK,
                     "가게",
                     null,  // address 없음
                     null,
@@ -1644,12 +1510,9 @@ class PerformerApiE2ETest {
                     null
             );
 
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(chefWithoutAddress),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
+            Chef chef = Chef.of(registerCommand);
+            chefJpaRepository.save(chef);
+            
 
             // when
             ResponseEntity<ApiResponse<List<PerformerResponse.ChefClusterInfo>>> response = testRestTemplate.exchange(
@@ -1669,10 +1532,10 @@ class PerformerApiE2ETest {
         @DisplayName("Region enum에 없는 주소는 클러스터 집계에서 제외된다")
         void getChefClusters_excludesUnknownRegions() {
             // given - Region enum에 없는 주소 (예: 잘못된 형식)
-            PerformerRequest.RegisterChef chefWithInvalidAddress = new PerformerRequest.RegisterChef(
+            Chef chef = Chef.of(new PerformerCommand.RegisterChef(
                     "김철수",
                     null,
-                    "BLACK",
+                    Chef.Type.BLACK,
                     "가게",
                     "알수없는지역 어딘가 123",  // Region enum에 없음
                     null,
@@ -1680,14 +1543,10 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null
-            );
+            ));
 
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(chefWithInvalidAddress),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
+            chefJpaRepository.save(chef);
+            
 
             // when
             ResponseEntity<ApiResponse<List<PerformerResponse.ChefClusterInfo>>> response = testRestTemplate.exchange(
@@ -1707,10 +1566,10 @@ class PerformerApiE2ETest {
         @DisplayName("여러 시/도에 걸쳐 Chef가 있으면 각각 집계된다")
         void getChefClusters_aggregatesMultipleRegions() {
             // given - 서울, 부산, 경기도에 각각 Chef 등록
-            PerformerRequest.RegisterChef seoulChef = new PerformerRequest.RegisterChef(
+            Chef seoulChef = Chef.of(new PerformerCommand.RegisterChef(
                     "서울셰프",
                     null,
-                    "BLACK",
+                    Chef.Type.BLACK,
                     "서울가게",
                     "서울특별시 강남구 테헤란로 123",
                     null,
@@ -1718,12 +1577,12 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null
-            );
+            ));
 
-            PerformerRequest.RegisterChef busanChef = new PerformerRequest.RegisterChef(
+            Chef busanChef = Chef.of(new PerformerCommand.RegisterChef(
                     "부산셰프",
                     null,
-                    "WHITE",
+                    Chef.Type.WHITE,
                     "부산가게",
                     "부산광역시 해운대구 해운대로 456",
                     null,
@@ -1731,12 +1590,12 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null
-            );
+            ));
 
-            PerformerRequest.RegisterChef gyeonggiChef = new PerformerRequest.RegisterChef(
+            Chef gyeonggiChef = Chef.of(new PerformerCommand.RegisterChef(
                     "경기셰프",
                     null,
-                    "BLACK",
+                    Chef.Type.BLACK,
                     "경기가게",
                     "경기도 성남시 분당구 판교역로 789",
                     null,
@@ -1744,26 +1603,12 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null
-            );
+            ));
 
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(seoulChef),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(busanChef),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(gyeonggiChef),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
+            chefJpaRepository.save(seoulChef);
+            chefJpaRepository.save(busanChef);
+            chefJpaRepository.save(gyeonggiChef);
+            
 
             // when
             ResponseEntity<ApiResponse<List<PerformerResponse.ChefClusterInfo>>> response = testRestTemplate.exchange(
@@ -1782,17 +1627,17 @@ class PerformerApiE2ETest {
                     .map(PerformerResponse.ChefClusterInfo::region)
                     .toList();
 
-            assertThat(regionNames).containsExactlyInAnyOrder("서울특별시", "부산광역시", "경기도");
+            assertThat(regionNames).containsExactlyInAnyOrder("SEOUL", "BUSAN", "GYEONGGI");
         }
 
         @Test
         @DisplayName("응답 데이터는 모든 필드를 포함한다")
         void getChefClusters_includesAllFields() {
             // given
-            PerformerRequest.RegisterChef seoulChef = new PerformerRequest.RegisterChef(
+            Chef chef = Chef.of(new PerformerCommand.RegisterChef(
                     "권성준",
                     null,
-                    "BLACK",
+                    Chef.Type.BLACK,
                     "가게",
                     "서울특별시 강남구 테헤란로 123",
                     null,
@@ -1800,14 +1645,10 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null
-            );
+            ));
 
-            testRestTemplate.exchange(
-                    ENDPOINT_REGISTER_CHEF,
-                    HttpMethod.POST,
-                    new HttpEntity<>(seoulChef),
-                    new ParameterizedTypeReference<ApiResponse<Object>>() {}
-            );
+            chefJpaRepository.save(chef);
+            
 
             // when
             ResponseEntity<ApiResponse<List<PerformerResponse.ChefClusterInfo>>> response = testRestTemplate.exchange(

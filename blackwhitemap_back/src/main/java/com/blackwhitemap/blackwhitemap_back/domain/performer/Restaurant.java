@@ -52,6 +52,7 @@ public class Restaurant {
         BISTRO("비스트로"),
         OMAKASE("오마카세"),
         BBQ("바베큐"),
+        FRENCH("프렌치"),
         CAFE("카페/베이커리");
 
         private final String koreanLabel;
