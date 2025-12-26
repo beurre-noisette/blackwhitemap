@@ -12,6 +12,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.blackwhitemap.blackwhitemap_back.domain.performer.QChef.chef;
 
@@ -50,10 +51,16 @@ public class PerformerQueryRepositoryImpl implements PerformerQueryRepository {
 
         // e.g. {SEOUL={BLACK=10, WHITE=5}, BUSAN={BLACK=7, WHITE=3}}
         Map<Region, Map<Chef.Type, Long>> regionStats = chefs.stream()
+                .flatMap(chef -> {
+                    Region region = Region.fromAddress(chef.getRestaurant().getAddress());
+                    return region != null
+                            ? Stream.of(Map.entry(chef, region))
+                            : Stream.empty();
+                })
                 .collect(Collectors.groupingBy(
-                        chef -> Region.fromAddress(chef.getRestaurant().getAddress()),
+                        Map.Entry::getValue,
                         Collectors.groupingBy(
-                                Chef::getType,
+                                entry -> entry.getKey().getType(),
                                 Collectors.counting()
                         )
                 ));
