@@ -48,7 +48,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '신동민' AND nickname = '요리과학자' AND restaurant_name = '멘야미코' AND restaurant_small_address = '강남'),
-    '흑_멘야미코_요리과학자.jpg',
+    'black_menyamiko_cookscientist.jpg',
     0
 );
 
@@ -98,7 +98,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '신동민' AND nickname = '요리과학자' AND restaurant_name = '당옥' AND restaurant_small_address = '가로수길'),
-    '흑_당옥_요리과학자.jpg',
+    'black_dankok_cookscientist.jpg',
     0
 );
 
@@ -148,7 +148,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '유용욱' AND nickname = '바베큐연구소장' AND restaurant_name = '유용욱바베큐연구소' AND restaurant_small_address = '남영'),
-    '흑_유용욱바베큐연구소_바베큐연구소장.jpg',
+    'black_yooyongwookbbqlab_bbqresearchdirector.jpg',
     0
 );
 
@@ -198,7 +198,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '유용욱' AND nickname = '바베큐연구소장' AND restaurant_name = '이목스모크다이닝' AND restaurant_small_address = '신사'),
-    '흑_이목스모크다이닝_바베큐연구소장.jpg',
+    'black_emoksmokedining_bbqresearchdirector.jpg',
     0
 );
 
@@ -248,7 +248,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '신계숙' AND nickname = '중식 폭주족' AND restaurant_name = '계향각' AND restaurant_small_address = '혜화'),
-    '흑_계향각_중식 폭주족.jpg',
+    'black_gyeheyanggak_chineseracer.jpg',
     0
 );
 
@@ -298,7 +298,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '이문정' AND nickname = '중식 마녀'),
-    '흑_(정보 없음)_중식 마녀.jpg',
+    'black_unknown_chinesewitch.jpg',
     0
 );
 
@@ -348,7 +348,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '신현도' AND nickname = '칼마카세' AND restaurant_name = '히카리모노' AND restaurant_small_address = '광화문'),
-    '흑_히카리모노_칼마카세.jpg',
+    'black_hikarimono_knifemakase.jpg',
     0
 );
 
@@ -398,7 +398,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '신현도' AND nickname = '칼마카세' AND restaurant_name = '모노로그' AND restaurant_small_address = '청담'),
-    '흑_모노로그_칼마카세.jpg',
+    'black_monologue_knifemakase.jpg',
     0
 );
 
@@ -448,7 +448,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김상훈' AND nickname = '4평 외톨이' AND restaurant_name = '독립식당' AND restaurant_small_address = '종로'),
-    '흑_독립식당_4평 외톨이.jpg',
+    'black_dokripsikdang_4pyeongloner.jpg',
     0
 );
 
@@ -498,7 +498,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김상훈' AND nickname = '4평 외톨이' AND restaurant_name = '독도16도' AND restaurant_small_address = '서촌'),
-    '흑_독도16도_4평 외톨이.jpg',
+    'black_dokdo16do_4pyeongloner.jpg',
     0
 );
 
@@ -548,7 +548,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김만희' AND nickname = '휴게소 총괄셰프' AND restaurant_name = '용인(인천)휴게소'),
-    '흑_용인(인천)휴게소_휴게소 총괄셰프.jpg',
+    'black_yongin(incheon)restarea_restareaheadchef.jpg',
     0
 );
 
@@ -598,7 +598,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '안진호' AND nickname = '쓰리스타 킬러'),
-    '흑_(정보 없음)_쓰리스타 킬러.jpg',
+    'black_unknown_3starkiller.jpg',
     0
 );
 
@@ -648,7 +648,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '방효숙' AND nickname = '전설의 학식뷰페' AND restaurant_name = '구들장흑도야지' AND restaurant_small_address = '용인'),
-    '흑_구들장흑도야지_전설의 학식뷰페.jpg',
+    'black_gudeuljanghyukdoyaji_legendarycafeteriabuffet.jpg',
     0
 );
 
@@ -698,7 +698,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '이재훈' AND nickname = '서촌 황태자' AND restaurant_name = '까델루포' AND restaurant_small_address = '서촌'),
-    '흑_까델루포_서촌 황태자.jpg',
+    'black_cadellupo_seochoncrownprince.jpg',
     0
 );
 
@@ -748,7 +748,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '마티유 몰스' AND nickname = '안녕 봉주르' AND restaurant_name = '셰누프라이빗키친' AND restaurant_small_address = '용산'),
-    '흑_셰누프라이빗키친_안녕 봉주르.jpg',
+    'black_chefnuprivatekitchen_bonjourhello.jpg',
     0
 );
 
@@ -798,7 +798,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김훈' AND nickname = '유행왕' AND restaurant_name = '쌤쌤쌤 용산점' AND restaurant_small_address = '삼각지'),
-    '흑_쌤쌤쌤 용산점_유행왕.jpg',
+    'black_samsamsamyongsan_trendking.jpg',
     0
 );
 
@@ -848,7 +848,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김훈' AND nickname = '유행왕' AND restaurant_name = '남도돼지촌' AND restaurant_small_address = '삼각지'),
-    '흑_남도돼지촌_유행왕.jpg',
+    'black_namdodwejichon_trendking.jpg',
     0
 );
 
@@ -898,7 +898,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '정시우' AND nickname = '닭발로 16억' AND restaurant_name = '삼미분식' AND restaurant_small_address = '이천'),
-    '흑_삼미분식_닭발로 16억.jpg',
+    'black_sammibunsik_chickenfeet1.6billion.jpg',
     0
 );
 
@@ -936,7 +936,7 @@ INSERT INTO chef (
     NULL,
     NULL,
     NULL,
-    NULL,
+    'DINING',
     NULL,
     NULL,
     NULL
@@ -948,7 +948,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '이하성' AND nickname = '요리괴물' AND restaurant_name = '오야트(Oyatte)'),
-    '흑_오야트(Oyatte) (예정)_요리괴물.jpg',
+    'black_oyatte_cookingmonster.jpg',
     0
 );
 
@@ -998,7 +998,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김재호' AND nickname = '디어 그랜마'),
-    '흑_(정보 없음)_디어 그랜마.jpg',
+    'black_unknown_deargrandma.jpg',
     0
 );
 
@@ -1048,7 +1048,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '담소룡' AND nickname = '지랄 쓰부' AND restaurant_name = '동보성' AND restaurant_small_address = '선릉'),
-    '흑_동보성_지랄 쓰부.jpg',
+    'black_dongboseong_crazytsuru.jpg',
     0
 );
 
@@ -1098,7 +1098,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '박주성' AND nickname = '무쇠팔' AND restaurant_name = '소바쥬' AND restaurant_small_address = '마포'),
-    '흑_소바쥬_무쇠팔.jpg',
+    'black_sauvage_ironarm.jpg',
     0
 );
 
@@ -1148,7 +1148,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '이정수' AND nickname = '김치다이닝' AND restaurant_name = '온6.5' AND restaurant_small_address = '안국'),
-    '흑_온6.5_김치다이닝.jpg',
+    'black_on6.5_kimchidining.jpg',
     0
 );
 
@@ -1198,7 +1198,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '이순실' AND nickname = '평양 큰형님' AND restaurant_name = '이순실평양명가' AND restaurant_small_address = '화성시'),
-    '흑_이순실평양명가_평양 큰형님.jpg',
+    'black_isoonsilpyeongyangmyeongga_pyeongyangbigbrother.jpg',
     0
 );
 
@@ -1248,7 +1248,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '정희승' AND nickname = '연마대왕'),
-    '흑_(정보 없음)_연마대왕.jpg',
+    'black_unknown_grindingemperor.jpg',
     0
 );
 
@@ -1298,7 +1298,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '윤나라' AND nickname = '술 빚는 윤주모' AND restaurant_name = '해방촌 윤주당' AND restaurant_small_address = '해방촌'),
-    '흑_해방촌 윤주당_술 빚는 윤주모.jpg',
+    'black_haebangchunyounjudang_brewingmaster.jpg',
     0
 );
 
@@ -1348,7 +1348,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '채명희' AND nickname = '밥도둑 포차' AND restaurant_name = '은진포차' AND restaurant_small_address = '영등포'),
-    '흑_은진포차_밥도둑 포차.jpg',
+    'black_eunjinpocha_ricethiefpocha.jpg',
     0
 );
 
@@ -1398,7 +1398,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김호윤' AND nickname = '키친 보스' AND restaurant_name = '더이탈리안 클럽' AND restaurant_small_address = '판교'),
-    '흑_더이탈리안 클럽_키친 보스.jpg',
+    'black_theitalianclub_kitchenboss.jpg',
     0
 );
 
@@ -1448,7 +1448,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김호윤' AND nickname = '키친 보스' AND restaurant_name = '중식당 청 한남점' AND restaurant_small_address = '한남'),
-    '흑_중식당 청 한남점_키친 보스.jpg',
+    'black_chunghannamsik_kitchenboss.jpg',
     0
 );
 
@@ -1498,7 +1498,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '타미 리' AND nickname = '프렌치 파파' AND restaurant_name = '비스트로 드 욘트빌' AND restaurant_small_address = '청담'),
-    '흑_비스트로 드 욘트빌_프렌치 파파.jpg',
+    'black_bistrodeyontville_frenchpapa.jpg',
     0
 );
 
@@ -1548,7 +1548,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '남성렬' AND nickname = '황금손' AND restaurant_name = '어물전 청' AND restaurant_small_address = '한남'),
-    '흑_어물전 청_황금손.jpg',
+    'black_eomuljeoncheong_goldenhand.jpg',
     0
 );
 
@@ -1598,7 +1598,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '남성렬' AND nickname = '황금손' AND restaurant_name = '신안가옥' AND restaurant_small_address = '논현'),
-    '흑_신안가옥_황금손.jpg',
+    'black_sinangaok_goldenhand.jpg',
     0
 );
 
@@ -1648,7 +1648,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김시현' AND nickname = '아기 맹수' AND restaurant_name = '솔밤' AND restaurant_small_address = '논현'),
-    '흑_솔밤_아기 맹수.jpg',
+    'black_solbam_babybeast.jpg',
     0
 );
 
@@ -1698,7 +1698,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김효숙' AND nickname = '2등의 손맛'),
-    '흑_(정보 없음)_2등의 손맛.jpg',
+    'black_unknown_secondplacetaste.jpg',
     0
 );
 
@@ -1748,7 +1748,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '박가람' AND nickname = '천생연분' AND restaurant_name = '드레스덴 그린' AND restaurant_small_address = '청담'),
-    '흑_드레스덴 그린_천생연분.jpg',
+    'black_dresdengreen_soulmate.jpg',
     0
 );
 
@@ -1798,7 +1798,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '윤태호' AND nickname = '튀김의 기술' AND restaurant_name = '덴푸라 키이로' AND restaurant_small_address = '가로수길'),
-    '흑_덴푸라 키이로_튀김의 기술.jpg',
+    'black_tempurakiiro_fryingskill.jpg',
     0
 );
 
@@ -1848,7 +1848,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '옥동식' AND nickname = '뉴욕 기사식당' AND restaurant_name = '옥동식' AND restaurant_small_address = '합정'),
-    '흑_옥동식_뉴욕 기사식당.jpg',
+    'black_okdongsik_newyorkdriverrestaurant.jpg',
     0
 );
 
@@ -1898,7 +1898,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '옥동식' AND nickname = '뉴욕 기사식당' AND restaurant_name = '옥동식' AND restaurant_small_address = '하남'),
-    '흑_옥동식_뉴욕 기사식당.jpg',
+    'black_okdongsik_newyorkdriverrestaurant.jpg',
     0
 );
 
@@ -1948,7 +1948,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '윤아름' AND nickname = '앵그리 코리안' AND restaurant_name = '비스트로 앤트로' AND restaurant_small_address = '압구정'),
-    '흑_비스트로 앤트로_앵그리 코리안.jpg',
+    'black_bistroantro_angrykorean.jpg',
     0
 );
 
@@ -1998,7 +1998,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '이선희' AND nickname = '5성급 김치대가' AND restaurant_name = '그랜드 워커힐 서울'),
-    '흑_그랜드 워커힐 서울_5성급 김치대가.jpg',
+    'black_grandwalkerhillseoul_5starkimchimaster.jpg',
     0
 );
 
@@ -2048,7 +2048,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name IS NULL AND nickname = '최저시급'),
-    '흑_(정보 없음)_최저시급.jpg',
+    'black_unknown_minimumwage.jpg',
     0
 );
 
@@ -2098,7 +2098,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '장보원' AND nickname = '삼대가중식' AND restaurant_name = '보보식당' AND restaurant_small_address = '광화문'),
-    '흑_보보식당_삼대가중식.jpg',
+    'black_bobosikdang_3rdgenerationchinese.jpg',
     0
 );
 
@@ -2148,7 +2148,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김민성' AND nickname = '줄서는 돈가스' AND restaurant_name = '헤키' AND restaurant_small_address = '망원'),
-    '흑_헤키_줄서는 돈가스.jpg',
+    'black_heki_lineduptonkatsu.jpg',
     0
 );
 
@@ -2198,7 +2198,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name IS NULL AND nickname = '5500원 영양사'),
-    '흑_(정보 없음)_5500원 영양사.jpg',
+    'black_unknown_5500wonnutritionist.jpg',
     0
 );
 
@@ -2248,7 +2248,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김시연' AND nickname = '반찬술사' AND restaurant_name = '온하루 사랑방' AND restaurant_small_address = '서촌'),
-    '흑_온하루 사랑방_반찬술사.jpg',
+    'black_onharusarangbang_sidedishmagician.jpg',
     0
 );
 
@@ -2298,7 +2298,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '명현지' AND nickname = '그때 명셰프' AND restaurant_name = '아선재' AND restaurant_small_address = '대치동'),
-    '흑_아선재_그때 명셰프.jpg',
+    'black_aseonjae_thenfamouschef.jpg',
     0
 );
 
@@ -2348,7 +2348,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '옥동식' AND nickname = '뉴욕에 간 돼지곰탕' AND restaurant_name = '옥동식' AND restaurant_small_address = '합정'),
-    '흑_옥동식_뉴욕에 간 돼지곰탕.jpg',
+    'black_okdongsik_newyorkdwejigomtang.jpg',
     0
 );
 
@@ -2398,7 +2398,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name IS NULL AND nickname = '번아웃 요리사'),
-    '흑_(정보 없음)_번아웃 요리사.jpg',
+    'black_unknown_burnoutchef.jpg',
     0
 );
 
@@ -2448,7 +2448,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name IS NULL AND nickname = '빠다걸'),
-    '흑_(정보 없음)_빠다걸.jpg',
+    'black_unknown_paddagirl.jpg',
     0
 );
 
@@ -2498,7 +2498,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name IS NULL AND nickname = '샐딱한 천재'),
-    '흑_(정보 없음)_샐딱한 천재.jpg',
+    'black_unknown_sharpgenius.jpg',
     0
 );
 
@@ -2548,7 +2548,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '나원계' AND nickname = '내장백서' AND restaurant_name = '호루몬' AND restaurant_small_address = '도산공원'),
-    '흑_호루몬_내장백서.jpg',
+    'black_horumon_innardwhitepaper.jpg',
     0
 );
 
@@ -2598,7 +2598,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '손영철' AND nickname = '메이드 인 코리아' AND restaurant_name = '보타르가 비노' AND restaurant_small_address = '청담'),
-    '흑_보타르가 비노_메이드 인 코리아.jpg',
+    'black_bottargavino_madeinkorea.jpg',
     0
 );
 
@@ -2648,7 +2648,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김진래' AND nickname = '8국마스터' AND restaurant_name = '불래' AND restaurant_small_address = '한남'),
-    '흑_불래_8국마스터.jpg',
+    'black_bullae_8countrymaster.jpg',
     0
 );
 
@@ -2698,7 +2698,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김진래' AND nickname = '8국마스터' AND restaurant_name = '서울다이닝' AND restaurant_small_address = '장충동'),
-    '흑_서울다이닝_8국마스터.jpg',
+    'black_seouldining_8countrymaster.jpg',
     0
 );
 
@@ -2748,7 +2748,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '용석원' AND nickname = '파리 4.9' AND restaurant_name = 'Perception'),
-    '흑_Perception_파리 4.9.jpg',
+    'black_perception_paris4.9.jpg',
     0
 );
 
@@ -2798,7 +2798,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김두래' AND nickname = '떡볶이 명인' AND restaurant_name = '떡산' AND restaurant_small_address = '연신내'),
-    '흑_떡산_떡볶이 명인.jpg',
+    'black_tteoksan_tteokbokkimaster.jpg',
     0
 );
 
@@ -2848,7 +2848,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '양수현' AND nickname = '채소 프린스' AND restaurant_name = '양출서울' AND restaurant_small_address = '논현'),
-    '흑_양출서울_채소 프린스.jpg',
+    'black_yangchulseoul_vegetableprince.jpg',
     0
 );
 
@@ -2898,7 +2898,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '윤대현' AND nickname = '평냉신성' AND restaurant_name = '옥돌현옥' AND restaurant_small_address = '가락'),
-    '흑_옥돌현옥_평냉신성.jpg',
+    'black_okdolhyeonok_pyeongnaengrising.jpg',
     0
 );
 
@@ -2948,7 +2948,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '신동일' AND nickname = '축구 국대 요리사' AND restaurant_name = '대한축구협회 (경력)'),
-    '흑_대한축구협회 (경력)_축구 국대 요리사.jpg',
+    'black_kfa_nationalteamchef.jpg',
     0
 );
 
@@ -2998,7 +2998,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '양수현' AND nickname = '망원시장 히어로' AND restaurant_name = '바삭마차' AND restaurant_small_address = '마포'),
-    '흑_바삭마차_망원시장 히어로.jpg',
+    'black_basakmacha_mangwonmarkethero.jpg',
     0
 );
 
@@ -3048,7 +3048,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '원성훈' AND nickname = '라오스홀릭' AND restaurant_name = '라오삐약' AND restaurant_small_address = '용리단길'),
-    '흑_라오삐약_라오스홀릭.jpg',
+    'black_laopiyak_laosholic.jpg',
     0
 );
 
@@ -3098,7 +3098,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김태우' AND nickname = '부채도사' AND restaurant_name = '동경밥상 본점' AND restaurant_small_address = '부산 광안리'),
-    '흑_동경밥상 본점_부채도사.jpg',
+    'black_tokyobapsang_fanmaster.jpg',
     0
 );
 
@@ -3148,7 +3148,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김태우' AND nickname = '부채도사' AND restaurant_name = '오코메' AND restaurant_small_address = '부산 광안리'),
-    '흑_오코메_부채도사.jpg',
+    'black_okome_fanmaster.jpg',
     0
 );
 
@@ -3198,7 +3198,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '홍석진' AND nickname = '선 넘은 짜장' AND restaurant_name = '무탄' AND restaurant_small_address = '압구정'),
-    '흑_무탄_선 넘은 짜장.jpg',
+    'black_mutan_crossedlinejjajang.jpg',
     0
 );
 
@@ -3248,7 +3248,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name IS NULL AND nickname = '오른팔 셰프'),
-    '흑_(정보 없음)_오른팔 셰프.jpg',
+    'black_unknown_righthandchef.jpg',
     0
 );
 
@@ -3298,7 +3298,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name IS NULL AND nickname = '트로피 콜렉터'),
-    '흑_(정보 없음)_트로피 콜렉터.jpg',
+    'black_unknown_trophycollector.jpg',
     0
 );
 
@@ -3348,7 +3348,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '양호실' AND nickname = '마담 샐러드'),
-    '흑_(정보 없음)_마담 샐러드.jpg',
+    'black_unknown_madamsalad.jpg',
     0
 );
 
@@ -3398,7 +3398,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김도형' AND nickname = '어나더 미트볼' AND restaurant_name = '만가타' AND restaurant_small_address = '삼청'),
-    '흑_만가타_어나더 미트볼.jpg',
+    'black_mangata_anothermeatball.jpg',
     0
 );
 
@@ -3448,7 +3448,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김석현' AND nickname = '후레쉬 치즈맨' AND restaurant_name = '몽도' AND restaurant_small_address = '신사'),
-    '흑_몽도_후레쉬 치즈맨.jpg',
+    'black_mongdo_freshcheeseman.jpg',
     0
 );
 
@@ -3498,7 +3498,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '안유성' AND nickname = '못 먹을텐데' AND restaurant_name = '한국횟집' AND restaurant_small_address = '중화'),
-    '흑_한국횟집_못 먹을텐데.jpg',
+    'black_koreahwejip_canteattho.jpg',
     0
 );
 
@@ -3548,7 +3548,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '임홍근' AND nickname = '파스타스타' AND restaurant_name = '페리지' AND restaurant_small_address = '삼성'),
-    '흑_페리지_파스타스타.jpg',
+    'black_perigi_pastastar.jpg',
     0
 );
 
@@ -3598,7 +3598,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '전지오' AND nickname = '샤퀴테리 요정' AND restaurant_name = '랑빠스81' AND restaurant_small_address = '연남'),
-    '흑_랑빠스81_샤퀴테리 요정.jpg',
+    'black_lapas81_charcuteriefairy.jpg',
     0
 );
 
@@ -3648,7 +3648,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '전지오' AND nickname = '샤퀴테리 요정' AND restaurant_name = '바 라핀 부쉬' AND restaurant_small_address = '이태원'),
-    '흑_바 라핀 부쉬_샤퀴테리 요정.jpg',
+    'black_barlapinbouche_charcuteriefairy.jpg',
     0
 );
 
@@ -3698,7 +3698,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '배재훈' AND nickname = '마스터 갓포' AND restaurant_name = '갓포아키 신세주점' AND restaurant_small_address = '제주 제주시'),
-    '흑_갓포아키 신세주점_마스터 갓포.jpg',
+    'black_kappoakisinseju_masterkappo.jpg',
     0
 );
 
@@ -3748,7 +3748,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '황제' AND nickname = '버거 챔피언' AND restaurant_name = '래빗홀버거' AND restaurant_small_address = '화양'),
-    '흑_래빗홀버거_버거 챔피언.jpg',
+    'black_rabbitholeburger_burgerchampion.jpg',
     0
 );
 
@@ -3798,7 +3798,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '윤영민' AND nickname = '을지로 윤차장'),
-    '흑_(정보 없음)_을지로 윤차장.jpg',
+    'black_unknown_euljiroyunchajang.jpg',
     0
 );
 
@@ -3848,7 +3848,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '황지훈' AND nickname = '불타는 호텔맨' AND restaurant_name = '숯. 더 부처스 엣지' AND restaurant_small_address = '여의도'),
-    '흑_숯. 더 부처스 엣지_불타는 호텔맨.jpg',
+    'black_soot.thebutchersedge_burninghotelman.jpg',
     0
 );
 
@@ -3898,7 +3898,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '최규덕' AND nickname = '사시미 검객' AND restaurant_name = '미가키' AND restaurant_small_address = '청담'),
-    '흑_미가키_사시미 검객.jpg',
+    'black_migaki_sashimiswordsman.jpg',
     0
 );
 
@@ -3948,7 +3948,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김민기' AND nickname = '최연소 대사관셰프' AND restaurant_name = '주한 덴마크/노르웨이 대사관'),
-    '흑_주한 덴마크/노르웨이 대사관_최연소 대사관셰프.jpg',
+    'black_denmarknorwayembassy_youngestembassychef.jpg',
     0
 );
 
@@ -3998,7 +3998,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '조경찬' AND nickname = '미스터 사이공' AND restaurant_name = '을지깐깐' AND restaurant_small_address = '을지로'),
-    '흑_을지깐깐_미스터 사이공.jpg',
+    'black_euljikkankan_mistersaigon.jpg',
     0
 );
 
@@ -4048,7 +4048,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '조경찬' AND nickname = '미스터 사이공' AND restaurant_name = '깐깐' AND restaurant_small_address = '광화문'),
-    '흑_깐깐_미스터 사이공.jpg',
+    'black_kkankan_mistersaigon.jpg',
     0
 );
 
@@ -4098,7 +4098,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '박정현' AND nickname = '평가절하' AND restaurant_name = '포그' AND restaurant_small_address = '마포'),
-    '흑_포그_평가절하.jpg',
+    'black_porg_underrated.jpg',
     0
 );
 
@@ -4148,7 +4148,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name IS NULL AND nickname = '남해 힙스터' AND restaurant_name = '힙한식' AND restaurant_small_address = '남해'),
-    '흑_힙한식_남해 힙스터.jpg',
+    'black_hiphansik_namhaehipster.jpg',
     0
 );
 
@@ -4198,7 +4198,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '윤석환' AND nickname = '투스타 라면' AND restaurant_name = '칸세이' AND restaurant_small_address = '가락'),
-    '흑_칸세이_투스타 라면.jpg',
+    'black_kansei_2starramen.jpg',
     0
 );
 
@@ -4248,7 +4248,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name IS NULL AND nickname = '파주부전'),
-    '흑_(정보 없음)_파주부전.jpg',
+    'black_unknown_pajubujeon.jpg',
     0
 );
 
@@ -4298,7 +4298,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '박세효' AND nickname = '철판대장' AND restaurant_name = '죠죠' AND restaurant_small_address = '성수'),
-    '흑_죠죠_철판대장.jpg',
+    'black_jojo_griddleboss.jpg',
     0
 );
 
@@ -4348,7 +4348,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '권옥식' AND nickname = '인생 소시지' AND restaurant_name = '급이다른부대찌개' AND restaurant_small_address = '대전'),
-    '흑_급이다른부대찌개_인생 소시지.jpg',
+    'black_geubidareunbudaejjigae_lifesausage.jpg',
     0
 );
 
@@ -4398,7 +4398,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name IS NULL AND nickname = '영블러드' AND restaurant_name = '레스토랑 온 ON' AND restaurant_small_address = '청담'),
-    '흑_레스토랑 온 ON_영블러드.jpg',
+    'black_restauranton_youngblood.jpg',
     0
 );
 
@@ -4448,7 +4448,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name IS NULL AND nickname = '장어 박사'),
-    '흑_(정보 없음)_장어 박사.jpg',
+    'black_unknown_eeldoctor.jpg',
     0
 );
 
@@ -4498,7 +4498,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '이찬양' AND nickname = '삐딱한 천재' AND restaurant_name = 'Original Numbers 청담' AND restaurant_small_address = '청담'),
-    '흑_Original Numbers 청담_삐딱한 천재.jpg',
+    'black_originalnumberscheongdam_rebelliousgenius.jpg',
     0
 );
 
@@ -4548,7 +4548,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '우정욱' AND nickname = '서울 엄마' AND restaurant_name = '수퍼판' AND restaurant_small_address = '압구정'),
-    '흑_수퍼판_서울 엄마.jpg',
+    'black_superpan_seoulmother.jpg',
     0
 );
 
@@ -4598,7 +4598,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '이선영' AND nickname = '요리하는 방송작가' AND restaurant_name = '동남방앗간' AND restaurant_small_address = '한남'),
-    '흑_동남방앗간_요리하는 방속작가.jpg',
+    'black_dongnambangatgan_cookingbwriter.jpg',
     0
 );
 

@@ -48,7 +48,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김건' AND nickname IS NULL AND restaurant_name = '고료리 켄' AND restaurant_small_address = '도산공원'),
-    'unknown.jpg',
+    'white_goryoriken_kimgeon.jpg',
     0
 );
 
@@ -98,7 +98,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김건' AND nickname IS NULL AND restaurant_name = '회현 카페' AND restaurant_small_address = '회현'),
-    'unknown.jpg',
+    'white_hoehyeoncafe_kimgeon.jpg',
     0
 );
 
@@ -148,7 +148,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김성운' AND nickname IS NULL AND restaurant_name = '테이블포포' AND restaurant_small_address = '한남'),
-    'unknown.jpg',
+    'white_tableforfour_kimsungun.jpg',
     0
 );
 
@@ -198,7 +198,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김희은' AND nickname IS NULL AND restaurant_name = '소울' AND restaurant_small_address = '해방촌'),
-    'unknown.jpg',
+    'white_soul_kimheeun.jpg',
     0
 );
 
@@ -248,7 +248,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김희은' AND nickname IS NULL AND restaurant_name = '에그앤플라워' AND restaurant_small_address = '해방촌'),
-    'unknown.jpg',
+    'white_eggandflour_kimheeun.jpg',
     0
 );
 
@@ -298,7 +298,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '샘 킴' AND nickname IS NULL AND restaurant_name = '뜰라또리아 샘킴' AND restaurant_small_address = '압구정로데오'),
-    'unknown.jpg',
+    'white_trattoriasamkim_samkim.jpg',
     0
 );
 
@@ -348,7 +348,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '샘 킴' AND nickname IS NULL AND restaurant_name = '오스테리아 샘킴' AND restaurant_small_address = '합정'),
-    'unknown.jpg',
+    'white_osteriasamkim_samkim.jpg',
     0
 );
 
@@ -398,7 +398,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '선재스님' AND nickname IS NULL AND restaurant_name = '선재사찰음식문화연구원' AND restaurant_small_address = '용인'),
-    'unknown.jpg',
+    'white_sunjaetempleculinaryresearchinstitute_sunjaesnim.jpg',
     0
 );
 
@@ -448,7 +448,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '손종원' AND nickname IS NULL AND restaurant_name = '이타닉 가든' AND restaurant_small_address = '역삼'),
-    'unknown.jpg',
+    'white_eatanicgarden_sonjongwon.jpg',
     0
 );
 
@@ -498,7 +498,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '손종원' AND nickname IS NULL AND restaurant_name = '라망 시크레' AND restaurant_small_address = '회현'),
-    'unknown.jpg',
+    'white_lamantsecret_sonjongwon.jpg',
     0
 );
 
@@ -548,7 +548,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '이금희' AND nickname IS NULL AND restaurant_name = '봉래헌' AND restaurant_small_address = '김포공항'),
-    '백_스와니에_이준.jpg',
+    'white_bongraeheon_leegeumhee.jpg',
     0
 );
 
@@ -598,7 +598,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '이준' AND nickname IS NULL AND restaurant_name = 'SOIGNE' AND restaurant_small_address = '신사'),
-    'unknown.jpg',
+    'white_soigne_leejun.jpg',
     0
 );
 
@@ -648,7 +648,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '이준' AND nickname IS NULL AND restaurant_name = '루드베키아' AND restaurant_small_address = '광화문'),
-    'unknown.jpg',
+    'white_rudbeckia_leejun.jpg',
     0
 );
 
@@ -698,7 +698,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '이준' AND nickname IS NULL AND restaurant_name = '도우룸' AND restaurant_small_address = '서래마을'),
-    'unknown.jpg',
+    'white_doughroom_leejun.jpg',
     0
 );
 
@@ -748,7 +748,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '임성근' AND nickname IS NULL AND restaurant_name = '임성근국가공인진갈비 오산점' AND restaurant_small_address = '오산'),
-    'unknown.jpg',
+    'white_imsunggeunstatecertifiedjingalbiosan_imsunggeun.jpg',
     0
 );
 
@@ -798,7 +798,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '정호영' AND nickname IS NULL AND restaurant_name = '카덴' AND restaurant_small_address = '연희'),
-    'unknown.jpg',
+    'white_caden_junghoyoung.jpg',
     0
 );
 
@@ -898,7 +898,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '최유강' AND nickname IS NULL AND restaurant_name = '코자차' AND restaurant_small_address = '청담'),
-    'unknown.jpg',
+    'white_kojacha_choiyugang.jpg',
     0
 );
 
@@ -948,7 +948,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '후덕죽' AND nickname IS NULL AND restaurant_name = '앰배서더 서울 풀만 호빈' AND restaurant_small_address = '장충동'),
-    'unknown.jpg',
+    'white_theambassadorseoulpullmanhaobin_hudeokjuk.jpg',
     0
 );
 
@@ -1048,7 +1048,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '박효남' AND nickname IS NULL AND restaurant_name = '콩두 명동' AND restaurant_small_address = '명동'),
-    'unknown.jpg',
+    'white_congdumyeongdong_parkhyonam.jpg',
     0
 );
 
@@ -1098,7 +1098,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '송훈' AND nickname IS NULL AND restaurant_name = '크라운돼지' AND restaurant_small_address = '신사'),
-    'unknown.jpg',
+    'white_crownpig_songhoon.jpg',
     0
 );
 
@@ -1198,7 +1198,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김도윤' AND nickname IS NULL AND restaurant_name = '윤서울' AND restaurant_small_address = '압구정로데오'),
-    'unknown.jpg',
+    'white_yunseoul_kimdoyun.jpg',
     0
 );
 
@@ -1248,7 +1248,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '김도윤' AND nickname IS NULL AND restaurant_name = '면서울' AND restaurant_small_address = '압구정로데오'),
-    'unknown.jpg',
+    'white_myeonseoul_kimdoyun.jpg',
     0
 );
 
@@ -1348,7 +1348,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '천상현' AND nickname IS NULL AND restaurant_name = '천상현의 천상' AND restaurant_small_address = '양재'),
-    'unknown.jpg',
+    'white_cheonsanghyeoncheonsang_cheonsanghyeon.jpg',
     0
 );
 

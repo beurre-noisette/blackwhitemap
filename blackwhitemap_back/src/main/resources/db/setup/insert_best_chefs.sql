@@ -11,7 +11,7 @@ insert into chef_ranking(
 ) VALUES (
           '2025-12-23 00:00:01',
           1,
-          100,
+          101,
           now(),
           NULL,
           nextval('chef_ranking_id_seq'),
@@ -55,7 +55,7 @@ insert into chef_ranking(
 ) VALUES (
              '2025-12-23 00:00:03',
              3,
-             117,
+             108,
              now(),
              NULL,
              nextval('chef_ranking_id_seq'),
@@ -77,7 +77,7 @@ insert into chef_ranking(
 ) VALUES (
              '2025-12-23 00:00:04',
              4,
-             6,
+             111,
              now(),
              NULL,
              nextval('chef_ranking_id_seq'),
@@ -99,7 +99,7 @@ insert into chef_ranking(
 ) VALUES (
              '2025-12-23 00:00:05',
              5,
-             3,
+             99,
              now(),
              NULL,
              nextval('chef_ranking_id_seq'),
