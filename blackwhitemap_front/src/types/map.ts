@@ -2,7 +2,7 @@ import { ChefType } from "@/types/chef.ts";
 
 /**
  * 지도에 표시할 클러스터 정보
- * - region: 시/도 이름 (e.g. "서울특별시", "경기도")
+ * - region: Region ENUM name (e.g. "SEOUL", "BUSAN", "GYEONGGI")
  * - blackCount: 해당 지역의 흑요리사 수
  * - whiteCount: 해당 지역의 백요리사 수
  * - latitude: 지역 중심 위도 (클러스터 마커 표시 위치)

@@ -36,6 +36,7 @@ export interface ChefInfoResponse {
 
 /**
  * 백엔드 PerformerResponse.ChefClusterInfo
+ * - region: Region ENUM name (e.g. "SEOUL", "BUSAN", "GYEONGGI")
  */
 export interface ChefClusterInfoResponse {
   region: string;

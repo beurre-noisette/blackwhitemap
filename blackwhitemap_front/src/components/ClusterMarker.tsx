@@ -1,5 +1,6 @@
 import { ChefCluster } from "@/types/map.ts";
 import { cn } from "@/utils/cn.ts";
+import { formatRegionName } from "@/utils/regionUtils.ts";
 
 interface ClusterMarkerProps {
   cluster: ChefCluster;
@@ -25,12 +26,8 @@ interface ClusterMarkerProps {
 export const ClusterMarker = ({ cluster, onClick }: ClusterMarkerProps) => {
   const { blackCount, whiteCount, region } = cluster;
 
-  // 지역명 축약 (서울특별시 → 서울)
-  const regionName = region
-    .replace("특별시", "")
-    .replace("광역시", "")
-    .replace("특별자치도", "")
-    .replace("도", "");
+  // Region ENUM name을 한글 축약 표시로 변환 (e.g. "SEOUL" → "서울", "GYEONGGI" → "경기")
+  const regionName = formatRegionName(region);
 
   const hasBoth = blackCount > 0 && whiteCount > 0;
 
@@ -47,7 +44,7 @@ export const ClusterMarker = ({ cluster, onClick }: ClusterMarkerProps) => {
         "gap-[10px]",
         "h-[26px]",
         {
-          /* 1. 행간이 안맞나 2. 텍스트(하위 컨테이너)가 가운데 정렬이 안되나 3. 상위 컨테이너 서울+(숫자)의 컨테이너가 버튼의 가운데 정렬로 정의되지 않았나 */
+          /* FIXME 1. 행간이 안맞나 2. 텍스트(하위 컨테이너)가 가운데 정렬이 안되나 3. 상위 컨테이너 서울+(숫자)의 컨테이너가 버튼의 가운데 정렬로 정의되지 않았나 */
         },
       )}
     >
