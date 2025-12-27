@@ -10,6 +10,7 @@ export interface ChefBase {
   type: ChefType;
   restaurantName: string;
   address: string;
+  smallAddress: string;
   category: string;
   imageUrls: string[];
   viewCount: number;
@@ -20,8 +21,8 @@ export interface ChefBase {
  * - 지도에 표시할 전체 셰프 목록
  */
 export interface ChefInfo extends ChefBase {
-  latitude: number;           // 지도 마커용
-  longitude: number;          // 지도 마커용
+  latitude: number; // 지도 마커용
+  longitude: number; // 지도 마커용
   naverReservationUrl: string | null;
   catchTableUrl: string | null;
   instagramUrl: string | null;
@@ -32,7 +33,7 @@ export interface ChefInfo extends ChefBase {
  * - ChefDetailContent에서 사용
  */
 export interface ChefDetail extends ChefInfo {
-  closedDays: string[];      // ["일", "월"]
+  closedDays: string[]; // ["일", "월"]
 }
 
 /**

@@ -22,6 +22,7 @@ export interface ChefInfoResponse {
   type: string;
   restaurantName: string;
   address: string;
+  smallAddress: string;
   latitude: number;
   longitude: number;
   closedDays: string; // "일,월" 형태
@@ -54,6 +55,7 @@ export interface WeeklyBestChefResponse {
   type: string;
   restaurantName: string;
   address: string;
+  smallAddress: string;
   closedDays: string; // "일,월" 형태
   category: string;
   naverReservationUrl: string | null;

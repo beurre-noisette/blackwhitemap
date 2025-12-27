@@ -73,7 +73,7 @@ export const ChefCard = ({
 
             {/* 위치 */}
             <ChefInfoRow iconName="location" label="위치">
-              {chef.address.split(" ")[2] || chef.address.split(" ")[1]}
+              {chef.smallAddress || ""}
             </ChefInfoRow>
 
             {/* 휴무일 */}
@@ -91,18 +91,20 @@ export const ChefCard = ({
             </ChefInfoRow>
 
             {/* 인스타그램 (chefDetail에서만 표시) */}
-            {variant === "chefDetail" && "instagramUrl" in chef && chef.instagramUrl && (
-              <ChefInfoRow iconName="usdCircle" label="공유하기">
-                <a
-                  href={chef.instagramUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs font-normal leading-none tracking-tight text-blue-600 underline truncate"
-                >
-                  인스타그램
-                </a>
-              </ChefInfoRow>
-            )}
+            {variant === "chefDetail" &&
+              "instagramUrl" in chef &&
+              chef.instagramUrl && (
+                <ChefInfoRow iconName="usdCircle" label="공유하기">
+                  <a
+                    href={chef.instagramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-normal leading-none tracking-tight text-blue-600 underline truncate"
+                  >
+                    인스타그램
+                  </a>
+                </ChefInfoRow>
+              )}
           </div>
         </div>
       </div>
