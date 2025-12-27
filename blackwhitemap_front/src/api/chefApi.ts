@@ -1,8 +1,8 @@
 import { get } from "./client";
 import type {
   ApiResponse,
-  ChefInfoResponse,
   ChefClusterInfoResponse,
+  ChefInfoResponse,
 } from "./types";
 import type { ChefDetail, ChefType } from "@/types/chef";
 import type { ChefCluster } from "@/types/map";
@@ -30,6 +30,7 @@ function mapToChefDetail(response: ChefInfoResponse): ChefDetail {
     type: response.type as ChefType,
     restaurantName: response.restaurantName,
     address: response.address,
+    smallAddress: response.smallAddress,
     latitude: response.latitude,
     longitude: response.longitude,
     category: response.category,

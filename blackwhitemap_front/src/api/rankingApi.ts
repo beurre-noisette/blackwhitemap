@@ -23,6 +23,7 @@ function mapToBestChef(response: WeeklyBestChefResponse): BestChef {
     type: response.type as ChefType,
     restaurantName: response.restaurantName,
     address: response.address,
+    smallAddress: response.smallAddress,
     category: response.category,
     imageUrls: response.imageUrls,
     viewCount: response.viewCount,
