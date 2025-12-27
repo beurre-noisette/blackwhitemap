@@ -116,7 +116,7 @@ public class PerformerController {
      * 시/도 단위로 그룹화된 셰프 통계 정보를 반환합니다.
      * - 서비스 초기 로드 시 getChefs API와 함께 호출
      * - 프론트엔드에서 지도 줌 아웃 시 클러스터 마커로 표시
-     * - 캐싱 적용 (1시간 TTL)
+     * - 캐싱 적용 (5분 TTL)
      *
      * @return 클러스터 정보 리스트
      */

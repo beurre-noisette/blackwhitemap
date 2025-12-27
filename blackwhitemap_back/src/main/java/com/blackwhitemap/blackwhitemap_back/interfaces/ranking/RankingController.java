@@ -24,7 +24,7 @@ public class RankingController {
      * 이번주 Best Chef 조회
      * - 현재 주차 (매주 화요일 시작)의 TOP N Chef 조회
      * - 기본값: TOP 5
-     * - 캐시 TTL: 1시간
+     * - 캐시 TTL: 5분
      *
      * @param limit 조회할 랭킹 개수 (기본값 5)
      * @return 주간 Best Chef 정보 리스트

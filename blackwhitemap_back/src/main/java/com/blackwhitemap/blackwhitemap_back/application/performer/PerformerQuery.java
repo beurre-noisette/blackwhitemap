@@ -17,7 +17,7 @@ public class PerformerQuery {
      * Chef 목록 조회 (캐싱 적용)
      * - type에 따라 필터링 (null이면 전체 조회)
      * - address가 있는 Chef만 반환
-     * - 캐시 TTL: 1시간
+     * - 캐시 TTL: 5분
      * - 캐시 키: type을 대문자로 변환 (null은 "ALL")
      *
      * @param criteria 조회 조건
@@ -38,7 +38,7 @@ public class PerformerQuery {
     /**
      * Chef 클러스터 조회 (캐싱 적용)
      * - 시/도별 그룹화된 셰프 통계 정보 반환
-     * - 캐시 TTL: 1시간
+     * - 캐시 TTL: 5분
      * -캐시 키: "ALL"
      *
      * @return 시/도별 Chef 클러스터 정보 리스트

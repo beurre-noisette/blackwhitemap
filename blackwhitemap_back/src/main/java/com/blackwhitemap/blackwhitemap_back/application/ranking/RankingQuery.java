@@ -18,7 +18,7 @@ public class RankingQuery {
     /**
      * 주간 Best Chef 조회 (캐싱 적용)
      * - 현재 주차의 TOP N Chef 조회
-     * - 캐시 TTL: 1시간
+     * - 캐시 TTL: 5분
      * - 캐시 키: 주차시작일_limit (e.g. "2025-12-23_5")
      *
      * @param limit 조회할 랭킹 개수
