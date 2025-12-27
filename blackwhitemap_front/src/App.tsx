@@ -10,7 +10,7 @@ import { BestChef, ChefDetail } from "@/types/chef.ts";
 import { ChefCluster } from "@/types/map.ts";
 import { BottomSheet } from "@/components/BottomSheet.tsx";
 import { KakaoMap } from "@/components/KakaoMap.tsx";
-import { fetchChefs, fetchChefClusters } from "@/api/chefApi";
+import { fetchChefClusters, fetchChefs } from "@/api/chefApi";
 import { fetchWeeklyBestChefs } from "@/api/rankingApi";
 
 function App() {
@@ -98,21 +98,6 @@ function App() {
     setSheetState("chefDetail-default");
   };
 
-  /**
-   * Best Chef 카드 클릭 핸들러
-   * - allChefs에서 전체 정보 찾기
-   */
-  const handleBestChefClick = (bestChef: BestChef) => {
-    const fullChef = allChefs.find((chef) => chef.id === bestChef.id);
-
-    if (fullChef) {
-      setSelectedChef(fullChef);
-      setSheetState("chefDetail-default");
-    } else {
-      console.error(`Chef with id ${bestChef.id} not found in allChefs`);
-    }
-  };
-
   // selectedChef가 null이면 렌더링하지 않음
   if (!selectedChef) {
     return <div>Loading...</div>;
@@ -151,7 +136,6 @@ function App() {
               <BestChefContent
                 chefs={bestChefs}
                 showPreview={sheetState === "bestChef-minimized"}
-                onChefClick={handleBestChefClick}
               />
             </>
           )}

@@ -9,7 +9,6 @@ import "swiper/css/pagination";
 
 export interface BestChefContentProps {
   chefs: BestChef[];
-  onChefClick?: (chef: BestChef) => void;
   showPreview?: boolean; // minimized에서 미리보기 표시 여부
 }
 
@@ -23,7 +22,6 @@ export interface BestChefContentProps {
  */
 export const BestChefContent = ({
   chefs,
-  onChefClick,
 }: BestChefContentProps) => {
   if (!chefs.length) {
     return <p className="text-gray-500 text-center py-8">데이터가 없습니다</p>;
@@ -48,7 +46,6 @@ export const BestChefContent = ({
             <ChefCard
               chef={chef}
               variant="bestChef"
-              onReservationClick={() => onChefClick?.(chef)}
             />
           </SwiperSlide>
         ))}
