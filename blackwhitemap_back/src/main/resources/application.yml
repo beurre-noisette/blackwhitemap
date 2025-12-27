@@ -75,7 +75,7 @@ spring:
 
 app:
   cors:
-    allowed-origins: https://heukbaek.site
+    allowed-origins: https://heukbaek.site,https://www.heukbaek.site
 
 management:
   endpoints:
