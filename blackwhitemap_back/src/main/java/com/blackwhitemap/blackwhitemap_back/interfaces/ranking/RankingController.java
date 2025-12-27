@@ -3,6 +3,7 @@ package com.blackwhitemap.blackwhitemap_back.interfaces.ranking;
 import com.blackwhitemap.blackwhitemap_back.application.ranking.RankingQuery;
 import com.blackwhitemap.blackwhitemap_back.application.ranking.RankingResult;
 import com.blackwhitemap.blackwhitemap_back.interfaces.ApiResponse;
+import com.blackwhitemap.blackwhitemap_back.support.ImageUrlConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import java.util.List;
 public class RankingController {
 
     private final RankingQuery rankingQuery;
+    private final ImageUrlConverter imageUrlConverter;
 
     /**
      * 이번주 Best Chef 조회
@@ -34,7 +36,10 @@ public class RankingController {
         List<RankingResult.WeeklyBestChef> queryResults = rankingQuery.getWeeklyBestChefs(limit);
 
         List<RankingResponse.WeeklyBestChef> response = queryResults.stream()
-                .map(RankingResponse.WeeklyBestChef::from)
+                .map(result -> RankingResponse.WeeklyBestChef.from(
+                        result,
+                        imageUrlConverter.toFullUrls(result.imageUrls())
+                ))
                 .toList();
 
         return ApiResponse.success(response);

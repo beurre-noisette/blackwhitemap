@@ -36,7 +36,10 @@ public class RankingResponse {
             Integer rank,
             Long score
     ) {
-        public static WeeklyBestChef from(RankingResult.WeeklyBestChef rankingResult) {
+        public static WeeklyBestChef from(
+                RankingResult.WeeklyBestChef rankingResult,
+                List<String> fullImageUrls
+        ) {
             return new WeeklyBestChef(
                     rankingResult.id(),
                     rankingResult.name(),
@@ -49,7 +52,7 @@ public class RankingResponse {
                     rankingResult.category(),
                     rankingResult.naverReservationUrl(),
                     rankingResult.catchTableUrl(),
-                    rankingResult.imageUrls(),
+                    fullImageUrls,
                     rankingResult.viewCount(),
                     rankingResult.rank(),
                     rankingResult.score()

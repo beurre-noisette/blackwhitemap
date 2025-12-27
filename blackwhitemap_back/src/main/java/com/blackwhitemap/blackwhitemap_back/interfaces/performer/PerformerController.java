@@ -5,6 +5,7 @@ import com.blackwhitemap.blackwhitemap_back.application.performer.PerformerFacad
 import com.blackwhitemap.blackwhitemap_back.application.performer.PerformerQuery;
 import com.blackwhitemap.blackwhitemap_back.application.performer.PerformerResult;
 import com.blackwhitemap.blackwhitemap_back.interfaces.ApiResponse;
+import com.blackwhitemap.blackwhitemap_back.support.ImageUrlConverter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ public class PerformerController {
 
     private final PerformerFacade performerFacade;
     private final PerformerQuery performerQuery;
+    private final ImageUrlConverter imageUrlConverter;
 
     @PostMapping("/chef")
     public ApiResponse<Object> registerChef(@Valid @RequestBody PerformerRequest.RegisterChef registerRequest) {
@@ -100,7 +102,7 @@ public class PerformerController {
                         result.naverReservationUrl(),
                         result.catchTableUrl(),
                         result.instagramUrl(),
-                        result.imageUrls(),
+                        imageUrlConverter.toFullUrls(result.imageUrls()),
                         result.viewCount()
                 ))
                 .toList();
