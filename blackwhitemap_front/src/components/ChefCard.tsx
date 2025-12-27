@@ -1,5 +1,6 @@
 import { BestChef, ChefDetail } from "@/types/chef";
 import { cn } from "@/utils/cn";
+import { formatCategoryLabel } from "@/utils/regionUtils";
 import { ChefInfoRow } from "./ChefInfoRow";
 import { ChefActionButtons } from "./ChefActionButtons";
 
@@ -66,9 +67,9 @@ export const ChefCard = ({
               variant === "chefDetail" ? "mt-3" : "mt-4", // ChefDetail: 12px, BestChef: 16px
             )}
           >
-            {/* 카테고리 */}
+            {/* 카테고리 - Category ENUM name을 한글로 변환 */}
             <ChefInfoRow iconName="category" label="카테고리">
-              {chef.category}
+              {formatCategoryLabel(chef.category)}
             </ChefInfoRow>
 
             {/* 위치 */}
