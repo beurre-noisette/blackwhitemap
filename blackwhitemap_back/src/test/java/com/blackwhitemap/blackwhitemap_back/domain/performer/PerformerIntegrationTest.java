@@ -57,6 +57,7 @@ class PerformerIntegrationTest {
                 null,
                 null,
                 null,
+                null,
                 null
             );
 
@@ -81,6 +82,7 @@ class PerformerIntegrationTest {
                 null,
                 "나폴리맛피아",
                 Chef.Type.BLACK,
+                null,
                 null,
                 null,
                 null,
@@ -115,6 +117,7 @@ class PerformerIntegrationTest {
                 Chef.Type.BLACK,
                 "비아톨레도 파스타바",
                 "서울시 강남구",
+                "강남",
                 36.123456,
                 127.654321,
                 "월, 일",
@@ -139,6 +142,10 @@ class PerformerIntegrationTest {
                     assertThat(savedChef.getRestaurant().getAddress()).isEqualTo("서울시 강남구");
                 },
                 () -> {
+                Assertions.assertNotNull(savedChef.getRestaurant());
+                assertThat(savedChef.getRestaurant().getSmallAddress()).isEqualTo("강남");
+                },
+                () -> {
                     Assertions.assertNotNull(savedChef.getRestaurant());
                     assertThat(savedChef.getRestaurant().getCategory()).isEqualTo(Restaurant.Category.ITALIAN);
                 }
@@ -158,6 +165,7 @@ class PerformerIntegrationTest {
                 null,
                 Chef.Type.WHITE,
                 "라망 시크레",
+                null,
                 null,
                 null,
                 null,
@@ -212,6 +220,7 @@ class PerformerIntegrationTest {
                 null,
                 null,
                 null,
+                null,
                 imageUrls
             );
 
@@ -244,6 +253,7 @@ class PerformerIntegrationTest {
                     Chef.Type.WHITE,
                     "라망 시크레",
                     "서울시 용산구",
+                    "용산",
                     36.123456,
                     127.654321,
                     "월, 일",
@@ -294,6 +304,7 @@ class PerformerIntegrationTest {
                     Chef.Type.WHITE,
                     "라망 시크레",
                     null,
+                    null,
                     36.123456,
                     127.654321,
                     "월, 일",
@@ -310,6 +321,7 @@ class PerformerIntegrationTest {
             PerformerCommand.UpdateChef updateCommand = new PerformerCommand.UpdateChef(
                     chefId,
                     "안유성",  // 이름 변경
+                    null,
                     null,
                     null,
                     null,
@@ -346,6 +358,7 @@ class PerformerIntegrationTest {
                     Chef.Type.BLACK,
                     "비아톨레도 파스타바",
                     null,
+                    null,
                     36.123456,
                     127.654321,
                     "월, 일",
@@ -363,6 +376,7 @@ class PerformerIntegrationTest {
                     chefId,
                     null,
                     "이탈리안마스터",  // 별명 변경
+                    null,
                     null,
                     null,
                     null,
@@ -397,6 +411,7 @@ class PerformerIntegrationTest {
                     Chef.Type.BLACK,
                     "라망 시크레",
                     null,
+                    null,
                     36.123456,
                     127.654321,
                     "월, 일",
@@ -415,6 +430,7 @@ class PerformerIntegrationTest {
                     null,
                     null,
                     Chef.Type.WHITE,  // 타입 변경
+                    null,
                     null,
                     null,
                     null,
@@ -445,6 +461,7 @@ class PerformerIntegrationTest {
                     Chef.Type.WHITE,
                     "라망 시크레",
                     null,
+                    null,
                     36.123456,
                     127.654321,
                     "월, 일",
@@ -465,6 +482,7 @@ class PerformerIntegrationTest {
                     null,
                     "다른 이름",
                     "서울시 강남구",
+                    "강남",
                     12.123,
                     999.999,
                     "화, 수",
@@ -485,6 +503,10 @@ class PerformerIntegrationTest {
                     () -> {
                         Assertions.assertNotNull(updatedChef.getRestaurant());
                         assertThat(updatedChef.getRestaurant().getAddress()).isEqualTo("서울시 강남구");
+                    },
+                    () -> {
+                        Assertions.assertNotNull(updatedChef.getRestaurant());
+                        assertThat(updatedChef.getRestaurant().getSmallAddress()).isEqualTo("강남");
                     },
                     () -> {
                         Assertions.assertNotNull(updatedChef.getRestaurant());
@@ -527,6 +549,7 @@ class PerformerIntegrationTest {
                     Chef.Type.WHITE,
                     "라망 시크레",
                     "서울시 강남구",
+                    "강남",
                     36.123456,
                     127.654321,
                     "월, 일",
@@ -547,6 +570,7 @@ class PerformerIntegrationTest {
                     null,
                     "라망 시크레",
                     "부산시 해운대구",  // 주소만 변경
+                    null,
                     null,
                     null,
                     null,
@@ -589,6 +613,7 @@ class PerformerIntegrationTest {
                     Chef.Type.WHITE,
                     "라망 시크레",
                     null,
+                    null,
                     36.123456,
                     127.654321,
                     "월, 일",
@@ -608,6 +633,7 @@ class PerformerIntegrationTest {
             );
             PerformerCommand.UpdateChef updateCommand = new PerformerCommand.UpdateChef(
                     chefId,
+                    null,
                     null,
                     null,
                     null,
@@ -654,6 +680,7 @@ class PerformerIntegrationTest {
                     Chef.Type.BLACK,
                     "라망 시크레",
                     "서울시 강남구",
+                    "강남",
                     36.123456,
                     127.654321,
                     "월, 일",
@@ -675,6 +702,7 @@ class PerformerIntegrationTest {
                     Chef.Type.WHITE,  // 타입 변경
                     "새가게", // 가게 이름 변경
                     "새주소",  // 주소 변경
+                    "새미니주소",
                     12.12,
                     99.99,
                     "화, 수",  // 휴무일 변경
@@ -696,6 +724,7 @@ class PerformerIntegrationTest {
                     () -> assertThat(updatedChef.getType()).isEqualTo(Chef.Type.WHITE),
                     () -> assertThat(updatedChef.getRestaurant().getName()).isEqualTo("새가게"),
                     () -> assertThat(updatedChef.getRestaurant().getAddress()).isEqualTo("새주소"),
+                    () -> assertThat(updatedChef.getRestaurant().getSmallAddress()).isEqualTo("새미니주소"),
                     () -> assertThat(updatedChef.getRestaurant().getLatitude()).isEqualTo(12.12),
                     () -> assertThat(updatedChef.getRestaurant().getLongitude()).isEqualTo(99.99),
                     () -> assertThat(updatedChef.getRestaurant().getClosedDays()).isEqualTo("화, 수"),
@@ -712,6 +741,7 @@ class PerformerIntegrationTest {
             PerformerCommand.UpdateChef updateCommand = new PerformerCommand.UpdateChef(
                     nonExistentId,
                     "새이름",
+                    null,
                     null,
                     null,
                     null,

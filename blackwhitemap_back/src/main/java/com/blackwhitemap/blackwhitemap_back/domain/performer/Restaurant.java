@@ -19,11 +19,14 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Restaurant {
 
-    @Column(name = "restaurant_name", length = 15)
+    @Column(name = "restaurant_name", length = 30)
     private String name;
 
     @Column(name = "restaurant_address", length = 50)
     private String address;
+
+    @Column(name = "restaurant_small_address", length = 20)
+    private String smallAddress;
 
     @Column(name = "latitude")
     private Double latitude;
@@ -35,16 +38,16 @@ public class Restaurant {
     private String closedDays;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "restaurant_category", length = 10)
+    @Column(name = "restaurant_category", length = 20)
     private Category category;
 
-    @Column(name = "naver_reservation_url", length = 100)
+    @Column(name = "naver_reservation_url")
     private String naverReservationUrl;
 
-    @Column(name = "catch_table_url", length = 100)
+    @Column(name = "catch_table_url")
     private String catchTableUrl;
 
-    @Column(name = "instagram_url", length = 100)
+    @Column(name = "instagram_url")
     private String instagramUrl;
 
     @Getter
@@ -60,6 +63,26 @@ public class Restaurant {
         OMAKASE("오마카세"),
         BBQ("바베큐"),
         FRENCH("프렌치"),
+        AMERICAN("아메리칸"),
+        BUNSIK("분식"),
+        DINING("파인다이닝"),
+        CONTEMPORARY("컨템포러리"),
+        SEAFOOD("해산물"),
+        COURSE("코스요리"),
+        WINE("와인바"),
+        TONKATSU("돈카츠"),
+        NAENGMYEON("냉면"),
+        ASIAN("아시안"),
+        GRILLED_EEL("장어구이"),
+        EUROPEAN("유러피안"),
+        SASHIMI("회/사시미"),
+        HAMBURGER("햄버거"),
+        VIETNAMESE("베트남음식"),
+        PIZZA("피자"),
+        FUSION("퓨전"),
+        WESTERN_FOOD("양식"),
+        BRUNCH("브런치"),
+        MEAT("고기요리"),
         CAFE("카페/베이커리");
 
         private final String koreanLabel;
@@ -86,6 +109,7 @@ public class Restaurant {
     private Restaurant(
             String restaurantName,
             String address,
+            String smallAddress,
             Double latitude,
             Double longitude,
             String closedDays,
@@ -96,6 +120,7 @@ public class Restaurant {
     ) {
         this.name = restaurantName;
         this.address = address;
+        this.smallAddress = smallAddress;
         this.latitude = latitude;
         this.longitude = longitude;
         this.closedDays = closedDays;
@@ -108,6 +133,7 @@ public class Restaurant {
     public static Restaurant of(
             String restaurantName,
             String address,
+            String smallAddress,
             Double latitude,
             Double longitude,
             String closedDays,
@@ -129,6 +155,7 @@ public class Restaurant {
         return new Restaurant(
                 restaurantName,
                 address,
+                smallAddress,
                 latitude,
                 longitude,
                 closedDays,

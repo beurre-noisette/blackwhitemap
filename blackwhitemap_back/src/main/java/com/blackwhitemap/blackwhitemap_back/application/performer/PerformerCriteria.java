@@ -12,6 +12,7 @@ public class PerformerCriteria {
             // Restaurant 관련 필드
             String restaurantName,
             String address,
+            String smallAddress,
             Double latitude,
             Double longitude,
             String closedDays,
@@ -38,6 +39,7 @@ public class PerformerCriteria {
             // Restaurant 관련 필드
             String restaurantName,
             String address,
+            String smallAddress,
             Double latitude,
             Double longitude,
             String closedDays,

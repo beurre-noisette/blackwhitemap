@@ -19,6 +19,7 @@ public class PerformerResult {
             // Restaurant 정보
             String restaurantName,
             String address,
+            String smallAddress,
             Double latitude,
             Double longitude,
             String closedDays,
@@ -41,6 +42,7 @@ public class PerformerResult {
                     chef.getType() != null ? chef.getType().name() : null,
                     chef.getRestaurant() != null ? chef.getRestaurant().getName() : null,
                     chef.getRestaurant() != null ? chef.getRestaurant().getAddress() : null,
+                    chef.getRestaurant() != null ? chef.getRestaurant().getSmallAddress() : null,
                     chef.getRestaurant() != null ? chef.getRestaurant().getLatitude() : null,
                     chef.getRestaurant() != null ? chef.getRestaurant().getLongitude() : null,
                     chef.getRestaurant() != null ? chef.getRestaurant().getClosedDays() : null,

@@ -268,6 +268,7 @@ class PerformerQueryRepositoryImplTest {
                 null,
                 null,
                 null,
+                null,
                 Restaurant.Category.KOREAN,
                 null,
                 null,
@@ -284,6 +285,7 @@ class PerformerQueryRepositoryImplTest {
                 type,
                 "가게",
                 null,  // address 없음
+                null,
                 null,
                 null,
                 null,

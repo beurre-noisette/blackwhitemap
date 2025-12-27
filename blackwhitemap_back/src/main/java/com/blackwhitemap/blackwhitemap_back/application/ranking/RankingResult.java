@@ -20,6 +20,7 @@ public class RankingResult {
             // Restaurant 정보
             String restaurantName,
             String address,
+            String smallAddress,
             String closedDays,
             String category,
             String naverReservationUrl,
@@ -46,6 +47,7 @@ public class RankingResult {
                     chef.getType() != null ? chef.getType().name() : null,
                     chef.getRestaurant() != null ? chef.getRestaurant().getName() : null,
                     chef.getRestaurant() != null ? chef.getRestaurant().getAddress() : null,
+                    chef.getRestaurant() != null ? chef.getRestaurant().getSmallAddress() : null,
                     chef.getRestaurant() != null ? chef.getRestaurant().getClosedDays() : null,
                     chef.getRestaurant() != null && chef.getRestaurant().getCategory() != null
                             ? chef.getRestaurant().getCategory().name()

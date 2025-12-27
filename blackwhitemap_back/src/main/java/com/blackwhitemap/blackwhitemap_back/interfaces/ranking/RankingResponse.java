@@ -20,6 +20,7 @@ public class RankingResponse {
             // Restaurant 정보
             String restaurantName,
             String address,
+            String smallAddress,
             String closedDays,
             String category,
             String naverReservationUrl,
@@ -43,6 +44,7 @@ public class RankingResponse {
                     rankingResult.type(),
                     rankingResult.restaurantName(),
                     rankingResult.address(),
+                    rankingResult.smallAddress(),
                     rankingResult.closedDays(),
                     rankingResult.category(),
                     rankingResult.naverReservationUrl(),

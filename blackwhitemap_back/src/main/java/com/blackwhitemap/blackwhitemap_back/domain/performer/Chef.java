@@ -97,6 +97,7 @@ public class Chef extends BaseEntity {
         Restaurant restaurant = Restaurant.of(
                 command.restaurantName(),
                 command.address(),
+                command.smallAddress(),
                 command.latitude(),
                 command.longitude(),
                 command.closedDays(),
@@ -171,6 +172,7 @@ public class Chef extends BaseEntity {
     public void updateRestaurant(
             String restaurantName,
             String address,
+            String smallAddress,
             Double latitude,
             Double longitude,
             String closedDays,
@@ -182,6 +184,7 @@ public class Chef extends BaseEntity {
         // 업데이트할 필드가 하나라도 있는지 확인
         boolean hasUpdate = restaurantName != null && !restaurantName.isBlank()
                 || address != null
+                || smallAddress != null
                 || latitude != null
                 || longitude != null
                 || closedDays != null
@@ -197,6 +200,7 @@ public class Chef extends BaseEntity {
         this.restaurant = Restaurant.of(
                 restaurantName,
                 address,
+                smallAddress,
                 latitude,
                 longitude,
                 closedDays,

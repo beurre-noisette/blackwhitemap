@@ -17,6 +17,7 @@ public class PerformerResponse {
             // Restaurant 정보
             String restaurantName,
             String address,
+            String smallAddress,
             Double latitude,
             Double longitude,
             String closedDays,

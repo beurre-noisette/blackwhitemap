@@ -25,6 +25,8 @@ public class PerformerRequest {
             @Size(max = 50, message = "주소는 최대 50자까지 입력 가능합니다.")
             String address,
 
+            String smallAddress,
+
             Double latitude,
             Double longitude,
             String closedDays,
@@ -62,6 +64,8 @@ public class PerformerRequest {
 
             @Size(max = 50, message = "주소는 최대 50자까지 입력 가능합니다.")
             String address,
+
+            String smallAddress,
 
             Double latitude,
             Double longitude,
