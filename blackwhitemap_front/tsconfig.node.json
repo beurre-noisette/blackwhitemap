@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    /* Node.js 환경을 위한 TypeScript 설정 (Vite 설정 파일용) */
+    "target": "ES2022",                          // Node.js 최신 기능 사용
+    "lib": ["ES2023"],                           // 최신 ECMAScript 라이브러리
+    "module": "ESNext",                          // 최신 모듈 시스템
+    "skipLibCheck": true,                        // 라이브러리 타입 체크 스킵
+
+    /* Bundler 모드 */
+    "moduleResolution": "bundler",               // 번들러 모드
+    "allowImportingTsExtensions": true,          // .ts 확장자 import 허용
+    "isolatedModules": true,                     // 각 파일을 독립적으로 트랜스파일
+    "moduleDetection": "force",                  // 모든 파일을 모듈로 처리
+    "noEmit": true,                              // 타입 체크만 수행
+
+    /* Linting */
+    "strict": true,                              // 엄격한 타입 체크
+    "noUnusedLocals": true,                      // 사용하지 않는 지역 변수 경고
+    "noUnusedParameters": true,                  // 사용하지 않는 매개변수 경고
+    "noFallthroughCasesInSwitch": true           // switch문 fallthrough 경고
+  },
+  "include": ["vite.config.ts"]                  // Vite 설정 파일만 포함
+}

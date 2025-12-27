@@ -1,0 +1,45 @@
+@import 'pretendard/dist/web/static/pretendard.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS Variables로 색상 팔레트 정의 */
+/* RGB 값은 공백으로 구분하여 Tailwind의 opacity 기능과 호환됩니다 */
+:root {
+    /* Red 계열 색상 */
+    --color-red-50: #FFF1F1;
+    --color-red-100: #FFDEDE;
+    --color-red-200: #FFBBBA;
+    --color-red-300: #FF9D9D;
+    --color-red-400: #F4706E;
+    --color-red-500: #F34E4B;
+    --color-red-600: #EE2D2B;
+    --color-red-700: #E91613;
+    --color-red-800: #CD110E;
+
+    /* Purple 계열 색상 */
+    --color-purple-50: #F5F6FF;
+    --color-purple-100: #E8EAFA;
+    --color-purple-200: #CDD1F5;
+    --color-purple-300: #B4BAF0;
+    --color-purple-400: #A2AAEF;
+    --color-purple-500: #8C96F1;
+    --color-purple-600: #6573F3;
+    --color-purple-700: #4859F4;
+    --color-purple-800: #3948D2;
+    --color-purple-900: #2C39B1;
+
+    /* Gray 계열 색상 및 기본 색상 */
+    --color-white: #FFFFFF;
+    --color-gray-100: #EDEDED;
+    --color-gray-200: #E4E3E3;
+    --color-gray-300: #D3D2D2;
+    --color-gray-400: #B7B6B6;
+    --color-gray-500: #868686;
+    --color-gray-600: #3F3F3F;
+    --color-gray-700: #2D2D2D;
+    --color-gray-800: #1E1E1E;
+    --color-gray-900: #121212;
+    --color-black: #0E0D0D;
+}

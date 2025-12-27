@@ -19,8 +19,17 @@ public class PerformerRequest {
             String chefType,
 
             // Restaurant 관련 필드
+            @Size(max = 15, message = "레스토랑 이름은 최대 15자까지 입력 가능합니다.")
+            String restaurantName,
+
             @Size(max = 50, message = "주소는 최대 50자까지 입력 가능합니다.")
             String address,
+
+            String smallAddress,
+
+            Double latitude,
+            Double longitude,
+            String closedDays,
 
             String restaurantCategory,
 
@@ -50,8 +59,17 @@ public class PerformerRequest {
             String chefType,
 
             // Restaurant 관련 필드
+            @Size(max = 15, message = "레스토랑 이름은 최대 15자까지 입력 가능합니다.")
+            String restaurantName,
+
             @Size(max = 50, message = "주소는 최대 50자까지 입력 가능합니다.")
             String address,
+
+            String smallAddress,
+
+            Double latitude,
+            Double longitude,
+            String closedDays,
 
             String restaurantCategory,
 

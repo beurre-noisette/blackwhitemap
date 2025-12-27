@@ -5,6 +5,7 @@ import com.blackwhitemap.blackwhitemap_back.application.performer.PerformerFacad
 import com.blackwhitemap.blackwhitemap_back.application.performer.PerformerQuery;
 import com.blackwhitemap.blackwhitemap_back.application.performer.PerformerResult;
 import com.blackwhitemap.blackwhitemap_back.interfaces.ApiResponse;
+import com.blackwhitemap.blackwhitemap_back.support.ImageUrlConverter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ public class PerformerController {
 
     private final PerformerFacade performerFacade;
     private final PerformerQuery performerQuery;
+    private final ImageUrlConverter imageUrlConverter;
 
     @PostMapping("/chef")
     public ApiResponse<Object> registerChef(@Valid @RequestBody PerformerRequest.RegisterChef registerRequest) {
@@ -25,7 +27,12 @@ public class PerformerController {
                 registerRequest.name(),
                 registerRequest.nickname(),
                 registerRequest.chefType(),
+                registerRequest.restaurantName(),
                 registerRequest.address(),
+                registerRequest.smallAddress(),
+                registerRequest.latitude(),
+                registerRequest.longitude(),
+                registerRequest.closedDays(),
                 registerRequest.restaurantCategory(),
                 registerRequest.naverReservationUrl(),
                 registerRequest.catchTableUrl(),
@@ -48,7 +55,12 @@ public class PerformerController {
                 updateRequest.name(),
                 updateRequest.nickname(),
                 updateRequest.chefType(),
+                updateRequest.restaurantName(),
                 updateRequest.address(),
+                updateRequest.smallAddress(),
+                updateRequest.latitude(),
+                updateRequest.longitude(),
+                updateRequest.closedDays(),
                 updateRequest.restaurantCategory(),
                 updateRequest.naverReservationUrl(),
                 updateRequest.catchTableUrl(),
@@ -80,16 +92,48 @@ public class PerformerController {
                         result.name(),
                         result.nickname(),
                         result.type(),
+                        result.restaurantName(),
                         result.address(),
+                        result.smallAddress(),
+                        result.latitude(),
+                        result.longitude(),
+                        result.closedDays(),
                         result.category(),
                         result.naverReservationUrl(),
                         result.catchTableUrl(),
                         result.instagramUrl(),
-                        result.imageUrls(),
+                        imageUrlConverter.toFullUrls(result.imageUrls()),
                         result.viewCount()
                 ))
                 .toList();
 
         return ApiResponse.success(chefInfos);
+    }
+
+    /**
+     * 지도에 표시할 클러스터 데이터 조회
+     * <p>
+     * 시/도 단위로 그룹화된 셰프 통계 정보를 반환합니다.
+     * - 서비스 초기 로드 시 getChefs API와 함께 호출
+     * - 프론트엔드에서 지도 줌 아웃 시 클러스터 마커로 표시
+     * - 캐싱 적용 (5분 TTL)
+     *
+     * @return 클러스터 정보 리스트
+     */
+    @GetMapping("/chefs/cluster")
+    public ApiResponse<List<PerformerResponse.ChefClusterInfo>> getChefClusters() {
+        List<PerformerResult.ChefClusterInfo> queryResults = performerQuery.getChefClusters();
+
+        List<PerformerResponse.ChefClusterInfo> response = queryResults.stream()
+                .map(result -> new PerformerResponse.ChefClusterInfo(
+                        result.region(),
+                        result.blackCount(),
+                        result.whiteCount(),
+                        result.latitude(),
+                        result.longitude()
+                ))
+                .toList();
+
+        return ApiResponse.success(response);
     }
 }

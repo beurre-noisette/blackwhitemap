@@ -10,7 +10,12 @@ public class PerformerCommand {
             Chef.Type type,
 
             // Restaurant 관련 필드
+            String restaurantName,
             String address,
+            String smallAddress,
+            Double latitude,
+            Double longitude,
+            String closedDays,
             Restaurant.Category restaurantCategory,
             String naverReservationUrl,
             String catchTableUrl,
@@ -32,7 +37,12 @@ public class PerformerCommand {
             Chef.Type type,
 
             // Restaurant 관련 필드
+            String restaurantName,
             String address,
+            String smallAddress,
+            Double latitude,
+            Double longitude,
+            String closedDays,
             Restaurant.Category restaurantCategory,
             String naverReservationUrl,
             String catchTableUrl,

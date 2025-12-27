@@ -21,6 +21,27 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
+app:
+  image:
+    base-url: ${IMAGE_BASE_URL}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+
+app:
+  cors:
+    allowed-origins: http://localhost:5173
+  image:
+    base-url: http://localhost:5173/images/chefs
+
 ---
 spring:
   config:
@@ -51,3 +72,20 @@ spring:
     show-sql: false
     hibernate:
       ddl-auto: none
+
+app:
+  cors:
+    allowed-origins: https://heukbaek.site
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, prometheus
+  endpoint:
+    health:
+      show-details: when-authorized
+  metrics:
+    export:
+      prometheus:
+        enabled: true

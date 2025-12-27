@@ -38,7 +38,12 @@ public class PerformerService {
 
         // Restaurant 업데이트 (내부에서 업데이트 필요 여부 판단)
         chef.updateRestaurant(
+                updateCommand.restaurantName(),
                 updateCommand.address(),
+                updateCommand.smallAddress(),
+                updateCommand.latitude(),
+                updateCommand.longitude(),
+                updateCommand.closedDays(),
                 updateCommand.restaurantCategory(),
                 updateCommand.naverReservationUrl(),
                 updateCommand.catchTableUrl(),

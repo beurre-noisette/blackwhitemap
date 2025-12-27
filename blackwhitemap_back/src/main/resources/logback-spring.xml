@@ -49,11 +49,10 @@
         <logger name="com.blackwhitemap" level="DEBUG" />
     </springProfile>
 
-    <!-- prod 환경: 콘솔 + 파일 사용 -->
+    <!-- prod 환경: 콘솔만 사용 -->
     <springProfile name="prod">
         <root level="INFO">
             <appender-ref ref="Console"/>
-            <appender-ref ref="RollingFile"/>
         </root>
         <logger name="com.blackwhitemap" level="INFO" />
     </springProfile>

@@ -17,7 +17,12 @@ public class PerformerResult {
             String type,
 
             // Restaurant 정보
+            String restaurantName,
             String address,
+            String smallAddress,
+            Double latitude,
+            Double longitude,
+            String closedDays,
             String category,
             String naverReservationUrl,
             String catchTableUrl,
@@ -35,7 +40,12 @@ public class PerformerResult {
                     chef.getName(),
                     chef.getNickname(),
                     chef.getType() != null ? chef.getType().name() : null,
+                    chef.getRestaurant() != null ? chef.getRestaurant().getName() : null,
                     chef.getRestaurant() != null ? chef.getRestaurant().getAddress() : null,
+                    chef.getRestaurant() != null ? chef.getRestaurant().getSmallAddress() : null,
+                    chef.getRestaurant() != null ? chef.getRestaurant().getLatitude() : null,
+                    chef.getRestaurant() != null ? chef.getRestaurant().getLongitude() : null,
+                    chef.getRestaurant() != null ? chef.getRestaurant().getClosedDays() : null,
                     chef.getRestaurant() != null && chef.getRestaurant().getCategory() != null
                             ? chef.getRestaurant().getCategory().name()
                             : null,
@@ -47,4 +57,17 @@ public class PerformerResult {
             );
         }
     }
+
+    /**
+     * Chef 클러스터 조회 결과
+     * - 시/도별로 그룹화된 셰프 통계 정보
+     * - Region enum의 좌표 정보 포함
+     */
+    public record ChefClusterInfo(
+            String region,
+            Integer blackCount,
+            Integer whiteCount,
+            Double latitude,
+            Double longitude
+    ) {}
 }

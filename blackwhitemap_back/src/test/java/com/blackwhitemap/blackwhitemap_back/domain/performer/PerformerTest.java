@@ -30,6 +30,11 @@ class PerformerTest {
                     "손종원",
                     null,
                     Chef.Type.WHITE,
+                    "라망 시크레",
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null,
@@ -56,6 +61,11 @@ class PerformerTest {
                     null,
                     "나폴리맛피아",
                     Chef.Type.BLACK,
+                    "비아톨레도 파스타바",
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null,
@@ -81,6 +91,11 @@ class PerformerTest {
                     "권성준",
                     "나폴리맛피아",
                     Chef.Type.BLACK,
+                    "비이톨레도 파스타바",
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null,
@@ -106,7 +121,12 @@ class PerformerTest {
                     "권성준",
                     "나폴리맛피아",
                     Chef.Type.BLACK,
+                    "비아톨레도 파스타바",
                     "서울시 강남구",
+                    "강남",
+                    36.123456,
+                    127.654321,
+                    "월, 일",
                     Restaurant.Category.ITALIAN,
                     "https://naver.com/reservation",
                     "https://catchtable.com",
@@ -119,7 +139,12 @@ class PerformerTest {
 
             // then
             assertThat(chef.getRestaurant()).isNotNull();
+            assertThat(chef.getRestaurant().getName()).isEqualTo("비아톨레도 파스타바");
             assertThat(chef.getRestaurant().getAddress()).isEqualTo("서울시 강남구");
+            assertThat(chef.getRestaurant().getSmallAddress()).isEqualTo("강남");
+            assertThat(chef.getRestaurant().getLatitude()).isEqualTo(36.123456);
+            assertThat(chef.getRestaurant().getLongitude()).isEqualTo(127.654321);
+            assertThat(chef.getRestaurant().getClosedDays()).isEqualTo("월, 일");
             assertThat(chef.getRestaurant().getCategory()).isEqualTo(Restaurant.Category.ITALIAN);
             assertThat(chef.getImages().getImageUrls().size()).isZero();
         }
@@ -136,6 +161,11 @@ class PerformerTest {
                     "손종원",
                     null,
                     Chef.Type.WHITE,
+                    "라망 시크레",
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null,
@@ -166,7 +196,12 @@ class PerformerTest {
                     "손종원",
                     null,
                     Chef.Type.WHITE,
+                    "라망 시크레",
                     "서울시 용산구",
+                    null,
+                    36.123456,
+                    127.654321,
+                    "월, 일",
                     Restaurant.Category.KOREAN,
                     null,
                     null,
@@ -181,7 +216,11 @@ class PerformerTest {
             assertThat(chef.getName()).isEqualTo("손종원");
             assertThat(chef.getType()).isEqualTo(Chef.Type.WHITE);
             assertThat(chef.getRestaurant()).isNotNull();
+            assertThat(chef.getRestaurant().getName()).isEqualTo("라망 시크레");
             assertThat(chef.getRestaurant().getAddress()).isEqualTo("서울시 용산구");
+            assertThat(chef.getRestaurant().getLatitude()).isEqualTo(36.123456);
+            assertThat(chef.getRestaurant().getLongitude()).isEqualTo(127.654321);
+            assertThat(chef.getRestaurant().getClosedDays()).isEqualTo("월, 일");
             assertThat(chef.getRestaurant().getCategory()).isEqualTo(Restaurant.Category.KOREAN);
             assertThat(chef.getImages()).isNotNull();
             assertThat(chef.getImages().getImageUrls()).hasSize(3);
@@ -193,6 +232,11 @@ class PerformerTest {
             // given
             PerformerCommand.RegisterChef command = new PerformerCommand.RegisterChef(
                     "손종원",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null,
@@ -225,6 +269,11 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null
             );
 
@@ -246,6 +295,11 @@ class PerformerTest {
                     emptySource,
                     emptySource,
                     Chef.Type.WHITE,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null,
@@ -330,6 +384,11 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null
             );
 
@@ -342,7 +401,12 @@ class PerformerTest {
         void createRestaurant_whenAtLeastOneFieldProvided() {
             // when
             Restaurant restaurant = Restaurant.of(
+                    null,
                     "서울시 강남구",
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null,
@@ -367,7 +431,12 @@ class PerformerTest {
                     "손종원",
                     "요리천재",
                     Chef.Type.WHITE,
+                    "라망 시크레",
                     null,
+                    null,
+                    36.123456,
+                    127.654321,
+                    "월, 일",
                     null,
                     null,
                     null,
@@ -392,6 +461,11 @@ class PerformerTest {
                     "손종원",
                     "요리천재",
                     Chef.Type.WHITE,
+                    "라망 시크레",
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null,
@@ -422,6 +496,11 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null
             );
             Chef chef = Chef.of(registerCommand);
@@ -442,6 +521,11 @@ class PerformerTest {
                     "손종원",
                     null,
                     Chef.Type.WHITE,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null,
@@ -473,6 +557,11 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null
             );
             Chef chef = Chef.of(registerCommand);
@@ -493,6 +582,11 @@ class PerformerTest {
                     "손종원",
                     "",
                     Chef.Type.WHITE,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null,
@@ -528,6 +622,11 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null
             );
             Chef chef = Chef.of(registerCommand);
@@ -548,6 +647,11 @@ class PerformerTest {
                     "권성준",
                     "나폴리맛피아",
                     Chef.Type.BLACK,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null,
@@ -578,6 +682,11 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null
             );
             Chef chef = Chef.of(registerCommand);
@@ -598,6 +707,11 @@ class PerformerTest {
                     null,
                     "나폴리맛피아",
                     Chef.Type.BLACK,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null,
@@ -629,6 +743,11 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null
             );
             Chef chef = Chef.of(registerCommand);
@@ -649,6 +768,11 @@ class PerformerTest {
                     "",
                     "나폴리맛피아",
                     Chef.Type.BLACK,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null,
@@ -684,6 +808,11 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null
             );
             Chef chef = Chef.of(registerCommand);
@@ -708,6 +837,11 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null
             );
             Chef chef = Chef.of(registerCommand);
@@ -727,6 +861,11 @@ class PerformerTest {
                     "손종원",
                     null,
                     Chef.Type.WHITE,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null,
@@ -762,13 +901,23 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null
             );
             Chef chef = Chef.of(registerCommand);
 
             // when
             chef.updateRestaurant(
+                    "라망 시크레",
                     "서울시 강남구",
+                    "강남",
+                    36.123456,
+                    127.654321,
+                    "월, 일",
                     Restaurant.Category.KOREAN,
                     "https://naver.com/reservation",
                     "https://catchtable.com",
@@ -777,7 +926,12 @@ class PerformerTest {
 
             // then
             assertThat(chef.getRestaurant()).isNotNull();
+            assertThat(chef.getRestaurant().getName()).isEqualTo("라망 시크레");
             assertThat(chef.getRestaurant().getAddress()).isEqualTo("서울시 강남구");
+            assertThat(chef.getRestaurant().getSmallAddress()).isEqualTo("강남");
+            assertThat(chef.getRestaurant().getLatitude()).isEqualTo(36.123456);
+            assertThat(chef.getRestaurant().getLongitude()).isEqualTo(127.654321);
+            assertThat(chef.getRestaurant().getClosedDays()).isEqualTo("월, 일");
             assertThat(chef.getRestaurant().getCategory()).isEqualTo(Restaurant.Category.KOREAN);
             assertThat(chef.getRestaurant().getNaverReservationUrl()).isEqualTo("https://naver.com/reservation");
             assertThat(chef.getRestaurant().getCatchTableUrl()).isEqualTo("https://catchtable.com");
@@ -797,13 +951,23 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null
             );
             Chef chef = Chef.of(registerCommand);
 
             // when
             chef.updateRestaurant(
+                    "라망 시크레",
                     "서울시 용산구",
+                    "용산",
+                    36.123456,
+                    null,
+                    "월, 일",
                     Restaurant.Category.ITALIAN,
                     null,
                     null,
@@ -812,7 +976,12 @@ class PerformerTest {
 
             // then
             assertThat(chef.getRestaurant()).isNotNull();
+            assertThat(chef.getRestaurant().getName()).isEqualTo("라망 시크레");
             assertThat(chef.getRestaurant().getAddress()).isEqualTo("서울시 용산구");
+            assertThat(chef.getRestaurant().getSmallAddress()).isEqualTo("용산");
+            assertThat(chef.getRestaurant().getLatitude()).isEqualTo(36.123456);
+            assertThat(chef.getRestaurant().getLongitude()).isNull();
+            assertThat(chef.getRestaurant().getClosedDays()).isEqualTo("월, 일");
             assertThat(chef.getRestaurant().getCategory()).isEqualTo(Restaurant.Category.ITALIAN);
             assertThat(chef.getRestaurant().getNaverReservationUrl()).isNull();
             assertThat(chef.getRestaurant().getCatchTableUrl()).isNull();
@@ -827,7 +996,12 @@ class PerformerTest {
                     "손종원",
                     null,
                     Chef.Type.WHITE,
+                    "라망 시크레",
                     "서울시 강남구",
+                    "강남",
+                    36.123456,
+                    127.654321,
+                    "월, 일",
                     Restaurant.Category.KOREAN,
                     "https://naver.com",
                     "https://catchtable.com",
@@ -839,6 +1013,11 @@ class PerformerTest {
 
             // when
             chef.updateRestaurant(
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null,
@@ -858,7 +1037,12 @@ class PerformerTest {
                     "손종원",
                     null,
                     Chef.Type.WHITE,
+                    "라망 시크레",
                     "서울시 강남구",
+                    "강남",
+                    36.123456,
+                    127.654321,
+                    "월, 일",
                     Restaurant.Category.KOREAN,
                     "https://naver.com",
                     "https://catchtable.com",
@@ -870,7 +1054,12 @@ class PerformerTest {
 
             // when
             chef.updateRestaurant(
+                    "부산 밥집",
                     "부산시 해운대구",
+                    "해운대",
+                    12.12,
+                    99.99,
+                    "화, 목",
                     Restaurant.Category.JAPANESE,
                     null,
                     null,
@@ -880,7 +1069,12 @@ class PerformerTest {
             // then
             assertThat(chef.getRestaurant()).isNotNull();
             assertThat(chef.getRestaurant()).isNotSameAs(oldRestaurant);
+            assertThat(chef.getRestaurant().getName()).isEqualTo("부산 밥집");
             assertThat(chef.getRestaurant().getAddress()).isEqualTo("부산시 해운대구");
+            assertThat(chef.getRestaurant().getSmallAddress()).isEqualTo("해운대");
+            assertThat(chef.getRestaurant().getLatitude()).isEqualTo(12.12);
+            assertThat(chef.getRestaurant().getLongitude()).isEqualTo(99.99);
+            assertThat(chef.getRestaurant().getClosedDays()).isEqualTo("화, 목");
             assertThat(chef.getRestaurant().getCategory()).isEqualTo(Restaurant.Category.JAPANESE);
         }
     }
@@ -897,6 +1091,11 @@ class PerformerTest {
                     "손종원",
                     "요리천재",
                     Chef.Type.WHITE,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null,
@@ -934,6 +1133,11 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     images
             );
             Chef chef = Chef.of(registerCommand);
@@ -958,6 +1162,11 @@ class PerformerTest {
                     "손종원",
                     null,
                     Chef.Type.WHITE,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null,
@@ -998,6 +1207,11 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null
             );
             Chef chef = Chef.of(registerCommand);
@@ -1024,6 +1238,11 @@ class PerformerTest {
                     "손종원",
                     "요리천재",
                     Chef.Type.WHITE,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null,

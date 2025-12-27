@@ -19,4 +19,14 @@ public interface PerformerQueryRepository {
      * @return Chef 정보 리스트
      */
     List<PerformerResult.ChefInfo> findChefsByType(Chef.Type type);
+
+    /**
+     * Chef 클러스터 조회
+     * - 시/도별로 그룹화된 셰프 통계 정보 반환
+     * - address가 있는 Chef만 포함
+     * - Region enum으로 변환 가능한 주소만 포함
+     *
+     * @return 시/도별 Chef 클러스터 정보 리스트
+     */
+    List<PerformerResult.ChefClusterInfo> findChefClusters();
 }

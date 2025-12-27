@@ -10,7 +10,12 @@ public class PerformerCriteria {
             String chefType,
 
             // Restaurant 관련 필드
+            String restaurantName,
             String address,
+            String smallAddress,
+            Double latitude,
+            Double longitude,
+            String closedDays,
             String restaurantCategory,
             String naverReservationUrl,
             String catchTableUrl,
@@ -32,7 +37,12 @@ public class PerformerCriteria {
             String chefType,
 
             // Restaurant 관련 필드
+            String restaurantName,
             String address,
+            String smallAddress,
+            Double latitude,
+            Double longitude,
+            String closedDays,
             String restaurantCategory,
             String naverReservationUrl,
             String catchTableUrl,
