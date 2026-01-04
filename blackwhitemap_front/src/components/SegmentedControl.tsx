@@ -27,7 +27,7 @@ const segmentVariants = cva(
   // base: 모든 세그먼트에 공통으로 적용되는 기본 스타일
   [
     "flex items-center justify-center", // flex 레이아웃
-    "w-[101px] h-8", // width: 101px, height: 32px
+    "flex-1 h-8", // height: 32px
     "rounded-[100px]", // border-radius: 100px
     "px-2.5 py-1.5", // padding: 6px 10px (px-2.5 = 10px, py-1.5 = 6px)
     "gap-1", // gap: 4px
@@ -99,7 +99,7 @@ export const SegmentedControl = ({
       className={cn(
         // 컨테이너 스타일
         "inline-flex items-center", // flex 레이아웃
-        "w-[335px] h-12", // width: 335px, height: 48px
+        "flex-1 h-12", // MapControlBar 내에서 남은 공간 차지, height: 48px
         "rounded-[100px]", // border-radius: 100px
         "p-2", // padding: 8px
         "gap-2", // gap: 8px
@@ -110,8 +110,7 @@ export const SegmentedControl = ({
       {...props}
     >
       {/* 내부 세그먼트 영역 */}
-      <div className="flex items-center w-[304px] h-8 gap-2">
-        {/* gap: 8px */}
+      <div className="flex items-center w-full h-8 gap-2">
         {SEGMENTS.map((segment: Segment) => {
           const isSelected: boolean = value === segment.value;
 

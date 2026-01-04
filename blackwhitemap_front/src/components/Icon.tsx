@@ -13,6 +13,7 @@ import share from "../assets/icons/share.svg";
 import category from "../assets/icons/category.svg";
 import location from "../assets/icons/location.svg";
 import usdCircle from "../assets/icons/usdCircle.svg";
+import ranking from "../assets/icons/ranking.svg";
 
 export type IconName =
   | "catchtable"
@@ -26,7 +27,8 @@ export type IconName =
   | "share"
   | "category"
   | "location"
-  | "usdCircle";
+  | "usdCircle"
+  | "ranking";
 
 export type IconSize = "extraSmall" | "small" | "medium" | "large";
 
@@ -77,6 +79,7 @@ export const ICON_MAP: Record<IconName, string> = {
   category: category,
   location: location,
   usdCircle: usdCircle,
+  ranking: ranking,
 };
 
 /**

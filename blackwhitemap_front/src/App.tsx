@@ -4,6 +4,8 @@ import {
   SegmentedControl,
   SegmentValue,
 } from "@/components/SegmentedControl.tsx";
+import { MapControlBar } from "@/components/MapControlBar.tsx";
+import { RankingButton } from "@/components/RankingButton.tsx";
 import { BestChef, ChefDetail } from "@/types/chef.ts";
 import { ChefCluster } from "@/types/map.ts";
 import { fetchChefClusters, fetchChefs } from "@/api/chefApi";
@@ -108,6 +110,16 @@ function App() {
     setSheetState("chefDetail-default");
   };
 
+  /**
+   * 랭킹 버튼 클릭 핸들러
+   * - 현재 바텀시트가 bestChef-default가 아닌 경우에만 상태 변경
+   */
+  const handleRankingClick = () => {
+    if (sheetState !== "bestChef-default") {
+      setSheetState("bestChef-default");
+    }
+  };
+
   // 로딩 중이거나 selectedChef가 없으면 로딩 화면 표시
   if (isLoading || !selectedChef) {
     return (
@@ -126,9 +138,12 @@ function App() {
   return (
     <div className="h-dvh w-full bg-gray-50 flex justify-center">
       <div className="relative w-full max-w-[430px] h-full bg-gray-100 overflow-hidden">
-        {/* SegmentedControl */}
-        <div className="absolute top-4 left-0 right-0 z-40 flex justify-center">
-          <SegmentedControl value={filter} onChange={setFilter} />
+        {/* MapControlBar: 랭킹 버튼 + 세그먼트 컨트롤 */}
+        <div className="absolute top-0 left-0 right-0 z-40 flex justify-center">
+          <MapControlBar>
+            <RankingButton onClick={handleRankingClick} />
+            <SegmentedControl value={filter} onChange={setFilter} />
+          </MapControlBar>
         </div>
 
         {/* 카카오맵 */}
