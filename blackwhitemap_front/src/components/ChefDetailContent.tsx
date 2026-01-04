@@ -47,7 +47,7 @@ export const ChefDetailContent = ({
   return (
     <div className="pt-[13px]">
       {/* ChefCard와 버튼 사이 24px 간격 */}
-      <div className="mb-6">
+      <div className="mb-6 flex justify-center">
         <ChefCard
           chef={chef}
           variant="chefDetail"
