@@ -1,5 +1,3 @@
-import { ChefDetailContent } from "@/components/ChefDetailContent.tsx";
-import { BestChefContent } from "@/components/BestChefContent.tsx";
 import { useEffect, useState } from "react";
 import { BottomSheetState } from "@/types/bottomSheet.ts";
 import {
@@ -8,16 +6,20 @@ import {
 } from "@/components/SegmentedControl.tsx";
 import { BestChef, ChefDetail } from "@/types/chef.ts";
 import { ChefCluster } from "@/types/map.ts";
-import { BottomSheet } from "@/components/BottomSheet.tsx";
-import { KakaoMap } from "@/components/KakaoMap.tsx";
 import { fetchChefClusters, fetchChefs } from "@/api/chefApi";
 import { fetchWeeklyBestChefs } from "@/api/rankingApi";
+import loading from "@/assets/images/loading.png";
+import { KakaoMap } from "@/components/KakaoMap.tsx";
+import { BottomSheet } from "@/components/BottomSheet.tsx";
+import { BestChefContent } from "@/components/BestChefContent.tsx";
+import { ChefDetailContent } from "@/components/ChefDetailContent.tsx";
 
 function App() {
   const [sheetState, setSheetState] =
     useState<BottomSheetState>("bestChef-default");
   const [filter, setFilter] = useState<SegmentValue>("ALL");
   const [selectedChef, setSelectedChef] = useState<ChefDetail | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   // 전체 셰프 목록 (지도 + 상세 화면용)
   const [allChefs, setAllChefs] = useState<ChefDetail[]>([]);
@@ -34,11 +36,17 @@ function App() {
   useEffect(() => {
     const loadData = async () => {
       try {
-        // 병렬로 3개 API 호출
+        // 최소 로딩 시간 보장을 위한 딜레이
+        const minLoadingTime = new Promise((resolve) =>
+          setTimeout(resolve, 1500),
+        );
+
+        // 데이터 로딩과 최소 대기 시간을 병렬로 처리
         const [chefsData, bestChefsData, clustersData] = await Promise.all([
           fetchChefs(), // GET /performer/chefs
           fetchWeeklyBestChefs(), // GET /ranking/weekly-best?limit=5
           fetchChefClusters(), // GET /performer/chefs/cluster
+          minLoadingTime,
         ]);
 
         setAllChefs(chefsData);
@@ -59,6 +67,8 @@ function App() {
         }
       } catch (error) {
         console.error("Failed to load data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -98,9 +108,19 @@ function App() {
     setSheetState("chefDetail-default");
   };
 
-  // selectedChef가 null이면 렌더링하지 않음
-  if (!selectedChef) {
-    return <div>Loading...</div>;
+  // 로딩 중이거나 selectedChef가 없으면 로딩 화면 표시
+  if (isLoading || !selectedChef) {
+    return (
+      <div className="h-dvh w-full bg-gray-50 flex justify-center">
+        <div className="relative w-full max-w-[430px] h-full bg-gray-100 flex items-center justify-center overflow-hidden">
+          <img
+            src={loading}
+            alt="loading"
+            className="w-full h-full object-cover"
+          />
+        </div>
+      </div>
+    );
   }
 
   return (

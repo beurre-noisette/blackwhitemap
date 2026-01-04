@@ -18,3 +18,11 @@ declare module "*.svg" {
   const content: string;
   export default content;
 }
+
+/**
+ * PNG 파일을 모듈로 import 할 수 있도록 타입 선언
+ */
+declare module "*.png" {
+  const content: string;
+  export default content;
+}
