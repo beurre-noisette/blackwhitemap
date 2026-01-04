@@ -73,12 +73,12 @@ export interface SegmentedControlProps extends Omit<
 /**
  * 세그먼트 목록 정의
  * - All: 텍스트만
- * - 흑/백: chef-black/chef-white 아이콘 + 텍스트
+ * - 흑/백: 아이콘만 (chef-black-seg/chef-white-seg)
  */
 const SEGMENTS: Segment[] = [
   { value: "ALL", label: "All" },
-  { value: "BLACK", label: "흑", icon: "chef-black" },
-  { value: "WHITE", label: "백", icon: "chef-white" },
+  { value: "BLACK", label: "", icon: "chef-black-seg" },
+  { value: "WHITE", label: "", icon: "chef-white-seg" },
 ];
 
 /**
@@ -125,10 +125,10 @@ export const SegmentedControl = ({
               className={cn(segmentVariants({ selected: isSelected }))}
             >
               {/* 아이콘이 있으면 렌더링 */}
-              {iconName && <Icon name={iconName} size="medium" />}
+              {iconName && <Icon name={iconName} size="large" />}
 
-              {/* 텍스트 */}
-              <span>{segment.label}</span>
+              {/* 텍스트 (있을 경우에만) */}
+              {segment.label && <span>{segment.label}</span>}
             </button>
           );
         })}
