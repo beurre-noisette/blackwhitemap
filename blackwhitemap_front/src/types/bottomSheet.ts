@@ -34,11 +34,11 @@ export interface BottomSheetSpec {
 export const BOTTOM_SHEET_SPECS: Record<BottomSheetState, BottomSheetSpec> = {
   "bestChef-minimized": {
     height: 118,
-    top: 694,
+    top: -1,
   },
   "bestChef-default": {
     height: 346,
-    top: 466,
+    top: -1,
   },
   "chefDetail-minimized": {
     height: 162,

@@ -2,8 +2,8 @@ import { ReactNode } from "react";
 import { motion, PanInfo } from "framer-motion";
 import { cn } from "@/utils/cn";
 import {
-  BottomSheetState,
   BOTTOM_SHEET_SPECS,
+  BottomSheetState,
   DRAG_THRESHOLD,
   STATE_TRANSITIONS,
 } from "@/types/bottomSheet";
@@ -84,6 +84,8 @@ export const BottomSheet = ({
         "rounded-t-[32px]", // border-top-left/right-radius: 32px
         "bg-white",
         "shadow-[0px_0px_32px_0px_rgba(0,0,0,0.24)]", // box-shadow
+        "transition-all",
+        "duration-500",
         // "overflow-hidden", // 내용 넘침 방지
         state.includes("minimized") ? "overflow-visible" : "overflow-hidden", // minimized는 overflow visible
         "z-50", // 다른 요소 위에 표시
@@ -92,10 +94,17 @@ export const BottomSheet = ({
       // 상태별 고정 높이
       style={{
         height: `${spec.height}px`,
+        ...(spec.top === -1
+          ? { top: `calc(100% - ${spec.height}px)`, bottom: undefined }
+          : {}),
       }}
       // framer-motion 애니메이션 설정
       animate={{
-        top: spec.top, // 상태 변경 시 top 위치 애니메이션
+        ...(spec.top === -1
+          ? {}
+          : spec.top !== undefined
+            ? { top: spec.top }
+            : {}),
       }}
       transition={{
         type: "spring", // 스프링 애니메이션
