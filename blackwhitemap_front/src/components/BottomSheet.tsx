@@ -80,7 +80,7 @@ export const BottomSheet = ({
       className={cn(
         // 기본 스타일
         "absolute left-0 right-0", // 부모 기준 위치
-        "w-full", // 부모 너비에 맞춤 (375px)
+        "w-full", // 부모 너비에 맞춤
         "rounded-t-[32px]", // border-top-left/right-radius: 32px
         "bg-white",
         "shadow-[0px_0px_32px_0px_rgba(0,0,0,0.24)]", // box-shadow
@@ -91,20 +91,10 @@ export const BottomSheet = ({
         "z-50", // 다른 요소 위에 표시
         className,
       )}
-      // 상태별 고정 높이
+      // 상태별 높이 및 위치 (하단 고정 방식)
       style={{
         height: `${spec.height}px`,
-        ...(spec.top === -1
-          ? { top: `calc(100% - ${spec.height}px)`, bottom: undefined }
-          : {}),
-      }}
-      // framer-motion 애니메이션 설정
-      animate={{
-        ...(spec.top === -1
-          ? {}
-          : spec.top !== undefined
-            ? { top: spec.top }
-            : {}),
+        top: `calc(100% - ${spec.height}px)`,
       }}
       transition={{
         type: "spring", // 스프링 애니메이션

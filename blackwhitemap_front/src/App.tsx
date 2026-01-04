@@ -104,8 +104,8 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-0">
-      <div className="relative w-[375px] h-[812px] bg-gray-100 overflow-hidden shadow-xl">
+    <div className="h-dvh w-full bg-gray-50 flex justify-center">
+      <div className="relative w-full max-w-[430px] h-full bg-gray-100 overflow-hidden">
         {/* SegmentedControl */}
         <div className="absolute top-4 left-0 right-0 z-40 flex justify-center">
           <SegmentedControl value={filter} onChange={setFilter} />
