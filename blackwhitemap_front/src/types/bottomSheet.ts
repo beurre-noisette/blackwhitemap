@@ -21,37 +21,22 @@ export type BottomSheetState =
 
 /**
  * BottomSheet 상태별 스펙
+ * 모든 상태는 하단 고정 방식 (calc(100% - height)) 사용
  */
 export interface BottomSheetSpec {
   height: number; // px
-  top: number; // px (화면 상단으로부터의 거리)
 }
 
 /**
  * 상태별 스펙 정의
- * 부모 프레임: 375 x 812
+ * 화면 높이에 관계없이 하단에서 height만큼 올라옴
  */
 export const BOTTOM_SHEET_SPECS: Record<BottomSheetState, BottomSheetSpec> = {
-  "bestChef-minimized": {
-    height: 118,
-    top: 694,
-  },
-  "bestChef-default": {
-    height: 346,
-    top: 466,
-  },
-  "chefDetail-minimized": {
-    height: 162,
-    top: 650,
-  },
-  "chefDetail-default": {
-    height: 260,
-    top: 552,
-  },
-  "top10-expanded": {
-    height: 730,
-    top: 82,
-  },
+  "bestChef-minimized": { height: 118 },
+  "bestChef-default": { height: 346 },
+  "chefDetail-minimized": { height: 162 },
+  "chefDetail-default": { height: 260 },
+  "top10-expanded": { height: 730 },
 };
 
 /**

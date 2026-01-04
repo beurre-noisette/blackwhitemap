@@ -28,9 +28,7 @@ interface KakaoMapProps {
  * 클러스터 마커 클릭 시 해당 지역으로 줌인하여 개별 마커를 표시합니다.
  */
 export const KakaoMap = ({ clusters, chefs, onChefClick }: KakaoMapProps) => {
-  // 지도 중심 좌표 및 줌 레벨
-  // 36.5 127.5
-  const [center, setCenter] = useState({ lat: 36.5, lng: 127.5 });
+  const [center, setCenter] = useState({ lat: 34.7, lng: 127.75 });
   const [level, setLevel] = useState(13); // 13: 남한 전체 보임
 
   // 뷰 상태: cluster(줌 아웃) vs individual(줌 인)
