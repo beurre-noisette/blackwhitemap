@@ -5,6 +5,8 @@ import catchtable from "../assets/icons/catchtable.svg";
 import naver from "../assets/icons/naver.svg";
 import chefBlack from "../assets/icons/chef-black.svg";
 import chefWhite from "../assets/icons/chef-white.svg";
+import chefBlackSeg from "../assets/icons/chef-black-seg.svg";
+import chefWhiteSeg from "../assets/icons/chef-white-seg.svg";
 import watch from "../assets/icons/watch.svg";
 import price from "../assets/icons/price.svg";
 import share from "../assets/icons/share.svg";
@@ -17,6 +19,8 @@ export type IconName =
   | "naver"
   | "chef-black"
   | "chef-white"
+  | "chef-black-seg"
+  | "chef-white-seg"
   | "watch"
   | "price"
   | "share"
@@ -65,6 +69,8 @@ export const ICON_MAP: Record<IconName, string> = {
   naver: naver,
   "chef-black": chefBlack,
   "chef-white": chefWhite,
+  "chef-black-seg": chefBlackSeg,
+  "chef-white-seg": chefWhiteSeg,
   watch: watch,
   price: price,
   share: share,
