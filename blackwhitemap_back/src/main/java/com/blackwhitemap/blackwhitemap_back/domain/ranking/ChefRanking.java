@@ -43,7 +43,8 @@ public class ChefRanking extends BaseEntity {
     @Getter
     @RequiredArgsConstructor
     public enum Type {
-        WEEKLY("주간");
+        WEEKLY("주간"),
+        DAILY("일간");
 
         private final String description;
     }

@@ -120,7 +120,7 @@ CREATE TABLE chef_ranking
             ON DELETE CASCADE,
 
     -- ranking_type ENUM 제약조건
-    CONSTRAINT chk_ranking_type CHECK (ranking_type IN ('WEEKLY')),
+    CONSTRAINT chk_ranking_type CHECK (ranking_type IN ('WEEKLY', 'DAILY')),
 
     -- 유니크 제약조건: 같은 기간에 한 셰프는 하나의 랭킹만 가능
     CONSTRAINT uk_ranking_period_chef
@@ -138,7 +138,7 @@ CREATE INDEX idx_ranking_deleted_at ON chef_ranking (deleted_at);
 
 -- ChefRanking 테이블 코멘트
 COMMENT ON TABLE chef_ranking IS '셰프 랭킹 정보 (주간/월간 등)';
-COMMENT ON COLUMN chef_ranking.ranking_type IS '랭킹 타입: WEEKLY(주간)';
+COMMENT ON COLUMN chef_ranking.ranking_type IS '랭킹 타입: WEEKLY(주간), DAILY(일간)';
 COMMENT ON COLUMN chef_ranking.period_start IS '랭킹 집계 시작일';
 COMMENT ON COLUMN chef_ranking.rank_position IS '랭킹 순위 (1위, 2위, ...)';
 COMMENT ON COLUMN chef_ranking.score IS '랭킹 점수 (조회수 등)';
