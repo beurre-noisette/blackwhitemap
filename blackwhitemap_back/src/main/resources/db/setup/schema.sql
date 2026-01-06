@@ -124,11 +124,7 @@ CREATE TABLE chef_ranking
 
     -- 유니크 제약조건: 같은 기간에 한 셰프는 하나의 랭킹만 가능
     CONSTRAINT uk_ranking_period_chef
-        UNIQUE (ranking_type, period_start, chef_id),
-
-    -- 유니크 제약조건: 같은 기간에 같은 순위는 하나만 존재
-    CONSTRAINT uk_ranking_period_rank
-        UNIQUE (ranking_type, period_start, rank_position)
+        UNIQUE (ranking_type, period_start, chef_id)
 );
 
 -- ChefRanking 테이블 인덱스

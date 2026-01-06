@@ -19,10 +19,6 @@ import java.time.LocalDate;
                 @UniqueConstraint(
                         name = "uk_ranking_period_chef",
                         columnNames = {"ranking_type", "period_start", "chef_id"}
-                ),
-                @UniqueConstraint(
-                        name = "uk_ranking_period_rank",
-                        columnNames = {"ranking_type", "period_start", "rank_position"}
                 )
         },
         indexes = {
