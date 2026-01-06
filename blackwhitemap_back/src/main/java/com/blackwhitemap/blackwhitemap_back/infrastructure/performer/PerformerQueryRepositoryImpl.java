@@ -85,4 +85,17 @@ public class PerformerQueryRepositoryImpl implements PerformerQueryRepository {
                 .sorted(Comparator.comparing(PerformerResult.ChefClusterInfo::region))
                 .toList();
     }
+
+    @Override
+    public List<PerformerResult.SimpleChefInfo> findAllChefsSimpleInfo() {
+        List<Chef> chefs = queryFactory
+                .selectFrom(chef)
+                .where(chef.deletedAt.isNull())
+                .orderBy(chef.id.asc())
+                .fetch();
+
+        return chefs.stream()
+                .map(PerformerResult.SimpleChefInfo::from)
+                .toList();
+    }
 }

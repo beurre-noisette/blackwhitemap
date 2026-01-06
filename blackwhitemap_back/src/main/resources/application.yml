@@ -24,6 +24,7 @@ spring:
 app:
   image:
     base-url: ${IMAGE_BASE_URL}
+  internal-api-key: ${INTERNAL_API_KEY}
 
 ---
 spring:

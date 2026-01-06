@@ -29,4 +29,13 @@ public interface PerformerQueryRepository {
      * @return 시/도별 Chef 클러스터 정보 리스트
      */
     List<PerformerResult.ChefClusterInfo> findChefClusters();
+
+    /**
+     * 모든 Chef 간단 정보 조회 (Internal API용)
+     * - 삭제되지 않은 모든 Chef의 id, name, nickname 반환
+     * - address 유무와 관계없이 전체 조회
+     *
+     * @return Chef 간단 정보 리스트
+     */
+    List<PerformerResult.SimpleChefInfo> findAllChefsSimpleInfo();
 }
