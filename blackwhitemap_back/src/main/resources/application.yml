@@ -17,7 +17,7 @@ spring:
     name: blackwhitemap-api
 
   datasource:
-    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}?prepareThreshold=0
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
