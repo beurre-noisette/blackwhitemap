@@ -2,6 +2,7 @@
 # - 일 4회 실행 (KST 09:00, 13:00, 18:00, 22:00)
 # - 네이버 뉴스 API + Gemini API로 감정 분석
 # - Backend API로 랭킹 저장
+# Test
 
 name: Daily Ranking Collection
 
