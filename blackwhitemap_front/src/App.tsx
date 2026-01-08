@@ -15,6 +15,7 @@ import { KakaoMap } from "@/components/KakaoMap.tsx";
 import { BottomSheet } from "@/components/BottomSheet.tsx";
 import { BestChefContent } from "@/components/BestChefContent.tsx";
 import { ChefDetailContent } from "@/components/ChefDetailContent.tsx";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 function App() {
   const [sheetState, setSheetState] =
@@ -184,6 +185,8 @@ function App() {
             />
           )}
         </BottomSheet>
+
+        <SpeedInsights />
       </div>
     </div>
   );
