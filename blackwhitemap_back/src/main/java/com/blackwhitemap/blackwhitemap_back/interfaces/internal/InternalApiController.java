@@ -41,9 +41,10 @@ public class InternalApiController {
     }
 
     /**
-     * 일간 랭킹 갱신
-     * - 뉴스 수집 스크립트에서 분석 결과 저장
-     * - 기존 데이터가 있으면 갱신, 없으면 생성
+     * 일간 랭킹 점수 추가 및 순위 재계산
+     * - 뉴스 수집 스크립트에서 분석 결과(점수) 저장
+     * - 기존 데이터가 있으면 점수 누적, 없으면 생성
+     * - 저장 완료 후 해당 날짜의 모든 랭킹 순위 재계산
      */
     @PostMapping("/daily-ranking")
     public ApiResponse<Object> updateDailyRanking(
@@ -52,7 +53,6 @@ public class InternalApiController {
         List<RankingCriteria.RankingEntry> entries = request.rankings().stream()
                 .map(entry -> new RankingCriteria.RankingEntry(
                         entry.chefId(),
-                        entry.rank(),
                         entry.score()
                 ))
                 .toList();

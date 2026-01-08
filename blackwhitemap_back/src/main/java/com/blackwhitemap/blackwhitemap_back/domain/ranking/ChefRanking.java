@@ -70,46 +70,42 @@ public class ChefRanking extends BaseEntity {
         this.score = score;
     }
 
-    public static ChefRanking ofDaily(RankingCommand.CreateDailyRanking command) {
-        validateCreateCommand(command);
-        
+    /**
+     * 일간 랭킹 생성 (점수만으로 생성, 순위는 0으로 초기화)
+     * - 순위는 이후 recalculateRanks에서 일괄 계산
+     */
+    public static ChefRanking ofDailyWithScore(RankingCommand.AddDailyScore command) {
+        validateAddScoreCommand(command);
+
         return new ChefRanking(
                 command.chefId(),
                 Type.DAILY,
                 command.periodStart(),
-                command.rank(),
+                0,  // 순위는 이후 재계산
                 command.score()
         );
     }
 
-    /**
-     * 랭킹 정보 갱신
-     */
-    public void updateRanking(RankingCommand.UpdateRanking command) {
-        validateUpdateCommand(command);
-        
-        this.rank = command.rank();
-        this.score = command.score();
+    public void addScore(Long additionalScore) {
+        if (additionalScore == null || additionalScore < 0) {
+            throw new CoreException(ErrorType.BAD_REQUEST, "추가 점수는 0 이상이어야 합니다.");
+        }
+        this.score += additionalScore;
     }
 
-    private static void validateCreateCommand(RankingCommand.CreateDailyRanking command) {
+    public void updateRank(RankingCommand.UpdateRank command) {
+        if (command.rank() == null || command.rank() <= 0) {
+            throw new CoreException(ErrorType.BAD_REQUEST, "순위는 양수여야 합니다.");
+        }
+        this.rank = command.rank();
+    }
+
+    private static void validateAddScoreCommand(RankingCommand.AddDailyScore command) {
         if (command.chefId() == null || command.chefId() <= 0) {
             throw new CoreException(ErrorType.BAD_REQUEST, "셰프 ID는 양수여야 합니다.");
         }
         if (command.periodStart() == null) {
             throw new CoreException(ErrorType.BAD_REQUEST, "랭킹 집계 날짜는 필수입니다.");
-        }
-        if (command.rank() == null || command.rank() <= 0) {
-            throw new CoreException(ErrorType.BAD_REQUEST, "순위는 양수여야 합니다.");
-        }
-        if (command.score() == null || command.score() < 0) {
-            throw new CoreException(ErrorType.BAD_REQUEST, "점수는 0 이상이어야 합니다.");
-        }
-    }
-
-    private static void validateUpdateCommand(RankingCommand.UpdateRanking command) {
-        if (command.rank() == null || command.rank() <= 0) {
-            throw new CoreException(ErrorType.BAD_REQUEST, "순위는 양수여야 합니다.");
         }
         if (command.score() == null || command.score() < 0) {
             throw new CoreException(ErrorType.BAD_REQUEST, "점수는 0 이상이어야 합니다.");

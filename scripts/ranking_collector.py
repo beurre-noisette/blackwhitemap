@@ -6,8 +6,8 @@
 1. Backend API에서 셰프 목록 조회 (name, nickname)
 2. 네이버 뉴스 API로 "흑백요리사2" 검색 (1회 호출)
 3. 기사에서 셰프 이름/닉네임이 포함된 기사만 필터링
-4. 필터링된 기사를 Gemini API로 감정 분석 (배치 10개씩)
-5. 긍정 기사만 점수화하여 Backend API로 저장
+4. 필터링된 기사를 Gemini API로 감정 분석 (배치 5개씩)
+5. 긍정 기사만 점수화하여 Backend API로 저장 (순위는 백엔드에서 계산)
 """
 import json
 import logging
@@ -569,10 +569,10 @@ class RankingCollector:
         return {}
 
     def _save_empty_rankings(self, chefs: list[Chef]) -> None:
-        """모든 셰프 점수를 0으로 저장"""
+        """모든 셰프 점수를 0으로 저장 (순위는 백엔드에서 계산)"""
         rankings = [
-            {"chefId": chef.id, "rank": idx + 1, "score": 0}
-            for idx, chef in enumerate(chefs)
+            {"chefId": chef.id, "score": 0}
+            for chef in chefs
         ]
         today = date.today()
         self.backend.save_daily_ranking(today, rankings)
@@ -585,43 +585,32 @@ class RankingCollector:
         group_positive_counts: dict[str, int]
     ) -> None:
         """
-        그룹 단위 랭킹을 개별 chefId로 확장하여 저장
-        - 동일인물(같은 그룹)은 같은 점수와 랭킹을 갖음
+        그룹 단위 점수를 개별 chefId로 확장하여 저장
+        - 동일인물(같은 그룹)은 같은 점수를 갖음
+        - 순위는 백엔드에서 계산
         """
-        # 1. 그룹별 점수 계산 및 정렬
+        # 1. 그룹별 점수 계산
         group_scores: list[tuple[ChefGroup, int]] = []
         for group in chef_groups:
             group_key = f"{group.name}|{group.nickname}"
             score = group_positive_counts.get(group_key, 0)
             group_scores.append((group, score))
 
-        # 점수 기준 내림차순 정렬
+        # 점수 기준 내림차순 정렬 (로깅용)
         group_scores.sort(key=lambda x: x[1], reverse=True)
 
-        # 2. 그룹 랭킹 계산 (동일 점수는 같은 랭킹)
-        group_rankings: list[tuple[ChefGroup, int, int]] = []  # (group, rank, score)
-        current_rank = 1
-        prev_score = None
-
-        for idx, (group, score) in enumerate(group_scores):
-            if prev_score is not None and score < prev_score:
-                current_rank = idx + 1
-            group_rankings.append((group, current_rank, score))
-            prev_score = score
-
-        # 3. 그룹 → 개별 chefId로 확장
+        # 2. 그룹 → 개별 chefId로 확장 (점수만 전달, 순위는 백엔드에서 계산)
         rankings = []
-        for group, rank, score in group_rankings:
+        for group, score in group_scores:
             for chef_id in group.chef_ids:
                 rankings.append({
                     "chefId": chef_id,
-                    "rank": rank,
                     "score": score
                 })
 
-        logger.info(f"랭킹 생성 완료: {len(chef_groups)}그룹 → {len(rankings)}건")
+        logger.info(f"점수 데이터 생성 완료: {len(chef_groups)}그룹 → {len(rankings)}건")
 
-        # Backend API로 저장
+        # Backend API로 저장 (순위는 백엔드에서 계산)
         today = date.today()
         self.backend.save_daily_ranking(today, rankings)
 
@@ -631,15 +620,15 @@ class RankingCollector:
         logger.info(f"전체 셰프: {len(chefs)}명")
         logger.info(f"그룹 수: {len(chef_groups)}개 (동일인물 그룹화)")
 
-        # 상위 5그룹 출력 (중복 없이)
-        logger.info("상위 5명:")
+        # 상위 5그룹 출력 (점수 기준)
+        logger.info("상위 5명 (점수 기준):")
         shown_count = 0
-        for group, rank, score in group_rankings:
+        for group, score in group_scores:
             if shown_count >= 5:
                 break
             chef_count = len(group.chef_ids)
             suffix = f" (가게 {chef_count}개)" if chef_count > 1 else ""
-            logger.info(f"  {rank}위: {group.name} ({score}점){suffix}")
+            logger.info(f"  {group.name} ({score}점){suffix}")
             shown_count += 1
 
         logger.info("=== 일간 랭킹 수집 완료 ===")

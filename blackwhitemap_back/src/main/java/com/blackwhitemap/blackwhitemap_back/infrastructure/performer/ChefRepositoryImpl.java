@@ -5,6 +5,7 @@ import com.blackwhitemap.blackwhitemap_back.domain.performer.ChefRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -21,5 +22,10 @@ public class ChefRepositoryImpl implements ChefRepository {
     @Override
     public Optional<Chef> findById(Long id) {
         return chefJpaRepository.findById(id);
+    }
+
+    @Override
+    public List<Chef> findAllByIdIn(List<Long> ids) {
+        return chefJpaRepository.findAllByIdIn(ids);
     }
 }
