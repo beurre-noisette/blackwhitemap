@@ -1,0 +1,58 @@
+# 일간 랭킹 수집 워크플로우
+# - 일 4회 실행 (KST 09:00, 13:00, 18:00, 22:00)
+# - 네이버 뉴스 API + Gemini API로 감정 분석
+# - Backend API로 랭킹 저장
+
+name: Daily Ranking Collection
+
+on:
+  # 일 4회 스케줄 실행 (UTC 기준, KST = UTC + 9)
+  schedule:
+    - cron: '0 0 * * *'   # KST 09:00
+    - cron: '0 4 * * *'   # KST 13:00
+    - cron: '0 9 * * *'   # KST 18:00
+    - cron: '0 13 * * *'  # KST 22:00
+
+  # 수동 실행 지원
+  workflow_dispatch:
+
+jobs:
+  collect-ranking:
+    name: Collect Daily Ranking
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: 'scripts/requirements.txt'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r scripts/requirements.txt
+
+      - name: Run ranking collector
+        env:
+          BACKEND_URL: ${{ secrets.BACKEND_URL }}
+          INTERNAL_API_KEY: ${{ secrets.INTERNAL_API_KEY }}
+          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
+          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python scripts/ranking_collector.py
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "### Daily Ranking Collection" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status**: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Triggered by**: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Run time**: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
