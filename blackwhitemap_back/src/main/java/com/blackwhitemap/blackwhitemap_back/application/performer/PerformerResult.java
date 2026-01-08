@@ -70,4 +70,22 @@ public class PerformerResult {
             Double latitude,
             Double longitude
     ) {}
+
+    /**
+     * Chef 간단 정보 (Internal API용)
+     * - 뉴스 검색 키워드로 사용할 id, name, nickname만 포함
+     */
+    public record SimpleChefInfo(
+            Long id,
+            String name,
+            String nickname
+    ) {
+        public static SimpleChefInfo from(Chef chef) {
+            return new SimpleChefInfo(
+                    chef.getId(),
+                    chef.getName(),
+                    chef.getNickname()
+            );
+        }
+    }
 }

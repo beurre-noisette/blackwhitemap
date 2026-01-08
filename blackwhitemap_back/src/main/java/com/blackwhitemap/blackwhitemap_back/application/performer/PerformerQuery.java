@@ -50,4 +50,15 @@ public class PerformerQuery {
     public List<PerformerResult.ChefClusterInfo> getChefClusters() {
         return performerQueryRepository.findChefClusters();
     }
+
+    /**
+     * 모든 Chef 간단 정보 조회 (Internal API용)
+     * - 캐싱 미적용 (외부 스케줄러에서 사용)
+     * - 삭제되지 않은 모든 Chef의 id, name, nickname 반환
+     *
+     * @return Chef 간단 정보 리스트
+     */
+    public List<PerformerResult.SimpleChefInfo> getAllChefsSimpleInfo() {
+        return performerQueryRepository.findAllChefsSimpleInfo();
+    }
 }
