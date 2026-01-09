@@ -1,10 +1,11 @@
 package com.blackwhitemap.blackwhitemap_back.domain.ranking;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 public interface ChefRankingRepository {
-    
+
     ChefRanking save(ChefRanking chefRanking);
 
     /**
@@ -14,6 +15,15 @@ public interface ChefRankingRepository {
             ChefRanking.Type type,
             LocalDate periodStart,
             Long chefId
+    );
+
+    /**
+     * 특정 기간/타입의 모든 랭킹 조회
+     * - 순위 재계산 시 사용
+     */
+    List<ChefRanking> findAllByTypeAndPeriodStart(
+            ChefRanking.Type type,
+            LocalDate periodStart
     );
 
     /**

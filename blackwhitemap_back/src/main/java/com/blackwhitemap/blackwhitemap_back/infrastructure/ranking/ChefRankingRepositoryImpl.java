@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -26,6 +27,14 @@ public class ChefRankingRepositoryImpl implements ChefRankingRepository {
             Long chefId
     ) {
         return chefRankingJpaRepository.findByTypeAndPeriodStartAndChefId(type, periodStart, chefId);
+    }
+
+    @Override
+    public List<ChefRanking> findAllByTypeAndPeriodStart(
+            ChefRanking.Type type,
+            LocalDate periodStart
+    ) {
+        return chefRankingJpaRepository.findAllByTypeAndPeriodStart(type, periodStart);
     }
 
     @Override

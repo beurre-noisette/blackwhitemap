@@ -7,7 +7,6 @@ public class RankingCriteria {
 
     public record RankingEntry(
             Long chefId,
-            Integer rank,
             Long score
     ) {}
 

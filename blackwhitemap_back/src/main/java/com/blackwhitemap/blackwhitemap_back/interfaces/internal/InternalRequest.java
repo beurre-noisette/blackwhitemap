@@ -25,10 +25,6 @@ public class InternalRequest {
             @Positive(message = "셰프 ID는 양수여야 합니다")
             Long chefId,
 
-            @NotNull(message = "순위는 필수입니다")
-            @Positive(message = "순위는 양수여야 합니다")
-            Integer rank,
-
             @NotNull(message = "점수는 필수입니다")
             @PositiveOrZero(message = "점수는 0 이상이어야 합니다")
             Long score

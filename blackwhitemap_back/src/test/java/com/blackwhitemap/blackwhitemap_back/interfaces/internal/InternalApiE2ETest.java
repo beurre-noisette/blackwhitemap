@@ -159,9 +159,9 @@ class InternalApiE2ETest {
             InternalRequest.UpdateDailyRanking requestBody = new InternalRequest.UpdateDailyRanking(
                     LocalDate.of(2025, 1, 6),
                     List.of(
-                            new InternalRequest.RankingEntry(101L, 1, 100L),
-                            new InternalRequest.RankingEntry(102L, 2, 80L),
-                            new InternalRequest.RankingEntry(103L, 3, 60L)
+                            new InternalRequest.RankingEntry(101L,100L),
+                            new InternalRequest.RankingEntry(102L, 80L),
+                            new InternalRequest.RankingEntry(103L, 60L)
                     )
             );
             HttpEntity<InternalRequest.UpdateDailyRanking> request = new HttpEntity<>(requestBody, createHeadersWithApiKey());
@@ -194,7 +194,7 @@ class InternalApiE2ETest {
             // given
             InternalRequest.UpdateDailyRanking requestBody = new InternalRequest.UpdateDailyRanking(
                     LocalDate.of(2025, 1, 6),
-                    List.of(new InternalRequest.RankingEntry(101L, 1, 100L))
+                    List.of(new InternalRequest.RankingEntry(101L, 100L))
             );
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -213,22 +213,22 @@ class InternalApiE2ETest {
         }
 
         @Test
-        @DisplayName("같은 날짜에 기존 랭킹이 있으면 갱신한다")
+        @DisplayName("같은 날짜에 기존 랭킹이 있으면 점수를 누적한다")
         @Sql("/sql/ranking-test-data.sql")
         void updateDailyRanking_updateExistingRanking() {
             // given - 먼저 랭킹 저장
             LocalDate targetDate = LocalDate.of(2025, 1, 6);
             InternalRequest.UpdateDailyRanking firstRequest = new InternalRequest.UpdateDailyRanking(
                     targetDate,
-                    List.of(new InternalRequest.RankingEntry(101L, 1, 100L))
+                    List.of(new InternalRequest.RankingEntry(101L, 100L))
             );
             HttpEntity<InternalRequest.UpdateDailyRanking> request1 = new HttpEntity<>(firstRequest, createHeadersWithApiKey());
             testRestTemplate.exchange(ENDPOINT_DAILY_RANKING, HttpMethod.POST, request1, new ParameterizedTypeReference<ApiResponse<Object>>() {});
 
-            // when - 같은 날짜, 같은 셰프로 다시 요청
+            // when - 같은 날짜, 같은 셰프로 다시 요청 (점수 누적)
             InternalRequest.UpdateDailyRanking secondRequest = new InternalRequest.UpdateDailyRanking(
                     targetDate,
-                    List.of(new InternalRequest.RankingEntry(101L, 2, 150L))
+                    List.of(new InternalRequest.RankingEntry(101L, 150L))
             );
             HttpEntity<InternalRequest.UpdateDailyRanking> request2 = new HttpEntity<>(secondRequest, createHeadersWithApiKey());
             ResponseEntity<ApiResponse<Object>> response = testRestTemplate.exchange(
@@ -241,7 +241,7 @@ class InternalApiE2ETest {
             // then
             assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
-            // 같은 날짜, 같은 셰프의 랭킹이 갱신되었는지 확인
+            // 같은 날짜, 같은 셰프의 랭킹 점수가 누적되었는지 확인
             List<ChefRanking> rankings = chefRankingJpaRepository.findAll().stream()
                     .filter(r -> r.getType() == ChefRanking.Type.DAILY
                             && r.getPeriodStart().equals(targetDate)
@@ -249,8 +249,8 @@ class InternalApiE2ETest {
                     .toList();
 
             assertThat(rankings).hasSize(1);
-            assertThat(rankings.getFirst().getRank()).isEqualTo(2);
-            assertThat(rankings.getFirst().getScore()).isEqualTo(150L);
+            assertThat(rankings.getFirst().getRank()).isEqualTo(1);  // 유일한 DAILY 랭킹이므로 1위
+            assertThat(rankings.getFirst().getScore()).isEqualTo(250L);  // 100 + 150 = 250 (누적)
         }
 
         @Test
