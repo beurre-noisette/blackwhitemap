@@ -21,14 +21,12 @@ VALUES
     (5, 'https://example.com/image5.jpg', 0);
 
 -- 테스트용 ChefRanking 데이터 (이번 주 화요일 기준, TOP 5)
--- periodStart는 동적으로 계산: 이번 주 화요일
--- date_trunc('week', CURRENT_DATE)는 이번 주 월요일을 반환
--- + INTERVAL '1 day'로 화요일 계산
--- FIXME date_trunc 함수가 테스트 환경에서 제대로 동작하지 않을 경우, 수동으로 날짜 입력 필요 (e.g. 아직 이번주 화요일이 지나지 않았을 경우)
+-- periodStart는 Java의 previousOrSame(TUESDAY) 로직과 동일하게 계산
+-- 화~일: 이번 주 화요일, 월요일: 지난 주 화요일
 INSERT INTO chef_ranking (chef_id, ranking_type, period_start, rank_position, score, created_at, updated_at)
 VALUES
-    (1, 'WEEKLY', (date_trunc('week', CURRENT_DATE) + INTERVAL '1 day')::date, 1, NULL, NOW(), NOW()),
-    (2, 'WEEKLY', (date_trunc('week', CURRENT_DATE) + INTERVAL '1 day')::date, 2, NULL, NOW(), NOW()),
-    (3, 'WEEKLY', (date_trunc('week', CURRENT_DATE) + INTERVAL '1 day')::date, 3, NULL, NOW(), NOW()),
-    (4, 'WEEKLY', (date_trunc('week', CURRENT_DATE) + INTERVAL '1 day')::date, 4, NULL, NOW(), NOW()),
-    (5, 'WEEKLY', (date_trunc('week', CURRENT_DATE) + INTERVAL '1 day')::date, 5, NULL, NOW(), NOW());
+    (1, 'WEEKLY', (CURRENT_DATE - ((EXTRACT(ISODOW FROM CURRENT_DATE)::int - 2 + 7) % 7) * INTERVAL '1 day')::date, 1, NULL, NOW(), NOW()),
+    (2, 'WEEKLY', (CURRENT_DATE - ((EXTRACT(ISODOW FROM CURRENT_DATE)::int - 2 + 7) % 7) * INTERVAL '1 day')::date, 2, NULL, NOW(), NOW()),
+    (3, 'WEEKLY', (CURRENT_DATE - ((EXTRACT(ISODOW FROM CURRENT_DATE)::int - 2 + 7) % 7) * INTERVAL '1 day')::date, 3, NULL, NOW(), NOW()),
+    (4, 'WEEKLY', (CURRENT_DATE - ((EXTRACT(ISODOW FROM CURRENT_DATE)::int - 2 + 7) % 7) * INTERVAL '1 day')::date, 4, NULL, NOW(), NOW()),
+    (5, 'WEEKLY', (CURRENT_DATE - ((EXTRACT(ISODOW FROM CURRENT_DATE)::int - 2 + 7) % 7) * INTERVAL '1 day')::date, 5, NULL, NOW(), NOW());

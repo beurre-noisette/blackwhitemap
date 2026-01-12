@@ -2,13 +2,9 @@ package com.blackwhitemap.blackwhitemap_back.application.ranking;
 
 import com.blackwhitemap.blackwhitemap_back.support.testcontainers.PostgreSQLTestContainersConfig;
 import com.blackwhitemap.blackwhitemap_back.support.utils.DatabaseCleanUp;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
@@ -28,9 +24,6 @@ class RankingQueryTest {
 
     @Autowired
     private DatabaseCleanUp databaseCleanUp;
-
-    @Autowired
-    private CacheManager cacheManager;
 
     @AfterEach
     void tearDown() {
@@ -57,10 +50,22 @@ class RankingQueryTest {
                     () -> assertThat(results)
                             .extracting(RankingResult.WeeklyBestChef::rank)
                             .containsExactly(1, 2, 3, 4, 5),
-                    () -> assertThat(results.get(0).name()).isEqualTo("유용욱"),
-                    () -> assertThat(results.get(0).rank()).isEqualTo(1),
-                    () -> assertThat(results.get(1).name()).isEqualTo("손종원"),
-                    () -> assertThat(results.get(1).rank()).isEqualTo(2)
+                    () -> {
+                        Assertions.assertNotNull(results);
+                        assertThat(results.getFirst().name()).isEqualTo("유용욱");
+                    },
+                    () -> {
+                        Assertions.assertNotNull(results);
+                        assertThat(results.getFirst().rank()).isEqualTo(1);
+                    },
+                    () -> {
+                        Assertions.assertNotNull(results);
+                        assertThat(results.get(1).name()).isEqualTo("손종원");
+                    },
+                    () -> {
+                        Assertions.assertNotNull(results);
+                        assertThat(results.get(1).rank()).isEqualTo(2);
+                    }
             );
         }
 
