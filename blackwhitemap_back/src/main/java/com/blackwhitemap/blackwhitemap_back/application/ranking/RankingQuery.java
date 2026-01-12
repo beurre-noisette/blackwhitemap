@@ -13,6 +13,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RankingQuery {
 
+    private static final int DAILY_FETCH_LIMIT = 30;
+    private static final int DAILY_RESULT_LIMIT = 5;
+
     private final RankingQueryRepository rankingQueryRepository;
 
     /**
@@ -28,6 +31,33 @@ public class RankingQuery {
     public List<RankingResult.WeeklyBestChef> getWeeklyBestChefs(int limit) {
         LocalDate currentWeekStart = getCurrentWeekStart();
         return rankingQueryRepository.findWeeklyBestChefs(currentWeekStart, limit);
+    }
+
+    /**
+     * 일일 Best Chef 조회 (캐싱 적용)
+     * - 오늘 TOP 5 Chef 조회
+     * - 같은 셰프(nickname 또는 name 기준)가 여러 매장을 운영하는 경우, 가장 높은 rank 1명만 포함
+     * - 캐시 TTL: 5분
+     * - 캐시 키: 오늘 날짜
+     *
+     * @return 일일 Best Chef 정보 리스트
+     */
+    @Cacheable(value = "dailyBestChefs", key = "#root.target.getDailyCacheKey()")
+    public List<RankingResult.DailyBestChef> getDailyBestChefs() {
+        return rankingQueryRepository.findDailyBestChefs(
+                LocalDate.now(),
+                DAILY_FETCH_LIMIT,
+                DAILY_RESULT_LIMIT
+        );
+    }
+
+    /**
+     * 일일 캐시 키 생성
+     *
+     * @return 오늘 날짜 문자열
+     */
+    public String getDailyCacheKey() {
+        return LocalDate.now().toString();
     }
 
     /**

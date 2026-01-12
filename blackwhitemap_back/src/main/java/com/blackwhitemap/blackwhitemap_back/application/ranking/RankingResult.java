@@ -61,4 +61,46 @@ public class RankingResult {
             );
         }
     }
+
+    public record DailyBestChef(
+            // Chef 기본 정보
+            Long id,
+            String name,
+            String nickname,
+            String type,
+
+            // Restaurant 정보
+            String restaurantName,
+            String smallAddress,
+            String category,
+            String naverReservationUrl,
+            String catchTableUrl,
+
+            // 랭킹 정보
+            Integer rank,
+            Long score
+    ) {
+        public static DailyBestChef from(
+                ChefRanking ranking,
+                Chef chef
+        ) {
+            return new DailyBestChef(
+                    chef.getId(),
+                    chef.getName(),
+                    chef.getNickname(),
+                    chef.getType() != null ? chef.getType().name() : null,
+
+                    chef.getRestaurant() != null ? chef.getRestaurant().getName() : null,
+                    chef.getRestaurant() != null ? chef.getRestaurant().getSmallAddress() : null,
+                    chef.getRestaurant() != null && chef.getRestaurant().getCategory() != null
+                            ? chef.getRestaurant().getCategory().name()
+                            : null,
+                    chef.getRestaurant() != null ? chef.getRestaurant().getNaverReservationUrl() : null,
+                    chef.getRestaurant() != null ? chef.getRestaurant().getCatchTableUrl() : null,
+
+                    ranking.getRank(),
+                    ranking.getScore()
+            );
+        }
+    }
 }

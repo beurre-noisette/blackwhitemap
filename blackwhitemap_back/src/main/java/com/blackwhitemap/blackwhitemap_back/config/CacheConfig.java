@@ -30,6 +30,7 @@ public class CacheConfig {
         CaffeineCacheManager cacheManager = new CaffeineCacheManager(
                 "chefs",
                 "weeklyBestChefs",
+                "dailyBestChefs",
                 "chefClusters"
         );
         cacheManager.setCaffeine(caffeineCacheBuilder());

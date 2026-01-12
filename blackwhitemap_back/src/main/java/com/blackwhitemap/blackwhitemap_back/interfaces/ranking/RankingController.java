@@ -44,4 +44,18 @@ public class RankingController {
 
         return ApiResponse.success(response);
     }
+
+    /**
+     * 일일 Best Chef 조회
+     */
+    @GetMapping("/daily-best")
+    public ApiResponse<List<RankingResponse.DailyBestChef>> getDailyBestChefs(){
+        List<RankingResult.DailyBestChef> queryResults = rankingQuery.getDailyBestChefs();
+
+        List<RankingResponse.DailyBestChef> response = queryResults.stream()
+                .map(RankingResponse.DailyBestChef::from)
+                .toList();
+
+        return ApiResponse.success(response);
+    }
 }
