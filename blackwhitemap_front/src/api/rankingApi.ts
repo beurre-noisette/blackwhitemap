@@ -1,6 +1,10 @@
 import { get } from "./client";
-import type { ApiResponse, WeeklyBestChefResponse } from "./types";
-import type { BestChef, ChefType } from "@/types/chef";
+import type {
+  ApiResponse,
+  WeeklyBestChefResponse,
+  DailyBestChefResponse,
+} from "./types";
+import type { BestChef, ChefType, DailyBestChef } from "@/types/chef";
 
 /**
  * closedDays 변환 헬퍼
@@ -49,4 +53,34 @@ export async function fetchWeeklyBestChefs(
   );
 
   return response.data.map(mapToBestChef);
+}
+
+/**
+ * DailyBestChefResponse를 DailyBestChef로 변환
+ */
+function mapToDailyBestChef(response: DailyBestChefResponse): DailyBestChef {
+  return {
+    id: response.id,
+    name: response.name,
+    nickname: response.nickname,
+    type: response.type as ChefType,
+    restaurantName: response.restaurantName,
+    smallAddress: response.smallAddress,
+    category: response.category,
+    naverReservationUrl: response.naverReservationUrl,
+    catchTableUrl: response.catchTableUrl,
+    rank: response.rank,
+  };
+}
+
+/**
+ * GET /ranking/daily-best
+ * 일일 인기 셰프 Top5 조회
+ */
+export async function fetchDailyBestChefs(): Promise<DailyBestChef[]> {
+  const response = await get<ApiResponse<DailyBestChefResponse[]>>(
+    "/ranking/daily-best",
+  );
+
+  return response.data.map(mapToDailyBestChef);
 }

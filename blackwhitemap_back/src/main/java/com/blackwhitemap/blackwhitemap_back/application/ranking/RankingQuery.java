@@ -6,12 +6,15 @@ import org.springframework.stereotype.Component;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class RankingQuery {
+
+    private static final int DAILY_RESULT_LIMIT = 5;
 
     private final RankingQueryRepository rankingQueryRepository;
 
@@ -28,6 +31,42 @@ public class RankingQuery {
     public List<RankingResult.WeeklyBestChef> getWeeklyBestChefs(int limit) {
         LocalDate currentWeekStart = getCurrentWeekStart();
         return rankingQueryRepository.findWeeklyBestChefs(currentWeekStart, limit);
+    }
+
+    /**
+     * 일일 Best Chef 조회 (캐싱 적용)
+     * - 최근 3일(오늘/어제/그저께) 합산 점수 기준 TOP 5 Chef 조회
+     * - 같은 셰프(nickname 또는 name 기준)가 여러 매장을 운영하는 경우, 가장 높은 rank 1명만 포함
+     * - 캐시 TTL: 5분
+     * - 캐시 키: 오늘 날짜 (3일 윈도우는 날짜 변경 시 자동 갱신)
+     *
+     * @return 일일 Best Chef 정보 리스트
+     */
+    @Cacheable(value = "dailyBestChefs", key = "#root.target.getDailyCacheKey()")
+    public List<RankingResult.DailyBestChef> getDailyBestChefs() {
+        // 최근 3일 계산 (오늘, 어제, 그저께)
+        LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul"));
+        LocalDate yesterday = today.minusDays(1);
+        LocalDate dayBeforeYesterday = today.minusDays(2);
+        List<LocalDate> dateRange = List.of(
+                today,
+                yesterday,
+                dayBeforeYesterday
+        );
+
+        return rankingQueryRepository.findDailyBestChefs(
+                dateRange,
+                DAILY_RESULT_LIMIT
+        );
+    }
+
+    /**
+     * 일일 캐시 키 생성
+     *
+     * @return 오늘 날짜 문자열
+     */
+    public String getDailyCacheKey() {
+        return LocalDate.now().toString();
     }
 
     /**

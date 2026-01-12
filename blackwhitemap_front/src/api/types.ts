@@ -66,3 +66,21 @@ export interface WeeklyBestChefResponse {
   rank: number;
   score: number;
 }
+
+/**
+ * 백엔드 RankingResponse.DailyBestChef
+ * - 일일 인기 셰프 Top5용
+ */
+export interface DailyBestChefResponse {
+  id: number;
+  name: string;
+  nickname: string;
+  type: string; // "BLACK" | "WHITE"
+  restaurantName: string;
+  smallAddress: string;
+  category: string;
+  naverReservationUrl: string | null;
+  catchTableUrl: string | null;
+  rank: number;
+  score: number;
+}

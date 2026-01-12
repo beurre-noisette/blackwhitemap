@@ -47,3 +47,20 @@ export interface BestChef extends ChefBase {
   closedDays: string[];
   rank: number;
 }
+
+/**
+ * 일일 인기 셰프 Top5 (GET /ranking/daily-best 응답)
+ * - Top5Content에서 사용
+ */
+export interface DailyBestChef {
+  id: number;
+  name: string;
+  nickname: string;
+  type: ChefType;
+  restaurantName: string;
+  smallAddress: string;
+  category: string;
+  naverReservationUrl: string | null;
+  catchTableUrl: string | null;
+  rank: number;
+}

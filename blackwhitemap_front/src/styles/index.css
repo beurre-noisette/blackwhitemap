@@ -43,3 +43,15 @@
     --color-gray-900: #121212;
     --color-black: #0E0D0D;
 }
+
+/* 스크롤바 숨김 유틸리티 클래스 */
+/* 스크롤 기능은 유지하면서 스크롤바만 숨김 */
+@layer utilities {
+    .scrollbar-hide {
+        -ms-overflow-style: none;  /* IE, Edge */
+        scrollbar-width: none;     /* Firefox */
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;             /* Chrome, Safari, Opera */
+    }
+}

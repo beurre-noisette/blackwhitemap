@@ -59,4 +59,42 @@ public class RankingResponse {
             );
         }
     }
+
+    public record DailyBestChef(
+            // Chef 기본 정보
+            Long id,
+            String name,
+            String nickname,
+            String type,
+
+            // Restaurant 정보
+            String restaurantName,
+            String smallAddress,
+            String category,
+            String naverReservationUrl,
+            String catchTableUrl,
+
+            // 랭킹 정보
+            Integer rank,
+            // TODO score 필드 제외
+            Long score
+    ) {
+        public static DailyBestChef from(
+                RankingResult.DailyBestChef rankingResult
+        ) {
+            return new DailyBestChef(
+                    rankingResult.id(),
+                    rankingResult.name(),
+                    rankingResult.nickname(),
+                    rankingResult.type(),
+                    rankingResult.restaurantName(),
+                    rankingResult.smallAddress(),
+                    rankingResult.category(),
+                    rankingResult.naverReservationUrl(),
+                    rankingResult.catchTableUrl(),
+                    rankingResult.rank(),
+                    rankingResult.score()
+            );
+        }
+    }
 }

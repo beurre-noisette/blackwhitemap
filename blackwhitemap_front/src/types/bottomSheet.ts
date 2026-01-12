@@ -3,21 +3,21 @@
  *
  * BestChef 관련:
  * - bestChef-minimized: 제목 + 부제목만 (118px)
- * - bestChef-default: ChefCard + Swiper
+ * - bestChef-default: ChefCard + Swiper (346px)
  *
  * ChefDetail 관련:
  * - chefDetail-minimized: 가게명 + 닉네임 + 버튼 (162px)
  * - chefDetail-default: 사진 + 상세정보 + 버튼 (260px)
  *
- * Top10:
- * - top10-expanded: 인기 셰프 Top10 리스트 (730px)
+ * Top5:
+ * - top5-expanded: 인기 셰프 Top5 리스트 (730px)
  */
 export type BottomSheetState =
   | "bestChef-minimized"
   | "bestChef-default"
   | "chefDetail-minimized"
   | "chefDetail-default"
-  | "top10-expanded";
+  | "top5-expanded";
 
 /**
  * BottomSheet 상태별 스펙
@@ -36,7 +36,7 @@ export const BOTTOM_SHEET_SPECS: Record<BottomSheetState, BottomSheetSpec> = {
   "bestChef-default": { height: 346 },
   "chefDetail-minimized": { height: 162 },
   "chefDetail-default": { height: 260 },
-  "top10-expanded": { height: 730 },
+  "top5-expanded": { height: 730 },
 };
 
 /**
@@ -54,11 +54,10 @@ export const STATE_TRANSITIONS: Record<
 > = {
   "bestChef-minimized": {
     up: "bestChef-default",
-    // TODO 추후 up: "top10-expanded" 추가
   },
   "bestChef-default": {
     down: "bestChef-minimized",
-    // TODO 추후 up: "top10-expanded" 추가
+    up: "top5-expanded",
   },
   "chefDetail-minimized": {
     up: "chefDetail-default",
@@ -66,7 +65,7 @@ export const STATE_TRANSITIONS: Record<
   "chefDetail-default": {
     down: "chefDetail-minimized",
   },
-  "top10-expanded": {
+  "top5-expanded": {
     down: "bestChef-default",
   },
 };
