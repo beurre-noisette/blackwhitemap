@@ -132,9 +132,18 @@ export const BottomSheet = ({
       <div
         className={cn(
           "w-full h-[calc(100%-19px)]", // 전체 높이 - 핸들 높이
-          "overflow-hidden", // 스크롤 비활성화 (마우스 및 터치 스크롤 방지)
           "px-5", // 좌우 padding
+          // expanded 상태에서만 스크롤 활성화 (state에 "expanded"가 포함된 경우)
+          // scrollbar-hide: 스크롤바는 숨기고 스크롤 기능만 유지
+          state.includes("expanded")
+            ? "overflow-y-auto scrollbar-hide"
+            : "overflow-hidden",
         )}
+        // expanded 상태에서 스크롤 시 드래그 이벤트가 발생하지 않도록 이벤트 전파 차단
+        // onPointerDownCapture: 포인터 다운 이벤트를 캡처 단계에서 잡아서 상위로 전파 방지
+        onPointerDownCapture={
+          state.includes("expanded") ? (e) => e.stopPropagation() : undefined
+        }
       >
         {children}
       </div>
