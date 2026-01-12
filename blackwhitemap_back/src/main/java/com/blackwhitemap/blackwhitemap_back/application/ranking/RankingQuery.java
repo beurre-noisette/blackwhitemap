@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class RankingQuery {
     @Cacheable(value = "dailyBestChefs", key = "#root.target.getDailyCacheKey()")
     public List<RankingResult.DailyBestChef> getDailyBestChefs() {
         // 최근 3일 계산 (오늘, 어제, 그저께)
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul"));
         LocalDate yesterday = today.minusDays(1);
         LocalDate dayBeforeYesterday = today.minusDays(2);
         List<LocalDate> dateRange = List.of(

@@ -76,6 +76,7 @@ public class RankingResponse {
 
             // 랭킹 정보
             Integer rank,
+            // TODO score 필드 제외
             Long score
     ) {
         public static DailyBestChef from(

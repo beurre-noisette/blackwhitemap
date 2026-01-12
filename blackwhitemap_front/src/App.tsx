@@ -6,15 +6,16 @@ import {
 } from "@/components/SegmentedControl.tsx";
 import { MapControlBar } from "@/components/MapControlBar.tsx";
 import { RankingButton } from "@/components/RankingButton.tsx";
-import { BestChef, ChefDetail } from "@/types/chef.ts";
+import { BestChef, ChefDetail, DailyBestChef } from "@/types/chef.ts";
 import { ChefCluster } from "@/types/map.ts";
 import { fetchChefClusters, fetchChefs } from "@/api/chefApi";
-import { fetchWeeklyBestChefs } from "@/api/rankingApi";
+import { fetchWeeklyBestChefs, fetchDailyBestChefs } from "@/api/rankingApi";
 import loading from "@/assets/images/loading.png";
 import { KakaoMap } from "@/components/KakaoMap.tsx";
 import { BottomSheet } from "@/components/BottomSheet.tsx";
 import { BestChefContent } from "@/components/BestChefContent.tsx";
 import { ChefDetailContent } from "@/components/ChefDetailContent.tsx";
+import { Top5Content } from "@/components/Top5Content.tsx";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 
 function App() {
@@ -29,6 +30,9 @@ function App() {
 
   // 이번주 Best Chef 5명 (랭킹용)
   const [bestChefs, setBestChefs] = useState<BestChef[]>([]);
+
+  // 일일 인기 셰프 Top5
+  const [dailyBestChefs, setDailyBestChefs] = useState<DailyBestChef[]>([]);
 
   // 클러스터 데이터
   const [clusters, setClusters] = useState<ChefCluster[]>([]);
@@ -45,15 +49,18 @@ function App() {
         );
 
         // 데이터 로딩과 최소 대기 시간을 병렬로 처리
-        const [chefsData, bestChefsData, clustersData] = await Promise.all([
-          fetchChefs(), // GET /performer/chefs
-          fetchWeeklyBestChefs(), // GET /ranking/weekly-best?limit=5
-          fetchChefClusters(), // GET /performer/chefs/cluster
-          minLoadingTime,
-        ]);
+        const [chefsData, bestChefsData, dailyBestData, clustersData] =
+          await Promise.all([
+            fetchChefs(), // GET /performer/chefs
+            fetchWeeklyBestChefs(), // GET /ranking/weekly-best?limit=5
+            fetchDailyBestChefs(), // GET /ranking/daily-best
+            fetchChefClusters(), // GET /performer/chefs/cluster
+            minLoadingTime,
+          ]);
 
         setAllChefs(chefsData);
         setBestChefs(bestChefsData);
+        setDailyBestChefs(dailyBestData);
         setClusters(clustersData);
 
         // 초기 선택 셰프 설정 (첫 번째 베스트 셰프)
@@ -78,8 +85,10 @@ function App() {
     loadData();
   }, []);
 
-  const isBestChef = sheetState.startsWith("bestChef");
+  const isBestChef =
+    sheetState.startsWith("bestChef") || sheetState === "top5-expanded";
   const isChefDetail = sheetState.startsWith("chefDetail");
+  const isTop5Expanded = sheetState === "top5-expanded";
 
   /**
    * Segmented Control 필터에 따라 클러스터 데이터 필터링
@@ -184,6 +193,8 @@ function App() {
               }
             />
           )}
+
+          {isTop5Expanded && <Top5Content chefs={dailyBestChefs} />}
         </BottomSheet>
 
         <SpeedInsights />
