@@ -22,18 +22,16 @@ public interface RankingQueryRepository {
 
     /**
      * 일일 Best Chef 조회
-     * - 특정 날짜의 ChefRanking과 Chef를 JOIN하여 조회
+     * - 여러 날짜의 ChefRanking 점수를 합산하여 Chef 정보와 함께 조회
      * - 같은 셰프(nickname 또는 name 기준)가 여러 매장을 운영하는 경우, 가장 높은 rank 1명만 포함
-     * - rank 순서로 정렬
+     * - 합산 점수 기준으로 정렬
      *
-     * @param periodStart 조회 날짜
-     * @param fetchLimit  DB에서 조회할 개수 (중복 제거 전)
-     * @param resultLimit 최종 반환할 개수
+     * @param periodStartDates 조회할 날짜 리스트 (예: 최근 3일)
+     * @param resultLimit      최종 반환할 개수
      * @return 일일 Best Chef 정보 리스트
      */
     List<RankingResult.DailyBestChef> findDailyBestChefs(
-            LocalDate periodStart,
-            int fetchLimit,
+            List<LocalDate> periodStartDates,
             int resultLimit
     );
 }

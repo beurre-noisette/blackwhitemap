@@ -102,5 +102,33 @@ public class RankingResult {
                     ranking.getScore()
             );
         }
+
+        /**
+         * 합산 점수 기반 일일 Best Chef 생성 (오버로드)
+         * - 3일 합산 점수를 사용하는 경우 rank와 score를 직접 전달
+         */
+        public static DailyBestChef from(
+                Integer rank,
+                Long score,
+                Chef chef
+        ) {
+            return new DailyBestChef(
+                    chef.getId(),
+                    chef.getName(),
+                    chef.getNickname(),
+                    chef.getType() != null ? chef.getType().name() : null,
+
+                    chef.getRestaurant() != null ? chef.getRestaurant().getName() : null,
+                    chef.getRestaurant() != null ? chef.getRestaurant().getSmallAddress() : null,
+                    chef.getRestaurant() != null && chef.getRestaurant().getCategory() != null
+                            ? chef.getRestaurant().getCategory().name()
+                            : null,
+                    chef.getRestaurant() != null ? chef.getRestaurant().getNaverReservationUrl() : null,
+                    chef.getRestaurant() != null ? chef.getRestaurant().getCatchTableUrl() : null,
+
+                    rank,
+                    score
+            );
+        }
     }
 }

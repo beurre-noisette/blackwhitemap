@@ -5,7 +5,6 @@ import com.blackwhitemap.blackwhitemap_back.support.utils.DatabaseCleanUp;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -165,10 +164,10 @@ class RankingQueryTest {
                     () -> assertThat(results)
                             .extracting(RankingResult.DailyBestChef::nickname)
                             .containsExactly("바베큐 연구소장", "요리 천재", "컬리넌", "마시마로", null),
-                    // rank는 원본 rank 유지 (1, 2, 5, 6, 7)
+                    // rank는 응답 기준으로 1~5 재부여
                     () -> assertThat(results)
                             .extracting(RankingResult.DailyBestChef::rank)
-                            .containsExactly(1, 2, 5, 6, 7)
+                            .containsExactly(1, 2, 3, 4, 5)
             );
         }
 
@@ -217,7 +216,7 @@ class RankingQueryTest {
             assertAll(
                     () -> assertThat(lastChef.name()).isEqualTo("정지선"),
                     () -> assertThat(lastChef.nickname()).isNull(),
-                    () -> assertThat(lastChef.rank()).isEqualTo(7)
+                    () -> assertThat(lastChef.rank()).isEqualTo(5)
             );
         }
 
