@@ -116,7 +116,7 @@ export const BottomSheet = ({
     >
       {/* 핸들 영역 */}
       <div
-        className="relative w-full h-[19px] flex items-center justify-center cursor-grab
+        className="relative w-full h-8 flex items-center justify-center cursor-grab
   active:cursor-grabbing"
       >
         <div
@@ -133,7 +133,7 @@ export const BottomSheet = ({
       {/* 콘텐츠 영역 */}
       <div
         className={cn(
-          "w-full h-[calc(100%-19px)]", // 전체 높이 - 핸들 높이
+          "w-full h-[calc(100%-32px)]", // 전체 높이 - 핸들 높이
           "px-5", // 좌우 padding
           // expanded 상태에서만 스크롤 활성화 (state에 "expanded"가 포함된 경우)
           // scrollbar-hide: 스크롤바는 숨기고 스크롤 기능만 유지
