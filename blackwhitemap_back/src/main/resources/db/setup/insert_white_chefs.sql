@@ -1298,7 +1298,7 @@ INSERT INTO chef_image (
     display_order
 ) VALUES (
     (SELECT id FROM chef WHERE name = '최강록' AND nickname IS NULL),
-    'unknown.jpg',
+    'white_no_choiganglok.jpg',
     0
 );
 
