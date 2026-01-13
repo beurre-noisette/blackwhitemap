@@ -92,7 +92,7 @@ export const KakaoMap = ({ clusters, chefs, onChefClick }: KakaoMapProps) => {
             position={{ lat: marker.latitude, lng: marker.longitude }}
             image={{
               src: ICON_MAP[
-                marker.type === "BLACK" ? "chef-black" : "chef-white"
+                marker.type === "BLACK" ? "chef-black-seg" : "chef-white-seg"
               ],
               size: { width: 24, height: 24 },
             }}
