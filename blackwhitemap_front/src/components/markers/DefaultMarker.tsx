@@ -1,10 +1,8 @@
 import { ChefDetail } from "@/types/chef";
 import { Icon } from "@/components/Icon";
-import { MarkerBadge } from "./MarkerBadge";
 
 interface DefaultMarkerProps {
   chef: ChefDetail;
-  extraCount?: number;
   onClick: () => void;
 }
 
@@ -15,7 +13,6 @@ interface DefaultMarkerProps {
  */
 export const DefaultMarker = ({
   chef,
-  extraCount = 0,
   onClick,
 }: DefaultMarkerProps) => {
   const iconName = chef.type === "BLACK" ? "chef-black-seg" : "chef-white-seg";
@@ -28,7 +25,6 @@ export const DefaultMarker = ({
       aria-label={`${chef.restaurantName} 마커`}
     >
       <Icon name={iconName} size="large" />
-      {extraCount > 0 && <MarkerBadge count={extraCount} type={chef.type} />}
     </div>
   );
 };

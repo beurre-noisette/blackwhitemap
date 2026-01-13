@@ -1,17 +1,12 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { CustomOverlayMap, Map } from "react-kakao-maps-sdk";
-import { ChefCluster, ChefGroup, DisplayLevel } from "@/types/map";
+import { ChefCluster, DisplayLevel } from "@/types/map";
 import { ChefDetail } from "@/types/chef";
 import { ClusterMarker } from "@/components/ClusterMarker.tsx";
 import { DefaultMarker } from "@/components/markers/DefaultMarker";
 import { PillMarker } from "@/components/markers/PillMarker";
 import { SelectedMarker } from "@/components/markers/SelectedMarker";
-import { GroupSelectedMarker } from "@/components/markers/GroupSelectedMarker";
-import {
-  getDisplayLevel,
-  groupChefsByAddressAndType,
-  groupChefsByAddress,
-} from "@/utils/markerUtils";
+import { getDisplayLevel } from "@/utils/markerUtils";
 
 /**
  * KakaoMap 컴포넌트의 Props
@@ -32,20 +27,16 @@ interface KakaoMapProps {
  * 선택 상태 타입
  * - none: 선택 없음
  * - single: 단일 셰프 선택
- * - group: 그룹 선택 (Level 2 이하에서 같은 주소의 여러 가게)
  */
-type MarkerSelection =
-  | { type: "none" }
-  | { type: "single"; chef: ChefDetail; groupKey?: string }
-  | { type: "group"; group: ChefGroup };
+type MarkerSelection = { type: "none" } | { type: "single"; chef: ChefDetail };
 
 /**
  * 카카오맵 컴포넌트
  *
  * 세 가지 뷰 상태를 관리합니다:
  * 1. cluster 모드 (level 11+): 시/도별 클러스터 마커 표시
- * 2. level3to10 모드 (level 3~10): 개별 아이콘 마커, 같은 주소+타입만 배지 표시
- * 3. level2below 모드 (level 2 이하): 알약 마커, 같은 주소 그룹화
+ * 2. level3to10 모드 (level 3~10): 개별 아이콘 마커
+ * 3. level2below 모드 (level 2 이하): 알약 마커
  */
 export const KakaoMap = ({
   clusters,
@@ -63,26 +54,27 @@ export const KakaoMap = ({
   const [selection, setSelection] = useState<MarkerSelection>({ type: "none" });
 
   // 외부 selectedChef 변경 시 내부 상태 동기화
-  useMemo(() => {
+  useEffect(() => {
     if (selectedChef) {
       setSelection({ type: "single", chef: selectedChef });
+    } else {
+      setSelection({ type: "none" });
     }
   }, [selectedChef]);
 
-  /**
-   * Level 3~10용: 주소+타입 기준 그룹화
-   * - key: "address|type"
-   * - value: ChefDetail[]
-   */
-  const chefsByAddressAndType = useMemo(
-    () => groupChefsByAddressAndType(chefs),
+  // displayLevel 변경 시 선택 상태 초기화
+  useEffect(() => {
+    setSelection({ type: "none" });
+  }, [displayLevel]);
+
+  const mappableChefs = useMemo(
+    () =>
+      chefs.filter(
+        (chef) =>
+          Number.isFinite(chef.latitude) && Number.isFinite(chef.longitude),
+      ),
     [chefs],
   );
-
-  /**
-   * Level 2 이하용: 주소 기준 그룹화
-   */
-  const chefGroups = useMemo(() => groupChefsByAddress(chefs), [chefs]);
 
   /**
    * 클러스터 마커 클릭 핸들러
@@ -95,68 +87,18 @@ export const KakaoMap = ({
   };
 
   /**
-   * Level 3~10에서 마커 클릭 핸들러
+   * 개별 마커 클릭 핸들러
    */
-  const handleLevel3to10MarkerClick = (chef: ChefDetail, groupKey: string) => {
-    const group = chefsByAddressAndType.get(groupKey) || [];
-
-    if (group.length === 1) {
-      // 단일 가게: 선택 상태 변경 + 외부 콜백
-      setSelection({ type: "single", chef, groupKey });
-      onChefClick(chef);
-    } else {
-      // 여러 가게: 첫 번째 가게 선택 (추후 그룹 선택 UI로 확장 가능)
-      setSelection({ type: "single", chef, groupKey });
-      onChefClick(chef);
-    }
-  };
-
-  /**
-   * Level 2 이하에서 마커 클릭 핸들러
-   */
-  const handleLevel2BelowMarkerClick = (group: ChefGroup) => {
-    const firstChef = group.chefs[0];
-    if (!firstChef) return;
-
-    if (group.chefs.length === 1) {
-      // 단일 가게
-      setSelection({ type: "single", chef: firstChef });
-      onChefClick(firstChef);
-    } else {
-      // 여러 가게: 그룹 선택 상태로 변경
-      setSelection({ type: "group", group });
-    }
-  };
-
-  /**
-   * 그룹 내 개별 셰프 클릭 핸들러
-   */
-  const handleGroupChefClick = (chef: ChefDetail) => {
+  const handleMarkerClick = (chef: ChefDetail) => {
     setSelection({ type: "single", chef });
     onChefClick(chef);
   };
 
   /**
-   * 선택된 마커인지 확인 (Level 3~10)
+   * 선택된 마커인지 확인
    */
-  const isSelectedInLevel3to10 = (chef: ChefDetail, groupKey: string) => {
-    if (selection.type === "single") {
-      return selection.groupKey === groupKey && selection.chef.id === chef.id;
-    }
-    return false;
-  };
-
-  /**
-   * 선택된 그룹인지 확인 (Level 2 이하)
-   */
-  const isSelectedGroup = (group: ChefGroup) => {
-    if (selection.type === "group") {
-      return selection.group.address === group.address;
-    }
-    if (selection.type === "single") {
-      return group.chefs.some((c) => c.id === selection.chef.id);
-    }
-    return false;
+  const isSelected = (chef: ChefDetail) => {
+    return selection.type === "single" && selection.chef.id === chef.id;
   };
 
   return (
@@ -166,6 +108,7 @@ export const KakaoMap = ({
       style={{ width: "100%", height: "100%" }}
       onZoomChanged={(map) => {
         const newLevel = map.getLevel();
+        setLevel(newLevel);
         setDisplayLevel(getDisplayLevel(newLevel));
       }}
       onClick={() => {
@@ -190,82 +133,57 @@ export const KakaoMap = ({
 
       {/* Level 3~10 모드: 개별 아이콘 마커 */}
       {displayLevel === "level3to10" &&
-        Array.from(chefsByAddressAndType.entries())
-          .filter(([, groupChefs]) => groupChefs.length > 0)
-          .map(([key, groupChefs]) => {
-            const primaryChef = groupChefs[0]!;
-            const extraCount = groupChefs.length - 1;
-            const isSelected = isSelectedInLevel3to10(primaryChef, key);
+        mappableChefs.map((chef) => {
+          const selected = isSelected(chef);
 
-            return (
-              <CustomOverlayMap
-                key={key}
-                position={{
-                  lat: primaryChef.latitude,
-                  lng: primaryChef.longitude,
-                }}
-                clickable={true}
-                zIndex={isSelected ? 10 : 1}
-              >
-                {isSelected ? (
-                  <SelectedMarker
-                    chef={primaryChef}
-                    onClick={() => handleLevel3to10MarkerClick(primaryChef, key)}
-                  />
-                ) : (
-                  <DefaultMarker
-                    chef={primaryChef}
-                    extraCount={extraCount}
-                    onClick={() => handleLevel3to10MarkerClick(primaryChef, key)}
-                  />
-                )}
-              </CustomOverlayMap>
-            );
-          })}
+          return (
+            <CustomOverlayMap
+              key={chef.id}
+              position={{ lat: chef.latitude, lng: chef.longitude }}
+              clickable={true}
+              zIndex={selected ? 10 : 1}
+            >
+              {selected ? (
+                <SelectedMarker
+                  chef={chef}
+                  onClick={() => handleMarkerClick(chef)}
+                />
+              ) : (
+                <DefaultMarker
+                  chef={chef}
+                  onClick={() => handleMarkerClick(chef)}
+                />
+              )}
+            </CustomOverlayMap>
+          );
+        })}
 
       {/* Level 2 이하 모드: 알약 마커 */}
       {displayLevel === "level2below" &&
-        chefGroups
-          .filter((group) => group.chefs.length > 0)
-          .map((group) => {
-            const primaryChef = group.chefs[0]!;
-            const extraCount = group.chefs.length - 1;
-            const isSelected = isSelectedGroup(group);
+        mappableChefs.map((chef) => {
+          const selected = isSelected(chef);
 
-            return (
-              <CustomOverlayMap
-                key={group.address}
-                position={{ lat: group.latitude, lng: group.longitude }}
-                clickable={true}
-                zIndex={isSelected ? 10 : 1}
-              >
-                {isSelected ? (
-                  selection.type === "group" &&
-                  selection.group.address === group.address ? (
-                    <GroupSelectedMarker
-                      chefs={group.chefs}
-                      onChefClick={handleGroupChefClick}
-                    />
-                  ) : (
-                    <SelectedMarker
-                      chef={
-                        selection.type === "single"
-                          ? selection.chef
-                          : primaryChef
-                      }
-                      onClick={() => handleLevel2BelowMarkerClick(group)}
-                    />
-                  )
-                ) : (
-                  <PillMarker
-                    chef={primaryChef}
-                    extraCount={extraCount}
-                    onClick={() => handleLevel2BelowMarkerClick(group)}
-                  />
-                )}
-              </CustomOverlayMap>
-            );
-          })}
+          return (
+            <CustomOverlayMap
+              key={chef.id}
+              position={{ lat: chef.latitude, lng: chef.longitude }}
+              clickable={true}
+              zIndex={selected ? 10 : 1}
+            >
+              {selected ? (
+                <SelectedMarker
+                  chef={chef}
+                  onClick={() => handleMarkerClick(chef)}
+                />
+              ) : (
+                <PillMarker
+                  chef={chef}
+                  onClick={() => handleMarkerClick(chef)}
+                />
+              )}
+            </CustomOverlayMap>
+          );
+        })}
     </Map>
   );
 };

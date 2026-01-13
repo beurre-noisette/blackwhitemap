@@ -1,4 +1,4 @@
-import { ChefDetail, ChefType } from "@/types/chef.ts";
+import { ChefType } from "@/types/chef.ts";
 
 /**
  * 지도에 표시할 클러스터 정보
@@ -12,17 +12,6 @@ export interface ChefCluster {
   region: string;
   blackCount: number;
   whiteCount: number;
-  latitude: number;
-  longitude: number;
-}
-
-/**
- * 주소 기반 셰프 그룹 (Level 2 이하에서 사용)
- * - 같은 주소에 있는 셰프들을 하나의 그룹으로 묶음
- */
-export interface ChefGroup {
-  address: string;
-  chefs: ChefDetail[];
   latitude: number;
   longitude: number;
 }
@@ -45,10 +34,3 @@ export interface ChefMarker {
   longitude: number;
   type: ChefType;
 }
-
-/**
- * 지도 뷰 상태
- * - cluster: 줌 아웃 상태 (클러스터 마크 표시)
- * - individual: 줌 인 상태 (개별 셰프 마커 표시)
- */
-export type MapViewState = "cluster" | "individual";

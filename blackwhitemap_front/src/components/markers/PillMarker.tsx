@@ -1,12 +1,10 @@
 import { ChefDetail } from "@/types/chef";
 import { cn } from "@/utils/cn";
 import { Icon } from "@/components/Icon";
-import { MarkerBadge } from "./MarkerBadge";
 import { getChefDisplayName } from "@/utils/markerUtils";
 
 interface PillMarkerProps {
   chef: ChefDetail;
-  extraCount?: number;
   onClick: () => void;
 }
 
@@ -17,7 +15,6 @@ interface PillMarkerProps {
  */
 export const PillMarker = ({
   chef,
-  extraCount = 0,
   onClick,
 }: PillMarkerProps) => {
   const iconName = chef.type === "BLACK" ? "chef-black-seg" : "chef-white-seg";
@@ -52,7 +49,6 @@ export const PillMarker = ({
         </div>
       </div>
 
-      {extraCount > 0 && <MarkerBadge count={extraCount} type={chef.type} />}
     </div>
   );
 };
