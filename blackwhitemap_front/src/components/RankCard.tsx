@@ -120,7 +120,7 @@ export const RankCard = ({ chef, className }: RankCardProps) => {
         onClick={handleReservationClick}
         disabled={!isReservationAvailable}
         className={cn(
-          "w-8 h-8 rounded-full flex items-center justify-center shrink-0",
+          "w-12 h-8 rounded-full flex items-center justify-center shrink-0",
           "transition-colors",
           isBlack
             ? "bg-white hover:bg-gray-100" // 블랙 테마: 흰색 배경
