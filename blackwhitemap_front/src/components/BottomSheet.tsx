@@ -91,10 +91,12 @@ export const BottomSheet = ({
         "z-50", // 다른 요소 위에 표시
         className,
       )}
-      // 상태별 높이 및 위치 (하단 고정 방식)
+      // 상태별 높이 및 위치
+      // top이 지정된 경우: 상단 고정, 높이는 화면 하단까지
+      // top이 없는 경우: 하단 고정
       style={{
-        height: `${spec.height}px`,
-        top: `calc(100% - ${spec.height}px)`,
+        height: spec.top ? `calc(100% - ${spec.top}px)` : `${spec.height}px`,
+        top: spec.top ? `${spec.top}px` : `calc(100% - ${spec.height}px)`,
       }}
       transition={{
         type: "spring", // 스프링 애니메이션

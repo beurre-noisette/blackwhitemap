@@ -21,10 +21,12 @@ export type BottomSheetState =
 
 /**
  * BottomSheet 상태별 스펙
- * 모든 상태는 하단 고정 방식 (calc(100% - height)) 사용
+ * 기본적으로 하단 고정 방식 (calc(100% - height)) 사용
+ * expanded 상태는 상단 고정 방식 (top 값 지정) 사용
  */
 export interface BottomSheetSpec {
   height: number; // px
+  top?: number; // px (상단 고정 위치, expanded 상태에서 사용)
 }
 
 /**
@@ -36,7 +38,7 @@ export const BOTTOM_SHEET_SPECS: Record<BottomSheetState, BottomSheetSpec> = {
   "bestChef-default": { height: 346 },
   "chefDetail-minimized": { height: 162 },
   "chefDetail-default": { height: 260 },
-  "top5-expanded": { height: 730 },
+  "top5-expanded": { height: 730, top: 82 },
 };
 
 /**
