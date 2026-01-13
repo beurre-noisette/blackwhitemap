@@ -1,11 +1,11 @@
 import { useState, useMemo, useEffect } from "react";
-import { CustomOverlayMap, Map } from "react-kakao-maps-sdk";
+import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
 import { ChefCluster, DisplayLevel } from "@/types/map";
 import { ChefDetail } from "@/types/chef";
 import { ClusterMarker } from "@/components/ClusterMarker.tsx";
-import { DefaultMarker } from "@/components/markers/DefaultMarker";
 import { PillMarker } from "@/components/markers/PillMarker";
 import { SelectedMarker } from "@/components/markers/SelectedMarker";
+import { ICON_MAP } from "@/components/Icon.tsx";
 import { getDisplayLevel } from "@/utils/markerUtils";
 
 /**
@@ -144,25 +144,34 @@ export const KakaoMap = ({
         mappableChefs.map((chef) => {
           const selected = isSelected(chef);
 
-          return (
-            <CustomOverlayMap
-              key={chef.id}
-              position={{ lat: chef.latitude, lng: chef.longitude }}
-              clickable={true}
-              zIndex={selected ? 10 : 1}
-            >
-              {selected ? (
+          if (selected) {
+            return (
+              <CustomOverlayMap
+                key={chef.id}
+                position={{ lat: chef.latitude, lng: chef.longitude }}
+                clickable={true}
+                zIndex={10}
+              >
                 <SelectedMarker
                   chef={chef}
                   onClick={() => handleMarkerClick(chef)}
                 />
-              ) : (
-                <DefaultMarker
-                  chef={chef}
-                  onClick={() => handleMarkerClick(chef)}
-                />
-              )}
-            </CustomOverlayMap>
+              </CustomOverlayMap>
+            );
+          }
+
+          return (
+            <MapMarker
+              key={chef.id}
+              position={{ lat: chef.latitude, lng: chef.longitude }}
+              image={{
+                src: ICON_MAP[
+                  chef.type === "BLACK" ? "chef-black-seg" : "chef-white-seg"
+                ],
+                size: { width: 24, height: 24 },
+              }}
+              onClick={() => handleMarkerClick(chef)}
+            />
           );
         })}
 
