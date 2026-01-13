@@ -5,7 +5,10 @@ import { Icon } from "@/components/Icon";
 /**
  * RankingButton 컴포넌트의 Props
  */
-export interface RankingButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
+export interface RankingButtonProps
+  extends ButtonHTMLAttributes<HTMLButtonElement> {
+  isActive?: boolean;
+}
 
 /**
  * 랭킹 버튼 컴포넌트
@@ -13,7 +16,11 @@ export interface RankingButtonProps extends ButtonHTMLAttributes<HTMLButtonEleme
  * @example
  * <RankingButton onClick={() => setSheetState("bestChef-default")} />
  */
-export const RankingButton = ({ className, ...props }: RankingButtonProps) => {
+export const RankingButton = ({
+  isActive = false,
+  className,
+  ...props
+}: RankingButtonProps) => {
   return (
     <button
       type="button"
@@ -21,7 +28,7 @@ export const RankingButton = ({ className, ...props }: RankingButtonProps) => {
         "flex items-center justify-center",
         "w-12 h-12 min-w-12 min-h-12 max-w-12 max-h-12",
         "bg-white",
-        "border border-black",
+        isActive && "border border-black",
         "shadow-[0px_4px_20px_rgba(0,0,0,0.2)]",
         "rounded-[24px]",
         "cursor-pointer",

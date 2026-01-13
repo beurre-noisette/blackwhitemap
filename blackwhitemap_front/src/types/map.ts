@@ -17,6 +17,14 @@ export interface ChefCluster {
 }
 
 /**
+ * 지도 표시 레벨
+ * - cluster: 줌 레벨 11 이상 (시/도별 클러스터)
+ * - level3to10: 줌 레벨 3~10 (개별 아이콘 마커)
+ * - level2below: 줌 레벨 2 이하 (알약 형태 마커)
+ */
+export type DisplayLevel = "cluster" | "level3to10" | "level2below";
+
+/**
  * 개별 셰프 마커 정보
  * - 지도에 표시할 정보
  */
@@ -26,10 +34,3 @@ export interface ChefMarker {
   longitude: number;
   type: ChefType;
 }
-
-/**
- * 지도 뷰 상태
- * - cluster: 줌 아웃 상태 (클러스터 마크 표시)
- * - individual: 줌 인 상태 (개별 셰프 마커 표시)
- */
-export type MapViewState = "cluster" | "individual";

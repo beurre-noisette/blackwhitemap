@@ -151,7 +151,7 @@ function App() {
         {/* MapControlBar: 랭킹 버튼 + 세그먼트 컨트롤 */}
         <div className="absolute top-0 left-0 right-0 z-40 flex justify-center">
           <MapControlBar>
-            <RankingButton onClick={handleRankingClick} />
+            <RankingButton onClick={handleRankingClick} isActive={isBestChef} />
             <SegmentedControl value={filter} onChange={setFilter} />
           </MapControlBar>
         </div>
