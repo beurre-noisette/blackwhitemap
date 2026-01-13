@@ -90,6 +90,14 @@ export const KakaoMap = ({
    * 개별 마커 클릭 핸들러
    */
   const handleMarkerClick = (chef: ChefDetail) => {
+    if (selection.type === "single" && selection.chef.id === chef.id) {
+      return;
+    }
+    if (displayLevel !== "level2below") {
+      setCenter({ lat: chef.latitude, lng: chef.longitude });
+      setLevel(2);
+      setDisplayLevel(getDisplayLevel(2));
+    }
     setSelection({ type: "single", chef });
     onChefClick(chef);
   };

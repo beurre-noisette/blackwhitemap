@@ -22,12 +22,10 @@ export const SelectedMarker = ({ chef, onClick }: SelectedMarkerProps) => {
       onClick={onClick}
       className={cn(
         "flex items-center gap-2",
-        "py-[7px] px-4",
+        "py-[6px] px-3",
         "rounded-[47px]",
         "cursor-pointer",
-        chef.type === "WHITE"
-          ? "bg-white border border-gray-300"
-          : "bg-black border border-gray-700",
+        "bg-white border border-black",
       )}
       style={{
         filter: "drop-shadow(0px 0px 24px rgba(0, 0, 0, 0.2))",
@@ -43,7 +41,7 @@ export const SelectedMarker = ({ chef, onClick }: SelectedMarkerProps) => {
         <span
           className={cn(
             "text-sm font-semibold truncate leading-[14px] tracking-[-0.02em]",
-            chef.type === "WHITE" ? "text-black" : "text-white",
+            "text-black",
           )}
         >
           {chef.restaurantName}
@@ -51,7 +49,7 @@ export const SelectedMarker = ({ chef, onClick }: SelectedMarkerProps) => {
         <span
           className={cn(
             "text-xs truncate leading-3 tracking-[-0.02em]",
-            chef.type === "WHITE" ? "text-gray-500" : "text-gray-400",
+            "text-gray-500",
           )}
         >
           {displayName}
