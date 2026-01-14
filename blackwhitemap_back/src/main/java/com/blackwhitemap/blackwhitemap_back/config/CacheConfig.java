@@ -4,12 +4,19 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.caffeine.CaffeineCacheManager;
+import org.springframework.cache.caffeine.CaffeineCache;
+import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Caffeine 캐시 설정
+ * - 캐시별 개별 TTL 및 maximumSize 적용
+ * - recordStats()로 메트릭 수집 활성화 (CacheMetricsConfig에서 Micrometer 바인딩)
+ */
 @Configuration
 @EnableCaching
 @ConditionalOnProperty(
@@ -20,32 +27,56 @@ import java.util.concurrent.TimeUnit;
 public class CacheConfig {
 
     /**
-     * Caffeine 기반 CacheManager 설정
-     * - 캐시 이름: "chefs"
-     * - TTL: 5분
-     * - 최대 크기: 10
+     * 캐시별 개별 설정이 적용된 CacheManager
+     * - chefs, chefClusters: 변경 빈도 낮음 → TTL 30분
+     * - dailyBestChefs, weeklyBestChefs: 랭킹 갱신 주기 고려 → TTL 10분
      */
     @Bean
     public CacheManager cacheManager() {
-        CaffeineCacheManager cacheManager = new CaffeineCacheManager(
-                "chefs",
-                "weeklyBestChefs",
-                "dailyBestChefs",
-                "chefClusters"
-        );
-        cacheManager.setCaffeine(caffeineCacheBuilder());
+        SimpleCacheManager cacheManager = new SimpleCacheManager();
+
+        cacheManager.setCaches(List.of(
+                buildCache(
+                        "chefs",
+                        30,
+                        TimeUnit.MINUTES,
+                        10
+                ),
+                buildCache(
+                        "chefClusters",
+                        30,
+                        TimeUnit.MINUTES,
+                        5
+                ),
+                buildCache(
+                        "dailyBestChefs",
+                        10,
+                        TimeUnit.MINUTES,
+                        5
+                ),
+                buildCache(
+                        "weeklyBestChefs",
+                        10,
+                        TimeUnit.MINUTES,
+                        10
+                )
+        ));
+
         return cacheManager;
     }
 
-    /**
-     * Caffeine 캐시 빌더
-     * - expireAfterWrite: 마지막 쓰기 후 5분 경과 시 자동 만료
-     * - maximumSize: 최대 10개 항목 저장
-     */
-    private Caffeine<Object, Object> caffeineCacheBuilder() {
-        return Caffeine.newBuilder()
-                .expireAfterWrite(10, TimeUnit.MINUTES)
-                .maximumSize(10)
-                .recordStats();
+    private CaffeineCache buildCache(
+            String name,
+            long duration,
+            TimeUnit unit,
+            int maxSize
+    ) {
+        return new CaffeineCache(name,
+                Caffeine.newBuilder()
+                        .expireAfterWrite(duration, unit)
+                        .maximumSize(maxSize)
+                        .recordStats()
+                        .build()
+        );
     }
 }

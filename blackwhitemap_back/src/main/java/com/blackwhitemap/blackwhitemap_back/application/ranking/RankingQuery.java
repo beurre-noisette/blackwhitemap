@@ -21,8 +21,6 @@ public class RankingQuery {
     /**
      * 주간 Best Chef 조회 (캐싱 적용)
      * - 현재 주차의 TOP N Chef 조회
-     * - 캐시 TTL: 5분
-     * - 캐시 키: 주차시작일_limit (e.g. "2025-12-23_5")
      *
      * @param limit 조회할 랭킹 개수
      * @return 주간 Best Chef 정보 리스트
@@ -37,8 +35,6 @@ public class RankingQuery {
      * 일일 Best Chef 조회 (캐싱 적용)
      * - 최근 3일(오늘/어제/그저께) 합산 점수 기준 TOP 5 Chef 조회
      * - 같은 셰프(nickname 또는 name 기준)가 여러 매장을 운영하는 경우, 가장 높은 rank 1명만 포함
-     * - 캐시 TTL: 5분
-     * - 캐시 키: 오늘 날짜 (3일 윈도우는 날짜 변경 시 자동 갱신)
      *
      * @return 일일 Best Chef 정보 리스트
      */
@@ -62,11 +58,12 @@ public class RankingQuery {
 
     /**
      * 일일 캐시 키 생성
+     * - 한국 시간대(Asia/Seoul) 기준으로 날짜 계산
      *
      * @return 오늘 날짜 문자열
      */
     public String getDailyCacheKey() {
-        return LocalDate.now().toString();
+        return LocalDate.now(ZoneId.of("Asia/Seoul")).toString();
     }
 
     /**
@@ -83,11 +80,12 @@ public class RankingQuery {
     /**
      * 현재 주차의 시작일 계산 (매주 화요일)
      * - 흑백요리사 에피소드가 매주 화요일에 공개되므로 화요일 기준
+     * - 한국 시간대(Asia/Seoul) 기준으로 계산
      *
      * @return 현재 주차 시작일 (화요일)
      */
     private LocalDate getCurrentWeekStart() {
-        return LocalDate.now()
+        return LocalDate.now(ZoneId.of("Asia/Seoul"))
                 .with(TemporalAdjusters.previousOrSame(DayOfWeek.TUESDAY));
     }
 }
