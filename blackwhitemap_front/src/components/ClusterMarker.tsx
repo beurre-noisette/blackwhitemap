@@ -55,10 +55,7 @@ export const ClusterMarker = ({ cluster, onClick }: ClusterMarkerProps) => {
         )}
       >
         {/* 지명 */}
-        <span
-          className={cn(textBaseStyle, "text-black")}
-          style={{ fontFamily: "Noto Sans KR" }}
-        >
+        <span className={cn(textBaseStyle, "text-black")}>
           {regionName}
         </span>
 
@@ -66,10 +63,7 @@ export const ClusterMarker = ({ cluster, onClick }: ClusterMarkerProps) => {
         {hasBoth ? (
           <>
             {/* 흑 갯수 */}
-            <span
-              className={cn(textBaseStyle, "text-black")}
-              style={{ fontFamily: "Noto Sans KR" }}
-            >
+            <span className={cn(textBaseStyle, "text-black")}>
               {blackCount}
             </span>
 
@@ -77,7 +71,6 @@ export const ClusterMarker = ({ cluster, onClick }: ClusterMarkerProps) => {
             <span
               className={cn(textBaseStyle, "text-white")}
               style={{
-                fontFamily: "Noto Sans KR",
                 WebkitTextStroke: "0.4px var(--color-black)",
                 marginLeft: "-2px",
               }}
@@ -88,10 +81,7 @@ export const ClusterMarker = ({ cluster, onClick }: ClusterMarkerProps) => {
         ) : /* 하나만 있는 경우 - 조건부 스타일 */
         blackCount > 0 ? (
           /* 흑 갯수: 검은색 텍스트 */
-          <span
-            className={cn(textBaseStyle, "text-black")}
-            style={{ fontFamily: "Noto Sans KR" }}
-          >
+          <span className={cn(textBaseStyle, "text-black")}>
             {blackCount}
           </span>
         ) : (
@@ -99,7 +89,6 @@ export const ClusterMarker = ({ cluster, onClick }: ClusterMarkerProps) => {
           <span
             className={cn(textBaseStyle, "text-white")}
             style={{
-              fontFamily: "Noto Sans KR",
               WebkitTextStroke: "0.4px var(--color-black)",
             }}
           >
