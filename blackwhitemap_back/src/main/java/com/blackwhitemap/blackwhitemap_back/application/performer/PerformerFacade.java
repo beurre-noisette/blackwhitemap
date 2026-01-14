@@ -6,6 +6,7 @@ import com.blackwhitemap.blackwhitemap_back.domain.performer.PerformerService;
 import com.blackwhitemap.blackwhitemap_back.domain.performer.Restaurant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,12 +18,11 @@ public class PerformerFacade {
     /**
      * Chef 등록 (캐시 무효화)
      * - 새 Chef 추가 시 ALL 캐시에 영향
-     * - 모든 캐시 엔트리 무효화 필요
      */
-    @CacheEvict(
-            value = "chefs",
-            allEntries = true
-    )
+    @Caching(evict = {
+            @CacheEvict(value = "chefs", allEntries = true),
+            @CacheEvict(value = "chefClusters", allEntries = true)
+    })
     public void registerChef(PerformerCriteria.RegisterChef registerCriteria) {
         Chef.Type chefType = Chef.Type.from(registerCriteria.chefType());
         Restaurant.Category restaurantCategory = Restaurant.Category.fromNullable(registerCriteria.restaurantCategory());
@@ -49,12 +49,12 @@ public class PerformerFacade {
 
     /**
      * Chef 수정 (캐시 무효화)
-     * - 모든 캐시 엔트리 무효화 필요
+     * - chefs, chefClusters 캐시 모두 무효화 필요
      */
-    @CacheEvict(
-            value = "chefs",
-            allEntries = true
-    )
+    @Caching(evict = {
+            @CacheEvict(value = "chefs", allEntries = true),
+            @CacheEvict(value = "chefClusters", allEntries = true)
+    })
     public void updateChef(PerformerCriteria.UpdateChef updateCriteria) {
         Chef.Type chefType = Chef.Type.fromNullable(updateCriteria.chefType());
         Restaurant.Category restaurantCategory = Restaurant.Category.fromNullable(updateCriteria.restaurantCategory());
