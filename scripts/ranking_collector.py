@@ -16,8 +16,11 @@ import re
 import sys
 import time
 from dataclasses import dataclass
-from datetime import date
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
+
+# 한국 표준시 (KST = UTC+9)
+KST = timezone(timedelta(hours=9))
 
 import requests
 from dotenv import load_dotenv
@@ -574,8 +577,8 @@ class RankingCollector:
             {"chefId": chef.id, "score": 0}
             for chef in chefs
         ]
-        today = date.today()
-        self.backend.save_daily_ranking(today, rankings)
+        today_kst = datetime.now(KST).date()
+        self.backend.save_daily_ranking(today_kst, rankings)
         logger.info("빈 랭킹 저장 완료 (모든 셰프 0점)")
 
     def _save_rankings_by_group(
@@ -611,12 +614,12 @@ class RankingCollector:
         logger.info(f"점수 데이터 생성 완료: {len(chef_groups)}그룹 → {len(rankings)}건")
 
         # Backend API로 저장 (순위는 백엔드에서 계산)
-        today = date.today()
-        self.backend.save_daily_ranking(today, rankings)
+        today_kst = datetime.now(KST).date()
+        self.backend.save_daily_ranking(today_kst, rankings)
 
         # 결과 요약 출력
         logger.info("=== 수집 결과 요약 ===")
-        logger.info(f"수집 일자: {today.isoformat()}")
+        logger.info(f"수집 일자: {today_kst.isoformat()}")
         logger.info(f"전체 셰프: {len(chefs)}명")
         logger.info(f"그룹 수: {len(chef_groups)}개 (동일인물 그룹화)")
 
