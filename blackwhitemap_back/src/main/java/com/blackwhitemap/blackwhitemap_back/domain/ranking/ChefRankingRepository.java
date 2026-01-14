@@ -31,4 +31,10 @@ public interface ChefRankingRepository {
      * - 새로운 랭킹 데이터로 완전 교체할 때 사용
      */
     void deleteByTypeAndPeriodStart(ChefRanking.Type type, LocalDate periodStart);
+
+    /**
+     * 특정 기간 범위의 DAILY 랭킹 조회
+     * - 주간 랭킹 집계 시 사용
+     */
+    List<ChefRanking> findDailyRankingsByPeriodRange(LocalDate startDate, LocalDate endDate);
 }

@@ -234,7 +234,6 @@ class RankingServiceTest {
             // 1위: chefId=3 (address 있음, WHITE)
             // 2위: chefId=2 (address 있음, BLACK)
             // 3위: chefId=1 (address 없음)
-
             ChefRanking first = savedRankings.stream()
                     .filter(r -> r.getChefId().equals(3L)).findFirst().orElseThrow();
             ChefRanking second = savedRankings.stream()
@@ -255,6 +254,155 @@ class RankingServiceTest {
 
         private Chef createChef(Long id, String name, Chef.Type type, String address) {
             return ChefTestFixture.createChef(id, name, null, type, address);
+        }
+    }
+
+    @Nested
+    class AggregateWeeklyRanking {
+
+        private LocalDate weekStart;
+        private LocalDate weekEnd;
+
+        @BeforeEach
+        void setUp() {
+            weekStart = LocalDate.of(2026, 1, 6);  // 화요일
+            weekEnd = LocalDate.of(2026, 1, 12);   // 월요일
+        }
+
+        @Test
+        @DisplayName("DAILY 데이터가 없으면 저장하지 않는다")
+        void returnEmptyList_whenNoDailyData() {
+            // given
+            RankingCommand.AggregateWeeklyRanking command = new RankingCommand.AggregateWeeklyRanking(
+                    weekStart,
+                    5
+            );
+
+            given(chefRankingRepository.findDailyRankingsByPeriodRange(weekStart, weekEnd))
+                    .willReturn(List.of());
+
+            // when
+            rankingService.aggregateWeeklyRanking(command);
+
+            // then
+            verify(chefRankingRepository).deleteByTypeAndPeriodStart(ChefRanking.Type.WEEKLY, weekStart);
+            verify(chefRankingRepository, never()).save(any());
+        }
+
+        @Test
+        @DisplayName("DAILY 데이터를 chef별로 합산하여 상위 N명을 WEEKLY로 저장한다")
+        void aggregateDailyScores_andSaveTopN() {
+            // given
+            int topN = 3;
+            RankingCommand.AggregateWeeklyRanking command = new RankingCommand.AggregateWeeklyRanking(
+                    weekStart,
+                    topN
+            );
+
+            // chef1: 10 + 20 = 30
+            // chef2: 15 + 15 = 30
+            // chef3: 25 + 5 = 30
+            // chef4: 5 + 5 = 10
+            List<ChefRanking> dailyRankings = new ArrayList<>(List.of(
+                    createDailyRanking(1L, 10L, weekStart),
+                    createDailyRanking(1L, 20L, weekStart.plusDays(1)),
+                    createDailyRanking(2L, 15L, weekStart),
+                    createDailyRanking(2L, 15L, weekStart.plusDays(1)),
+                    createDailyRanking(3L, 25L, weekStart),
+                    createDailyRanking(3L, 5L, weekStart.plusDays(1)),
+                    createDailyRanking(4L, 5L, weekStart),
+                    createDailyRanking(4L, 5L, weekStart.plusDays(1))
+            ));
+
+            Chef chef1 = ChefTestFixture.createChef(1L, "김셰프", null, Chef.Type.WHITE, "서울시 강남구");
+            Chef chef2 = ChefTestFixture.createChef(2L, "이셰프", null, Chef.Type.WHITE, "서울시 서초구");
+            Chef chef3 = ChefTestFixture.createChef(3L, "박셰프", null, Chef.Type.WHITE, "서울시 송파구");
+            Chef chef4 = ChefTestFixture.createChef(4L, "최셰프", null, Chef.Type.WHITE, "서울시 마포구");
+
+            given(chefRankingRepository.findDailyRankingsByPeriodRange(weekStart, weekEnd))
+                    .willReturn(dailyRankings);
+            given(chefRepository.findAllByIdIn(any()))
+                    .willReturn(List.of(chef1, chef2, chef3, chef4));
+            given(chefRankingRepository.save(any(ChefRanking.class)))
+                    .willAnswer(invocation -> invocation.getArgument(0));
+
+            // when
+            rankingService.aggregateWeeklyRanking(command);
+
+            // then
+            verify(chefRankingRepository).deleteByTypeAndPeriodStart(ChefRanking.Type.WEEKLY, weekStart);
+
+            ArgumentCaptor<ChefRanking> captor = ArgumentCaptor.forClass(ChefRanking.class);
+            verify(chefRankingRepository, times(topN)).save(captor.capture());
+
+            List<ChefRanking> savedRankings = captor.getAllValues();
+
+            assertThat(savedRankings).hasSize(topN);
+            assertThat(savedRankings).allMatch(r -> r.getType() == ChefRanking.Type.WEEKLY);
+            assertThat(savedRankings).allMatch(r -> r.getScore() == 30L);
+            assertThat(savedRankings).allMatch(r -> r.getPeriodStart().equals(weekStart));
+
+            // chef4는 10점으로 제외됨
+            assertThat(savedRankings).noneMatch(r -> r.getChefId().equals(4L));
+        }
+
+        @Test
+        @DisplayName("동점자는 동점자 정렬 기준에 따라 순위가 부여된다")
+        void sortTiedRankings_byTiebreaker() {
+            // given
+            int topN = 3;
+            RankingCommand.AggregateWeeklyRanking command = new RankingCommand.AggregateWeeklyRanking(
+                    weekStart, topN
+            );
+
+            // 모두 동점 (30점)
+            List<ChefRanking> dailyRankings = new ArrayList<>(List.of(
+                    createDailyRanking(1L, 30L, weekStart),
+                    createDailyRanking(2L, 30L, weekStart),
+                    createDailyRanking(3L, 30L, weekStart)
+            ));
+
+            // 동점자 정렬: address 있음 > WHITE > 이름순
+            Chef chefNoAddress = ChefTestFixture.createChef(1L, "김셰프", null, Chef.Type.WHITE, null);
+            Chef chefBlack = ChefTestFixture.createChef(2L, "이셰프", null, Chef.Type.BLACK, "서울시 강남구");
+            Chef chefWhite = ChefTestFixture.createChef(3L, "박셰프", null, Chef.Type.WHITE, "서울시 서초구");
+
+            given(chefRankingRepository.findDailyRankingsByPeriodRange(weekStart, weekEnd))
+                    .willReturn(dailyRankings);
+            given(chefRepository.findAllByIdIn(any()))
+                    .willReturn(List.of(chefNoAddress, chefBlack, chefWhite));
+            given(chefRankingRepository.save(any(ChefRanking.class)))
+                    .willAnswer(invocation -> invocation.getArgument(0));
+
+            // when
+            rankingService.aggregateWeeklyRanking(command);
+
+            // then
+            ArgumentCaptor<ChefRanking> captor = ArgumentCaptor.forClass(ChefRanking.class);
+            verify(chefRankingRepository, times(topN)).save(captor.capture());
+
+            List<ChefRanking> savedRankings = captor.getAllValues();
+
+            // 정렬 순서: address 있음 > WHITE 우선
+            // 1위: chefId=3 (address 있음, WHITE)
+            // 2위: chefId=2 (address 있음, BLACK)
+            // 3위: chefId=1 (address 없음)
+            ChefRanking first = savedRankings.stream()
+                    .filter(r -> r.getChefId().equals(3L)).findFirst().orElseThrow();
+            ChefRanking second = savedRankings.stream()
+                    .filter(r -> r.getChefId().equals(2L)).findFirst().orElseThrow();
+            ChefRanking third = savedRankings.stream()
+                    .filter(r -> r.getChefId().equals(1L)).findFirst().orElseThrow();
+
+            assertThat(first.getRank()).isEqualTo(1);
+            assertThat(second.getRank()).isEqualTo(2);
+            assertThat(third.getRank()).isEqualTo(3);
+        }
+
+        private ChefRanking createDailyRanking(Long chefId, Long score, LocalDate periodStart) {
+            return ChefRanking.ofDailyWithScore(
+                    new RankingCommand.AddDailyScore(chefId, periodStart, score)
+            );
         }
     }
 }

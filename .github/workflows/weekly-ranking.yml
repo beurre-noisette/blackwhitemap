@@ -1,0 +1,65 @@
+# 주간 랭킹 집계 워크플로우
+# - 매주 월요일 KST 22:00에 실행
+# - 가장 최근 완료된 화~월 주기의 DAILY 데이터를 집계하여 WEEKLY로 저장
+
+name: Weekly Ranking Aggregation
+
+on:
+  # 매주 월요일 실행 (UTC 13:00 = KST 22:00)
+  schedule:
+    - cron: '0 13 * * 1'
+
+  # 수동 실행 지원
+  workflow_dispatch:
+
+jobs:
+  aggregate-weekly-ranking:
+    name: Aggregate Weekly Ranking
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Aggregate Weekly Ranking
+        env:
+          BACKEND_URL: ${{ secrets.BACKEND_URL }}
+          INTERNAL_API_KEY: ${{ secrets.INTERNAL_API_KEY }}
+        run: |
+          if [ -z "$BACKEND_URL" ] || [ -z "$INTERNAL_API_KEY" ]; then
+            echo "Error: BACKEND_URL or INTERNAL_API_KEY is missing."
+            exit 1
+          fi
+        
+          response=$(curl -sS --fail-with-body \
+            --connect-timeout 5 --max-time 90 \
+            --retry 3 --retry-delay 2 --retry-all-errors \
+            -w "\n%{http_code}" -X POST "${BACKEND_URL}/ranking/weekly-best" \
+            -H "Content-Type: application/json" \
+            -H "X-Internal-Api-Key: ${INTERNAL_API_KEY}" \
+            -d '{"topN": 5}')
+          curl_exit=$?
+        
+          if [ $curl_exit -ne 0 ]; then
+            echo "Error: curl failed (exit code: $curl_exit)"
+            echo "Response (if any): $response"
+            exit 1
+          fi
+        
+          http_code=$(echo "$response" | tail -n 1)
+          body=$(echo "$response" | sed '$d')
+        
+          echo "HTTP Status: $http_code"
+          echo "Response: $body"
+        
+          if [ "$http_code" -lt 200 ] || [ "$http_code" -ge 300 ]; then
+            echo "Error: API call failed with status $http_code"
+            exit 1
+          fi
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "### Weekly Ranking Aggregation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status**: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Triggered by**: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Run time**: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY

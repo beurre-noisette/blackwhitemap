@@ -1,14 +1,15 @@
 package com.blackwhitemap.blackwhitemap_back.interfaces.ranking;
 
+import com.blackwhitemap.blackwhitemap_back.application.ranking.RankingCriteria;
+import com.blackwhitemap.blackwhitemap_back.application.ranking.RankingFacade;
 import com.blackwhitemap.blackwhitemap_back.application.ranking.RankingQuery;
 import com.blackwhitemap.blackwhitemap_back.application.ranking.RankingResult;
 import com.blackwhitemap.blackwhitemap_back.interfaces.ApiResponse;
 import com.blackwhitemap.blackwhitemap_back.support.ImageUrlConverter;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ import java.util.List;
 public class RankingController {
 
     private final RankingQuery rankingQuery;
+    private final RankingFacade rankingFacade;
     private final ImageUrlConverter imageUrlConverter;
 
     /**
@@ -57,5 +59,24 @@ public class RankingController {
                 .toList();
 
         return ApiResponse.success(response);
+    }
+
+    /**
+     * 주간 랭킹 집계
+     * - 가장 최근 완료된 화~월 주기의 DAILY 데이터를 집계하여 WEEKLY로 저장
+     * - 월요일: 해당 주 화~월 집계
+     * - 화~일: 이전 주 화~월 집계
+     *
+     * @param request topN 집계할 랭킹 수
+     */
+    @PostMapping("/weekly-best")
+    public ApiResponse<Object> aggregateWeeklyRanking(
+            @Valid @RequestBody RankingRequest.AggregateWeekly request
+    ) {
+        RankingCriteria.AggregateWeekly aggregateCriteria = new RankingCriteria.AggregateWeekly(request.topN());
+
+        rankingFacade.aggregateWeeklyRanking(aggregateCriteria);
+
+        return ApiResponse.success();
     }
 }

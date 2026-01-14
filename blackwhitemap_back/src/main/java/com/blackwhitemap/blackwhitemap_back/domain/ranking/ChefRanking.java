@@ -86,6 +86,32 @@ public class ChefRanking extends BaseEntity {
         );
     }
 
+    /**
+     * 주간 랭킹 생성 (점수와 순위 포함)
+     */
+    public static ChefRanking ofWeekly(RankingCommand.CreateWeeklyRanking command) {
+        if (command.chefId() == null || command.chefId() <= 0) {
+            throw new CoreException(ErrorType.BAD_REQUEST, "셰프 ID는 양수여야 합니다.");
+        }
+        if (command.periodStart() == null) {
+            throw new CoreException(ErrorType.BAD_REQUEST, "랭킹 집계 날짜는 필수입니다.");
+        }
+        if (command.score() == null || command.score() < 0) {
+            throw new CoreException(ErrorType.BAD_REQUEST, "점수는 0 이상이어야 합니다.");
+        }
+        if (command.rank() == null || command.rank() <= 0) {
+            throw new CoreException(ErrorType.BAD_REQUEST, "순위는 양수여야 합니다.");
+        }
+
+        return new ChefRanking(
+                command.chefId(),
+                Type.WEEKLY,
+                command.periodStart(),
+                command.rank(),
+                command.score()
+        );
+    }
+
     public void addScore(Long additionalScore) {
         if (additionalScore == null || additionalScore < 0) {
             throw new CoreException(ErrorType.BAD_REQUEST, "추가 점수는 0 이상이어야 합니다.");

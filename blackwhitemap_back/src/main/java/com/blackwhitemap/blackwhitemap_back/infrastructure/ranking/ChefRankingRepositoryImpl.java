@@ -41,4 +41,9 @@ public class ChefRankingRepositoryImpl implements ChefRankingRepository {
     public void deleteByTypeAndPeriodStart(ChefRanking.Type type, LocalDate periodStart) {
         chefRankingJpaRepository.deleteByTypeAndPeriodStart(type, periodStart);
     }
+
+    @Override
+    public List<ChefRanking> findDailyRankingsByPeriodRange(LocalDate startDate, LocalDate endDate) {
+        return chefRankingJpaRepository.findDailyRankingsByPeriodRange(startDate, endDate);
+    }
 }
