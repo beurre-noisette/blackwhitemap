@@ -130,6 +130,15 @@ function App() {
     }
   };
 
+  const handleMapInteract = () => {
+    setSheetState((prev) => {
+      if (prev === "bestChef-default") return "bestChef-minimized";
+      if (prev === "chefDetail-default") return "chefDetail-minimized";
+      if (prev === "top5-expanded") return "bestChef-minimized";
+      return prev;
+    });
+  };
+
   // 로딩 중이거나 selectedChef가 없으면 로딩 화면 표시
   if (isLoading || !selectedChef) {
     return (
@@ -162,6 +171,7 @@ function App() {
             clusters={filteredClusters}
             chefs={filteredChefsForMap}
             onChefClick={handleChefMarkerClick}
+            onMapInteract={handleMapInteract}
           />
         </div>
 

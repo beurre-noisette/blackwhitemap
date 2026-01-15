@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
 import { ChefCluster, DisplayLevel } from "@/types/map";
 import { ChefDetail } from "@/types/chef";
@@ -21,6 +21,7 @@ interface KakaoMapProps {
   chefs: ChefDetail[];
   onChefClick: (chef: ChefDetail) => void;
   selectedChef?: ChefDetail | null;
+  onMapInteract?: () => void;
 }
 
 /**
@@ -43,6 +44,7 @@ export const KakaoMap = ({
   chefs,
   onChefClick,
   selectedChef,
+  onMapInteract,
 }: KakaoMapProps) => {
   const [center, setCenter] = useState({ lat: 34.7, lng: 127.75 });
   const [level, setLevel] = useState(13); // 13: 남한 전체 보임
@@ -52,6 +54,8 @@ export const KakaoMap = ({
 
   // 내부 선택 상태 (외부 selectedChef와 연동)
   const [selection, setSelection] = useState<MarkerSelection>({ type: "none" });
+
+  const skipNextZoom = useRef(false);
 
   // 외부 selectedChef 변경 시 내부 상태 동기화
   useEffect(() => {
@@ -94,6 +98,7 @@ export const KakaoMap = ({
       return;
     }
     if (displayLevel !== "level2below") {
+      skipNextZoom.current = true;
       setCenter({ lat: chef.latitude, lng: chef.longitude });
       setLevel(2);
       setDisplayLevel(getDisplayLevel(2));
@@ -118,10 +123,19 @@ export const KakaoMap = ({
         const newLevel = map.getLevel();
         setLevel(newLevel);
         setDisplayLevel(getDisplayLevel(newLevel));
+
+        if (skipNextZoom.current) {
+          skipNextZoom.current = false;
+          return;
+        }
+        onMapInteract?.();
+      }}
+      onDragStart={() => {
+        onMapInteract?.();
       }}
       onClick={() => {
-        // 지도 클릭 시 선택 해제
         setSelection({ type: "none" });
+        onMapInteract?.();
       }}
     >
       {/* 클러스터 모드: 시/도별 클러스터 마커 표시 */}
