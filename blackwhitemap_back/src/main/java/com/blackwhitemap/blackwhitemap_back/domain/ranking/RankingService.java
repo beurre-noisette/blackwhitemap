@@ -4,6 +4,7 @@ import com.blackwhitemap.blackwhitemap_back.domain.performer.Chef;
 import com.blackwhitemap.blackwhitemap_back.domain.performer.ChefRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.Collator;
 import java.time.LocalDate;
@@ -70,7 +71,12 @@ public class RankingService {
 
         // 정렬: 점수 내림차순 → 동점자 세부 정렬
         Collator koreanCollator = Collator.getInstance(Locale.KOREAN);
-        rankings.sort(createRankingComparator(chefMap, koreanCollator));
+        rankings.sort(createRankingComparator(
+                ChefRanking::getChefId,
+                ChefRanking::getScore,
+                chefMap,
+                koreanCollator
+        ));
 
         // 순위 부여 (1, 2, 3, ... 순차적으로)
         for (int i = 0; i < rankings.size(); i++) {
@@ -81,20 +87,21 @@ public class RankingService {
     }
 
     /**
-     * 랭킹 정렬 Comparator 생성
-     * - 점수 내림차순
-     * - 동점 시: address 유무 → chefType(WHITE 우선) → name/nickname ㄱㄴㄷ순
+     * 재사용 가능한 랭킹 Comparator 생성
+     * - chefId, score 추출 로직만 전달받아 공통 타이브레이커 적용
      */
-    private Comparator<ChefRanking> createRankingComparator(
+    private <T> Comparator<T> createRankingComparator(
+            Function<T, Long> chefIdExtractor,
+            Function<T, Long> scoreExtractor,
             Map<Long, Chef> chefMap,
             Collator koreanCollator
     ) {
         return Comparator
                 // 1. 점수 내림차순
-                .comparing(ChefRanking::getScore, Comparator.reverseOrder())
+                .comparing(scoreExtractor, Comparator.reverseOrder())
                 // 2. address 있는 경우 우선 (null이면 뒤로)
-                .thenComparing(ranking -> {
-                    Chef chef = chefMap.get(ranking.getChefId());
+                .thenComparing(item -> {
+                    Chef chef = chefMap.get(chefIdExtractor.apply(item));
                     if (chef == null || chef.getRestaurant() == null) {
                         return 1; // 뒤로
                     }
@@ -102,17 +109,17 @@ public class RankingService {
                     return (address != null && !address.isBlank()) ? 0 : 1;
                 })
                 // 3. chefType이 WHITE인 경우 우선
-                .thenComparing(ranking -> {
-                    Chef chef = chefMap.get(ranking.getChefId());
+                .thenComparing(item -> {
+                    Chef chef = chefMap.get(chefIdExtractor.apply(item));
                     if (chef == null) {
                         return 1;
                     }
                     return chef.getType() == Chef.Type.WHITE ? 0 : 1;
                 })
                 // 4. name/nickname ㄱㄴㄷ순 (둘 다 BLACK이면 nickname 사용)
-                .thenComparing((firstRanking, secondRanking) -> {
-                    Chef firstChef = chefMap.get(firstRanking.getChefId());
-                    Chef secondChef = chefMap.get(secondRanking.getChefId());
+                .thenComparing((firstItem, secondItem) -> {
+                    Chef firstChef = chefMap.get(chefIdExtractor.apply(firstItem));
+                    Chef secondChef = chefMap.get(chefIdExtractor.apply(secondItem));
 
                     String firstChefSortKey = getSortKey(firstChef);
                     String secondChefSortKey = getSortKey(secondChef);
@@ -155,5 +162,74 @@ public class RankingService {
                 ChefRanking.Type.DAILY,
                 periodStart
         );
+    }
+
+    /**
+     * 주간 랭킹 집계
+     * - 기존 해당 주차 WEEKLY 데이터 삭제 후 새로 생성
+     * - DAILY 데이터를 chef별로 합산하여 상위 N명 선정
+     *
+     * @param aggregateCommand weekStart(화요일), topN(상위 몇 명)
+     */
+    @Transactional
+    public void aggregateWeeklyRanking(RankingCommand.AggregateWeeklyRanking aggregateCommand) {
+        LocalDate weekStart = aggregateCommand.weekStart();
+        LocalDate weekEnd = weekStart.plusDays(6);
+        int topN = aggregateCommand.topN();
+
+        // 1. 기존 해당 주차 WEEKLY 데이터 삭제
+        chefRankingRepository.deleteByTypeAndPeriodStart(
+                ChefRanking.Type.WEEKLY,
+                weekStart
+        );
+
+        // 2. 해당 기간의 DAILY 데이터 조회
+        List<ChefRanking> targetRankings = chefRankingRepository.findDailyRankingsByPeriodRange(
+                weekStart,
+                weekEnd
+        );
+
+        if (targetRankings.isEmpty()) {
+            return;
+        }
+
+        // 3. chef별 점수 합산
+        Map<Long, Long> chefScoreMap = targetRankings.stream()
+                .collect(Collectors.groupingBy(
+                        ChefRanking::getChefId,
+                        Collectors.summingLong(ChefRanking::getScore)
+                ));
+
+        // 4. Chef 정보 조회 (동점자 정렬용)
+        List<Long> chefIds = chefScoreMap.keySet().stream().toList();
+        Map<Long, Chef> chefMap = chefRepository.findAllByIdIn(chefIds).stream()
+                .collect(Collectors.toMap(Chef::getId, Function.identity()));
+
+        // 5. 정렬 및 상위 N명 선정
+        List<Map.Entry<Long, Long>> sortedEntries = chefScoreMap.entrySet().stream()
+                .sorted(createRankingComparator(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        chefMap,
+                        Collator.getInstance(Locale.KOREAN)
+                ))
+                .limit(topN)
+                .toList();
+
+        // 6. WEEKLY 랭킹 생성 및 저장
+        for (int i = 0; i < sortedEntries.size(); i++) {
+            Map.Entry<Long, Long> entry = sortedEntries.get(i);
+
+            RankingCommand.CreateWeeklyRanking command =
+                    new RankingCommand.CreateWeeklyRanking(
+                            entry.getKey(),
+                            weekStart,
+                            entry.getValue(),
+                            i + 1
+                    );
+
+            ChefRanking weeklyRanking = ChefRanking.ofWeekly(command);
+            chefRankingRepository.save(weeklyRanking);
+        }
     }
 }

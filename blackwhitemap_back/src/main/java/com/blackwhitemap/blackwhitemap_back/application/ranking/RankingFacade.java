@@ -8,6 +8,11 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.TemporalAdjusters;
+
 @Component
 @RequiredArgsConstructor
 public class RankingFacade {
@@ -37,5 +42,26 @@ public class RankingFacade {
 
         // 2. 순위 재계산
         rankingService.recalculateDailyRanks(updateCriteria.periodStart());
+    }
+
+    /**
+     * 주간 랭킹 집계
+     * - 배치 실행 시점과 무관하게 "가장 최근 완료된 화~월 주기"를 자동 계산
+     * - 월요일: 해당 주 화~월 집계
+     * - 화~일: 이전 주 화~월 집계
+     */
+    @CacheEvict(value = "weeklyBestChefs", allEntries = true)
+    public void aggregateWeeklyRanking(RankingCriteria.AggregateWeekly aggregateCriteria) {
+        LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul"));
+        LocalDate latestMonday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+
+        LocalDate weekStart = latestMonday.minusDays(6);
+
+        RankingCommand.AggregateWeeklyRanking aggregateCommand = new RankingCommand.AggregateWeeklyRanking(
+                weekStart,
+                aggregateCriteria.topN()
+        );
+
+        rankingService.aggregateWeeklyRanking(aggregateCommand);
     }
 }

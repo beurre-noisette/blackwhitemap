@@ -14,4 +14,8 @@ public class RankingCriteria {
             LocalDate periodStart,
             List<RankingEntry> rankings
     ) {}
+
+    public record AggregateWeekly(
+            int topN
+    ) {}
 }

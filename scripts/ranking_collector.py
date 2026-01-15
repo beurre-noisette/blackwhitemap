@@ -16,7 +16,7 @@ import re
 import sys
 import time
 from dataclasses import dataclass
-from datetime import datetime, timezone, timedelta
+from datetime import date, datetime, timezone, timedelta
 from pathlib import Path
 
 # 한국 표준시 (KST = UTC+9)
