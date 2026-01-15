@@ -13,10 +13,7 @@ interface PillMarkerProps {
  * - 아이콘 + restaurantName + nickname/name
  * - 둥근 알약 형태 (border-radius: 47px)
  */
-export const PillMarker = ({
-  chef,
-  onClick,
-}: PillMarkerProps) => {
+export const PillMarker = ({ chef, onClick }: PillMarkerProps) => {
   const iconName = chef.type === "BLACK" ? "chef-black-seg" : "chef-white-seg";
   const displayName = getChefDisplayName(chef);
 
@@ -39,7 +36,7 @@ export const PillMarker = ({
         <Icon name={iconName} size="large" />
 
         {/* 텍스트 영역 */}
-        <div className="flex flex-col min-w-0">
+        <div className="flex flex-col min-w-0 max-w-[100px]">
           <span className="text-sm font-semibold text-black truncate leading-[14px] tracking-[-0.02em]">
             {chef.restaurantName}
           </span>
@@ -48,7 +45,6 @@ export const PillMarker = ({
           </span>
         </div>
       </div>
-
     </div>
   );
 };
