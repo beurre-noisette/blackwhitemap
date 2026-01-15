@@ -58,8 +58,13 @@ class Config:
     gemini_api_key: str
 
     # 배치 설정
-    gemini_batch_size: int = 5  # Gemini API 호출 시 한 번에 분석할 기사 수
+    gemini_batch_size: int = 100  # Gemini API 호출 시 한 번에 분석할 기사 수 (TPM 여유로 100개 한번에 처리)
     news_display_count: int = 100  # 한 번에 검색할 뉴스 개수 (최대 100)
+
+    # 토큰/Rate Limit 관련 설정 (Gemini 무료 티어: RPM 5, TPM 250K, RPD 20)
+    estimated_tokens_per_article: int = 400  # 기사당 예상 토큰 (제목+내용 한글 기준)
+    max_tokens_per_request: int = 200000  # TPM 250K의 80% (안전 마진)
+    min_batch_interval_seconds: int = 15  # RPM 5 대응 (60/5=12초, 안전 마진 포함)
 
     @classmethod
     def from_env(cls) -> "Config":
@@ -82,8 +87,11 @@ class Config:
             naver_client_id=os.getenv("NAVER_CLIENT_ID", ""),
             naver_client_secret=os.getenv("NAVER_CLIENT_SECRET", ""),
             gemini_api_key=os.getenv("GEMINI_API_KEY", ""),
-            gemini_batch_size=int(os.getenv("GEMINI_BATCH_SIZE", "10")),
-            news_display_count=int(os.getenv("NEWS_DISPLAY_COUNT", "100"))
+            gemini_batch_size=int(os.getenv("GEMINI_BATCH_SIZE", "100")),
+            news_display_count=int(os.getenv("NEWS_DISPLAY_COUNT", "100")),
+            estimated_tokens_per_article=int(os.getenv("ESTIMATED_TOKENS_PER_ARTICLE", "400")),
+            max_tokens_per_request=int(os.getenv("MAX_TOKENS_PER_REQUEST", "200000")),
+            min_batch_interval_seconds=int(os.getenv("MIN_BATCH_INTERVAL", "15"))
         )
 
 # ============================================================================
@@ -338,12 +346,69 @@ class GeminiSentimentAnalyzer:
 
     # 재시도 설정
     MAX_RETRIES = 3
-    INITIAL_DELAY = 30  # 초
+    INITIAL_DELAY = 60  # 초 (30 → 60으로 증가, 더 보수적 접근)
+
+    # 토큰 추정 상수
+    BASE_PROMPT_TOKENS = 300  # 프롬프트 템플릿 토큰
+    PER_ARTICLE_OVERHEAD = 50  # [기사 N] 헤더 등 오버헤드
+    RESPONSE_TOKENS_PER_ARTICLE = 20  # 응답 토큰 (기사당)
 
     def __init__(self, config: Config):
         self.client = genai.Client(api_key=config.gemini_api_key)
         self.model_name = "gemini-2.5-flash"
         self.batch_size = config.gemini_batch_size
+        self.config = config  # 설정 객체 저장 (토큰 한도 등 접근용)
+
+    def _estimate_article_tokens(self, article: NewsArticle) -> int:
+        """단일 기사의 예상 토큰 수 계산"""
+        text_length = len(article.title) + len(article.description)
+        # 한글 기준 약 0.6 토큰/글자 + 오버헤드
+        return int(text_length * 0.6) + self.PER_ARTICLE_OVERHEAD
+
+    def estimate_tokens(self, articles: list[tuple[str, NewsArticle]]) -> int:
+        """기사 목록의 총 예상 토큰 수 계산"""
+        if not articles:
+            return 0
+
+        total = self.BASE_PROMPT_TOKENS
+
+        for _, article in articles:
+            total += self._estimate_article_tokens(article)
+
+        # 응답 토큰 예상
+        total += len(articles) * self.RESPONSE_TOKENS_PER_ARTICLE
+
+        return total
+
+    def split_by_token_limit(
+        self,
+        articles: list[tuple[str, NewsArticle]],
+        max_tokens: int
+    ) -> list[list[tuple[str, NewsArticle]]]:
+        """토큰 한도에 맞게 기사 목록을 분할 (한도 초과 시에만)"""
+        if not articles:
+            return []
+
+        batches = []
+        current_batch = []
+        current_tokens = self.BASE_PROMPT_TOKENS
+
+        for item in articles:
+            article_tokens = self._estimate_article_tokens(item[1])
+
+            # 현재 배치에 추가하면 한도 초과 시 새 배치 시작
+            if current_tokens + article_tokens > max_tokens and current_batch:
+                batches.append(current_batch)
+                current_batch = []
+                current_tokens = self.BASE_PROMPT_TOKENS
+
+            current_batch.append(item)
+            current_tokens += article_tokens
+
+        if current_batch:
+            batches.append(current_batch)
+
+        return batches
 
     def analyze_batch(
         self,
@@ -481,15 +546,33 @@ class RankingCollector:
             self._save_empty_rankings(chefs)
             return
 
-        # 6. 배치 단위로 감정 분석
+        # 6. 토큰 추정 및 배치 결정
+        estimated_tokens = self.analyzer.estimate_tokens(all_articles_for_analysis)
+        max_tokens = self.config.max_tokens_per_request
+        logger.info(f"예상 토큰 수: {estimated_tokens:,} (한도: {max_tokens:,})")
+
+        # 7. 토큰 한도에 따라 배치 분할 여부 결정
+        if estimated_tokens <= max_tokens:
+            # 단일 배치로 처리 (최적 케이스 - 대부분 여기로 진입)
+            batches = [all_articles_for_analysis]
+            logger.info("단일 API 호출로 처리합니다.")
+        else:
+            # 토큰 한도 초과 시에만 분할
+            batches = self.analyzer.split_by_token_limit(all_articles_for_analysis, max_tokens)
+            logger.info(f"토큰 한도 초과로 {len(batches)}개 배치로 분할합니다.")
+
+        # 8. 배치 처리 (대부분 1회)
         logger.info("감정 분석 시작...")
         group_positive_counts: dict[str, int] = {}  # {group_key: positive_count}
+        total_batches = len(batches)
 
-        batch_size = self.config.gemini_batch_size
-        total_batches = (len(all_articles_for_analysis) + batch_size - 1) // batch_size
+        for i, batch in enumerate(batches):
+            # RPM 제한 대응: 첫 번째 배치가 아닌 경우 대기
+            if i > 0:
+                wait_time = self.config.min_batch_interval_seconds
+                logger.info(f"RPM 제한 대응: {wait_time}초 대기...")
+                time.sleep(wait_time)
 
-        for i in range(0, len(all_articles_for_analysis), batch_size):
-            batch = all_articles_for_analysis[i:i + batch_size]
             batch_results = self._analyze_batch_by_group(batch)
 
             for group_key, count in batch_results.items():
@@ -497,16 +580,19 @@ class RankingCollector:
                     group_positive_counts.get(group_key, 0) + count
                 )
 
-            current_batch = i // batch_size + 1
-            logger.info(f"  배치 {current_batch}/{total_batches} 완료")
-
-            # 배치 간 대기 (RPM 15 제한 대응)
-            if current_batch < total_batches:
-                time.sleep(10)
+            logger.info(f"  배치 {i + 1}/{total_batches} 완료 ({len(batch)}건 분석)")
 
         logger.info("감정 분석 완료")
 
-        # 7. 점수 계산 및 랭킹 생성 (그룹 → 개별 chefId로 확장)
+        # API 사용량 요약 로깅
+        logger.info("=== API 사용량 요약 ===")
+        logger.info(f"Gemini API 호출 횟수: {total_batches}회 (일일 한도: 20회)")
+        logger.info(f"처리된 기사 수: {len(all_articles_for_analysis)}건")
+        logger.info(f"예상 사용 토큰: {estimated_tokens:,} (분당 한도: 250,000)")
+        remaining_calls = max(0, 20 - total_batches)
+        logger.info(f"남은 일일 호출 가능 횟수: 약 {remaining_calls}회 (이번 실행 기준)")
+
+        # 9. 점수 계산 및 랭킹 생성 (그룹 → 개별 chefId로 확장)
         self._save_rankings_by_group(chefs, chef_groups, group_positive_counts)
 
     def _analyze_batch_by_group(
