@@ -105,4 +105,4 @@ min_batch_interval_seconds: int = 15     # RPM 5 대응 (60/5=12초 + 안전 마
 - Supabase (DB): PostgreSQL 프리티어
 - GitHub Actions: 일일 랭킹 수집(1일 4회), 주간 랭킹 집계
 
-**결과**: 월 비용 **거의 0원**, 안정적 운영 (API 평균 응답 시간 **200ms**)
+**결과**: 월 비용 **0원**, 안정적 운영 (API 평균 응답 시간 **150ms**)
