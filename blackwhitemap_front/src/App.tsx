@@ -16,7 +16,6 @@ import { BottomSheet } from "@/components/BottomSheet.tsx";
 import { BestChefContent } from "@/components/BestChefContent.tsx";
 import { ChefDetailContent } from "@/components/ChefDetailContent.tsx";
 import { Top5Content } from "@/components/Top5Content.tsx";
-import { SpeedInsights } from "@vercel/speed-insights/react";
 
 function App() {
   const [sheetState, setSheetState] =
@@ -206,8 +205,6 @@ function App() {
 
           {isTop5Expanded && <Top5Content chefs={dailyBestChefs} />}
         </BottomSheet>
-
-        <SpeedInsights />
       </div>
     </div>
   );
