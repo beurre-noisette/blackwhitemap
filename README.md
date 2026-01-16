@@ -48,7 +48,7 @@ blackwhitemap/
 
 **문제**: Gemini 무료 티어 제약(RPM 5, RPD 20, TPM 250K)으로 **성공률 30-40%, 데이터 손실 60-70%**
 
-**해결**: 요청 횟수 최소화, 토큰 수 최대화 전략으로 전환
+**해결**: 요청 횟수 최소화, 토큰 수 최대화 전략으로 전환 ([ranking_collector.py:60-67](https://github.com/beurre-noisette/blackwhitemap/blob/main/scripts/ranking_collector.py#L60-L67))
 
 ```python
 # scripts/ranking_collector.py:60-67
@@ -58,7 +58,7 @@ max_tokens_per_request: int = 200000     # TPM 250K의 80% (안전 마진)
 min_batch_interval_seconds: int = 15     # RPM 5 대응 (60/5=12초 + 안전 마진)
 ```
 
-**결과**: 처리 시간 **80% 단축**(7~10분 → 1~2분), 성공률 **100%**, 데이터 손실 **0%**
+**결과**: 처리 시간 **80% 단축** (7-10분 → 1-2분), 성공률 **100%**, 데이터 손실 **0%**
 
 ### 2. 캐싱 전략과 성능 최적화 - 제약 환경에서의 효율화
 
