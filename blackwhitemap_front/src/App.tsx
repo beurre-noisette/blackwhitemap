@@ -191,6 +191,10 @@ function App() {
                 chefs={bestChefs}
                 showPreview={sheetState === "bestChef-minimized"}
               />
+
+              <h2 className="text-lg font-bold leading-none tracking-tight text-[#0E0D0D] mt-4">
+                인기 셰프 Top5
+              </h2>
             </>
           )}
 
