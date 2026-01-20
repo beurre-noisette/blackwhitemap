@@ -1,8 +1,8 @@
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
 import { ChefCluster, DisplayLevel } from "@/types/map";
 import { ChefDetail } from "@/types/chef";
-import { ClusterMarker } from "@/components/ClusterMarker.tsx";
+import { ClusterMarker } from "@/components/markers/ClusterMarker.tsx";
 import { PillMarker } from "@/components/markers/PillMarker";
 import { SelectedMarker } from "@/components/markers/SelectedMarker";
 import { ICON_MAP } from "@/components/Icon.tsx";
