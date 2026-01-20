@@ -4,13 +4,13 @@ import { DisplayLevel } from "@/types/map";
 /**
  * 줌 레벨을 DisplayLevel로 변환
  * - 11 이상: cluster (시/도별 클러스터)
- * - 3~10: level3to10 (개별 아이콘 마커)
- * - 2 이하: level2below (알약 형태 마커)
+ * - 5~10: level5to10 (개별 아이콘 마커)
+ * - 4 이하: level4below (알약 형태 마커)
  */
 export const getDisplayLevel = (zoomLevel: number): DisplayLevel => {
   if (zoomLevel >= 11) return "cluster";
-  if (zoomLevel >= 3) return "level3to10";
-  return "level2below";
+  if (zoomLevel >= 5) return "level5to10";
+  return "level4below";
 };
 
 /**

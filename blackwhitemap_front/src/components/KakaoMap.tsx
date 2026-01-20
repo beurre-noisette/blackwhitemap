@@ -1,8 +1,8 @@
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
 import { ChefCluster, DisplayLevel } from "@/types/map";
 import { ChefDetail } from "@/types/chef";
-import { ClusterMarker } from "@/components/ClusterMarker.tsx";
+import { ClusterMarker } from "@/components/markers/ClusterMarker.tsx";
 import { PillMarker } from "@/components/markers/PillMarker";
 import { SelectedMarker } from "@/components/markers/SelectedMarker";
 import { ICON_MAP } from "@/components/Icon.tsx";
@@ -36,8 +36,8 @@ type MarkerSelection = { type: "none" } | { type: "single"; chef: ChefDetail };
  *
  * 세 가지 뷰 상태를 관리합니다:
  * 1. cluster 모드 (level 11+): 시/도별 클러스터 마커 표시
- * 2. level3to10 모드 (level 3~10): 개별 아이콘 마커
- * 3. level2below 모드 (level 2 이하): 알약 마커
+ * 2. level5to10 모드 (level 5~10): 개별 아이콘 마커
+ * 3. level4below 모드 (level 4 이하): 알약 마커
  */
 export const KakaoMap = ({
   clusters,
@@ -56,6 +56,7 @@ export const KakaoMap = ({
   const [selection, setSelection] = useState<MarkerSelection>({ type: "none" });
 
   const skipNextZoom = useRef(false);
+  const skipSelectionReset = useRef(false);
 
   // 외부 selectedChef 변경 시 내부 상태 동기화
   useEffect(() => {
@@ -67,7 +68,12 @@ export const KakaoMap = ({
   }, [selectedChef]);
 
   // displayLevel 변경 시 선택 상태 초기화
+  // (단, 마커 클릭으로 인한 변경은 제외)
   useEffect(() => {
+    if (skipSelectionReset.current) {
+      skipSelectionReset.current = false;
+      return;
+    }
     setSelection({ type: "none" });
   }, [displayLevel]);
 
@@ -82,12 +88,28 @@ export const KakaoMap = ({
 
   /**
    * 클러스터 마커 클릭 핸들러
-   * - 해당 지역으로 줌인 (level 8 정도)
+   * - 해당 지역의 첫 번째 가게 위치로 이동 (레벨 10으로 줌인)
+   * - 첫 번째 가게를 찾지 못한 경우 클러스터 중심으로 fallback
    */
   const handleClusterClick = (cluster: ChefCluster) => {
-    setCenter({ lat: cluster.latitude, lng: cluster.longitude });
-    setLevel(8);
-    setDisplayLevel("level3to10");
+    // 해당 지역의 첫 번째 셰프 찾기
+    const firstChefInRegion = chefs.find(
+      (chef) => chef.region === cluster.region,
+    );
+
+    if (firstChefInRegion) {
+      // 첫 번째 가게 위치로 이동
+      setCenter({
+        lat: firstChefInRegion.latitude,
+        lng: firstChefInRegion.longitude,
+      });
+    } else {
+      // fallback: 클러스터 중심으로 이동
+      setCenter({ lat: cluster.latitude, lng: cluster.longitude });
+    }
+
+    setLevel(10);
+    setDisplayLevel("level5to10");
   };
 
   /**
@@ -97,8 +119,9 @@ export const KakaoMap = ({
     if (selection.type === "single" && selection.chef.id === chef.id) {
       return;
     }
-    if (displayLevel !== "level2below") {
+    if (displayLevel !== "level4below") {
       skipNextZoom.current = true;
+      skipSelectionReset.current = true;
       setCenter({ lat: chef.latitude, lng: chef.longitude });
       setLevel(2);
       setDisplayLevel(getDisplayLevel(2));
@@ -153,8 +176,8 @@ export const KakaoMap = ({
           </CustomOverlayMap>
         ))}
 
-      {/* Level 3~10 모드: 개별 아이콘 마커 */}
-      {displayLevel === "level3to10" &&
+      {/* Level 5~10 모드: 개별 아이콘 마커 */}
+      {displayLevel === "level5to10" &&
         mappableChefs.map((chef) => {
           const selected = isSelected(chef);
 
@@ -189,8 +212,8 @@ export const KakaoMap = ({
           );
         })}
 
-      {/* Level 2 이하 모드: 알약 마커 */}
-      {displayLevel === "level2below" &&
+      {/* Level 4 이하 모드: 알약 마커 */}
+      {displayLevel === "level4below" &&
         mappableChefs.map((chef) => {
           const selected = isSelected(chef);
 
