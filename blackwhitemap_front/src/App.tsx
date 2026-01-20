@@ -121,12 +121,30 @@ function App() {
 
   /**
    * 랭킹 버튼 클릭 핸들러
-   * - 현재 바텀시트가 bestChef-default가 아닌 경우에만 상태 변경
+   * BestChef 상태 간의 순환:
+   * - bestChef-default → top5-expanded (일일 인기 셰프 Top5 표시)
+   * - top5-expanded → bestChef-minimized (최소화)
+   * - bestChef-minimized → bestChef-default (기본 상태로 복귀)
+   * ChefDetail 상태에서는 BestChef 기본 상태로 전환
    */
   const handleRankingClick = () => {
-    if (sheetState !== "bestChef-default") {
-      setSheetState("bestChef-default");
-    }
+    setSheetState((prev) => {
+      switch (prev) {
+        // BestChef 상태 순환: default → expanded → minimized → default
+        case "bestChef-default":
+          return "top5-expanded";
+        case "top5-expanded":
+          return "bestChef-minimized";
+        case "bestChef-minimized":
+          return "bestChef-default";
+        // ChefDetail 상태에서는 bestChef-default로 이동
+        case "chefDetail-minimized":
+        case "chefDetail-default":
+          return "bestChef-default";
+        default:
+          return prev;
+      }
+    });
   };
 
   const handleMapInteract = () => {
