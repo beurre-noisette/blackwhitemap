@@ -56,6 +56,7 @@ export const KakaoMap = ({
   const [selection, setSelection] = useState<MarkerSelection>({ type: "none" });
 
   const skipNextZoom = useRef(false);
+  const skipSelectionReset = useRef(false);
 
   // 외부 selectedChef 변경 시 내부 상태 동기화
   useEffect(() => {
@@ -67,7 +68,12 @@ export const KakaoMap = ({
   }, [selectedChef]);
 
   // displayLevel 변경 시 선택 상태 초기화
+  // (단, 마커 클릭으로 인한 변경은 제외)
   useEffect(() => {
+    if (skipSelectionReset.current) {
+      skipSelectionReset.current = false;
+      return;
+    }
     setSelection({ type: "none" });
   }, [displayLevel]);
 
@@ -99,9 +105,10 @@ export const KakaoMap = ({
     }
     if (displayLevel !== "level4below") {
       skipNextZoom.current = true;
+      skipSelectionReset.current = true;
       setCenter({ lat: chef.latitude, lng: chef.longitude });
-      setLevel(4);
-      setDisplayLevel(getDisplayLevel(4));
+      setLevel(2);
+      setDisplayLevel(getDisplayLevel(2));
     }
     setSelection({ type: "single", chef });
     onChefClick(chef);
