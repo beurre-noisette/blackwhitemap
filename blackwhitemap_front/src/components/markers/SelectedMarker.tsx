@@ -21,11 +21,12 @@ export const SelectedMarker = ({ chef, onClick }: SelectedMarkerProps) => {
     <div
       onClick={onClick}
       className={cn(
-        "relative flex items-center gap-2",
+        "relative inline-flex items-center gap-2",
         "py-[6px] px-3",
         "rounded-[47px]",
         "cursor-pointer",
         "bg-white border border-black",
+        "w-max",
       )}
       style={{
         filter: "drop-shadow(0px 0px 24px rgba(0, 0, 0, 0.2))",
@@ -37,7 +38,7 @@ export const SelectedMarker = ({ chef, onClick }: SelectedMarkerProps) => {
       <Icon name={iconName} size="large" />
 
       {/* 텍스트 영역 */}
-      <div className="flex flex-col min-w-0">
+      <div className="flex flex-col gap-1 min-w-0">
         <span
           className={cn(
             "text-sm font-semibold leading-[14px] tracking-[-0.02em]",
