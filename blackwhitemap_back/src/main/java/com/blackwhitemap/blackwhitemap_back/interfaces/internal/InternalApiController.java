@@ -1,5 +1,6 @@
 package com.blackwhitemap.blackwhitemap_back.interfaces.internal;
 
+import com.blackwhitemap.blackwhitemap_back.application.cache.CacheFacade;
 import com.blackwhitemap.blackwhitemap_back.application.performer.PerformerQuery;
 import com.blackwhitemap.blackwhitemap_back.application.performer.PerformerResult;
 import com.blackwhitemap.blackwhitemap_back.application.ranking.RankingCriteria;
@@ -18,6 +19,7 @@ public class InternalApiController {
 
     private final PerformerQuery performerQuery;
     private final RankingFacade rankingFacade;
+    private final CacheFacade cacheFacade;
 
     /**
      * 모든 셰프 간단 정보 조회
@@ -63,6 +65,20 @@ public class InternalApiController {
         );
 
         rankingFacade.updateDailyRankings(updateCriteria);
+
+        return ApiResponse.success();
+    }
+
+    @DeleteMapping("/caches")
+    public ApiResponse<Object> evictAllCaches() {
+        cacheFacade.evictAllCaches();
+
+        return ApiResponse.success();
+    }
+
+    @DeleteMapping("/caches/{cacheName}")
+    public ApiResponse<Object> evictCache(@PathVariable String cacheName) {
+        cacheFacade.evictCache(cacheName);
 
         return ApiResponse.success();
     }
