@@ -26,17 +26,18 @@ export const PillMarker = ({ chef, onClick }: PillMarkerProps) => {
     >
       <div
         className={cn(
-          "flex items-center gap-2",
+          "inline-flex items-center gap-2",
           "bg-white border border-gray-300 rounded-[47px]",
           "py-[6px] pl-3 pr-4",
-          "max-w-[160px]",
+          "max-w-[160px] w-max",
+          "overflow-hidden",
         )}
       >
         {/* 아이콘 */}
         <Icon name={iconName} size="large" />
 
         {/* 텍스트 영역 */}
-        <div className="flex flex-col min-w-0 max-w-[100px]">
+        <div className="flex flex-1 flex-col gap-1 min-w-0 max-w-[100px] overflow-hidden">
           <span className="text-sm font-semibold text-black truncate leading-[14px] tracking-[-0.02em]">
             {chef.restaurantName}
           </span>
