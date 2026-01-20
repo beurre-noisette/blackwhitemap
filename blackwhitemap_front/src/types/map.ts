@@ -19,10 +19,10 @@ export interface ChefCluster {
 /**
  * 지도 표시 레벨
  * - cluster: 줌 레벨 11 이상 (시/도별 클러스터)
- * - level3to10: 줌 레벨 3~10 (개별 아이콘 마커)
- * - level2below: 줌 레벨 2 이하 (알약 형태 마커)
+ * - level5to10: 줌 레벨 5~10 (개별 아이콘 마커)
+ * - level4below: 줌 레벨 4 이하 (알약 형태 마커)
  */
-export type DisplayLevel = "cluster" | "level3to10" | "level2below";
+export type DisplayLevel = "cluster" | "level5to10" | "level4below";
 
 /**
  * 개별 셰프 마커 정보

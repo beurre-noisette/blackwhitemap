@@ -36,8 +36,8 @@ type MarkerSelection = { type: "none" } | { type: "single"; chef: ChefDetail };
  *
  * 세 가지 뷰 상태를 관리합니다:
  * 1. cluster 모드 (level 11+): 시/도별 클러스터 마커 표시
- * 2. level3to10 모드 (level 3~10): 개별 아이콘 마커
- * 3. level2below 모드 (level 2 이하): 알약 마커
+ * 2. level5to10 모드 (level 5~10): 개별 아이콘 마커
+ * 3. level4below 모드 (level 4 이하): 알약 마커
  */
 export const KakaoMap = ({
   clusters,
@@ -87,7 +87,7 @@ export const KakaoMap = ({
   const handleClusterClick = (cluster: ChefCluster) => {
     setCenter({ lat: cluster.latitude, lng: cluster.longitude });
     setLevel(8);
-    setDisplayLevel("level3to10");
+    setDisplayLevel("level5to10");
   };
 
   /**
@@ -97,11 +97,11 @@ export const KakaoMap = ({
     if (selection.type === "single" && selection.chef.id === chef.id) {
       return;
     }
-    if (displayLevel !== "level2below") {
+    if (displayLevel !== "level4below") {
       skipNextZoom.current = true;
       setCenter({ lat: chef.latitude, lng: chef.longitude });
-      setLevel(2);
-      setDisplayLevel(getDisplayLevel(2));
+      setLevel(4);
+      setDisplayLevel(getDisplayLevel(4));
     }
     setSelection({ type: "single", chef });
     onChefClick(chef);
@@ -153,8 +153,8 @@ export const KakaoMap = ({
           </CustomOverlayMap>
         ))}
 
-      {/* Level 3~10 모드: 개별 아이콘 마커 */}
-      {displayLevel === "level3to10" &&
+      {/* Level 5~10 모드: 개별 아이콘 마커 */}
+      {displayLevel === "level5to10" &&
         mappableChefs.map((chef) => {
           const selected = isSelected(chef);
 
@@ -189,8 +189,8 @@ export const KakaoMap = ({
           );
         })}
 
-      {/* Level 2 이하 모드: 알약 마커 */}
-      {displayLevel === "level2below" &&
+      {/* Level 4 이하 모드: 알약 마커 */}
+      {displayLevel === "level4below" &&
         mappableChefs.map((chef) => {
           const selected = isSelected(chef);
 

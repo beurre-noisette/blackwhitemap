@@ -9,7 +9,7 @@ interface PillMarkerProps {
 }
 
 /**
- * 알약 형태 마커 컴포넌트 (Level 2 이하)
+ * 알약 형태 마커 컴포넌트 (Level 4 이하)
  * - 아이콘 + restaurantName + nickname/name
  * - 둥근 알약 형태 (border-radius: 47px)
  */
