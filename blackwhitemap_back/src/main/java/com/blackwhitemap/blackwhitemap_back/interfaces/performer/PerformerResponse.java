@@ -25,6 +25,7 @@ public class PerformerResponse {
             String naverReservationUrl,
             String catchTableUrl,
             String instagramUrl,
+            String region,
 
             // Chef 이미지
             List<String> imageUrls,

@@ -102,6 +102,7 @@ public class PerformerController {
                         result.naverReservationUrl(),
                         result.catchTableUrl(),
                         result.instagramUrl(),
+                        result.region(),
                         imageUrlConverter.toFullUrls(result.imageUrls()),
                         result.viewCount()
                 ))

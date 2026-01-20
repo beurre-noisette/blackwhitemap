@@ -88,11 +88,27 @@ export const KakaoMap = ({
 
   /**
    * 클러스터 마커 클릭 핸들러
-   * - 해당 지역으로 줌인 (level 8 정도)
+   * - 해당 지역의 첫 번째 가게 위치로 이동 (레벨 10으로 줌인)
+   * - 첫 번째 가게를 찾지 못한 경우 클러스터 중심으로 fallback
    */
   const handleClusterClick = (cluster: ChefCluster) => {
-    setCenter({ lat: cluster.latitude, lng: cluster.longitude });
-    setLevel(8);
+    // 해당 지역의 첫 번째 셰프 찾기
+    const firstChefInRegion = chefs.find(
+      (chef) => chef.region === cluster.region,
+    );
+
+    if (firstChefInRegion) {
+      // 첫 번째 가게 위치로 이동
+      setCenter({
+        lat: firstChefInRegion.latitude,
+        lng: firstChefInRegion.longitude,
+      });
+    } else {
+      // fallback: 클러스터 중심으로 이동
+      setCenter({ lat: cluster.latitude, lng: cluster.longitude });
+    }
+
+    setLevel(10);
     setDisplayLevel("level5to10");
   };
 

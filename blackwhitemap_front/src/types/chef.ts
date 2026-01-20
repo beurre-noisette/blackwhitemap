@@ -26,6 +26,7 @@ export interface ChefInfo extends ChefBase {
   naverReservationUrl: string | null;
   catchTableUrl: string | null;
   instagramUrl: string | null;
+  region: string;
 }
 
 /**

@@ -1,6 +1,7 @@
 package com.blackwhitemap.blackwhitemap_back.application.performer;
 
 import com.blackwhitemap.blackwhitemap_back.domain.performer.Chef;
+import com.blackwhitemap.blackwhitemap_back.domain.performer.Region;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class PerformerResult {
             String naverReservationUrl,
             String catchTableUrl,
             String instagramUrl,
+            String region,
 
             // Chef 이미지
             List<String> imageUrls,
@@ -35,6 +37,11 @@ public class PerformerResult {
             Long viewCount
     ) {
         public static ChefInfo from(Chef chef) {
+            // Restaurant의 주소에서 Region 추출
+            Region region = chef.getRestaurant() != null
+                    ? Region.fromAddress(chef.getRestaurant().getAddress())
+                    : null;
+
             return new ChefInfo(
                     chef.getId(),
                     chef.getName(),
@@ -52,6 +59,7 @@ public class PerformerResult {
                     chef.getRestaurant() != null ? chef.getRestaurant().getNaverReservationUrl() : null,
                     chef.getRestaurant() != null ? chef.getRestaurant().getCatchTableUrl() : null,
                     chef.getRestaurant() != null ? chef.getRestaurant().getInstagramUrl() : null,
+                    region != null ? region.name() : null,
                     chef.getImages() != null ? chef.getImages().getImageUrls() : List.of(),
                     chef.getViewCount()
             );
