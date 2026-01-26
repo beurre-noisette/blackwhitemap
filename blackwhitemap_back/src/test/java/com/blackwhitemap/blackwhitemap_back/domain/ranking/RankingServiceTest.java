@@ -260,13 +260,15 @@ class RankingServiceTest {
     @Nested
     class AggregateWeeklyRanking {
 
-        private LocalDate weekStart;
-        private LocalDate weekEnd;
+        private LocalDate dataStartDate;
+        private LocalDate dataEndDate;
+        private LocalDate displayPeriodStart;
 
         @BeforeEach
         void setUp() {
-            weekStart = LocalDate.of(2026, 1, 6);  // 화요일
-            weekEnd = LocalDate.of(2026, 1, 12);   // 월요일
+            dataStartDate = LocalDate.of(2026, 1, 6);       // 화요일 (집계 대상 시작)
+            dataEndDate = LocalDate.of(2026, 1, 12);        // 월요일 (집계 대상 종료)
+            displayPeriodStart = LocalDate.of(2026, 1, 13); // 화요일 (표시 기간 시작)
         }
 
         @Test
@@ -274,18 +276,20 @@ class RankingServiceTest {
         void returnEmptyList_whenNoDailyData() {
             // given
             RankingCommand.AggregateWeeklyRanking command = new RankingCommand.AggregateWeeklyRanking(
-                    weekStart,
+                    dataStartDate,
+                    dataEndDate,
+                    displayPeriodStart,
                     5
             );
 
-            given(chefRankingRepository.findDailyRankingsByPeriodRange(weekStart, weekEnd))
+            given(chefRankingRepository.findDailyRankingsByPeriodRange(dataStartDate, dataEndDate))
                     .willReturn(List.of());
 
             // when
             rankingService.aggregateWeeklyRanking(command);
 
             // then
-            verify(chefRankingRepository).deleteByTypeAndPeriodStart(ChefRanking.Type.WEEKLY, weekStart);
+            verify(chefRankingRepository).deleteByTypeAndPeriodStart(ChefRanking.Type.WEEKLY, displayPeriodStart);
             verify(chefRankingRepository, never()).save(any());
         }
 
@@ -295,7 +299,9 @@ class RankingServiceTest {
             // given
             int topN = 3;
             RankingCommand.AggregateWeeklyRanking command = new RankingCommand.AggregateWeeklyRanking(
-                    weekStart,
+                    dataStartDate,
+                    dataEndDate,
+                    displayPeriodStart,
                     topN
             );
 
@@ -304,14 +310,14 @@ class RankingServiceTest {
             // chef3: 25 + 5 = 30
             // chef4: 5 + 5 = 10
             List<ChefRanking> dailyRankings = new ArrayList<>(List.of(
-                    createDailyRanking(1L, 10L, weekStart),
-                    createDailyRanking(1L, 20L, weekStart.plusDays(1)),
-                    createDailyRanking(2L, 15L, weekStart),
-                    createDailyRanking(2L, 15L, weekStart.plusDays(1)),
-                    createDailyRanking(3L, 25L, weekStart),
-                    createDailyRanking(3L, 5L, weekStart.plusDays(1)),
-                    createDailyRanking(4L, 5L, weekStart),
-                    createDailyRanking(4L, 5L, weekStart.plusDays(1))
+                    createDailyRanking(1L, 10L, dataStartDate),
+                    createDailyRanking(1L, 20L, dataStartDate.plusDays(1)),
+                    createDailyRanking(2L, 15L, dataStartDate),
+                    createDailyRanking(2L, 15L, dataStartDate.plusDays(1)),
+                    createDailyRanking(3L, 25L, dataStartDate),
+                    createDailyRanking(3L, 5L, dataStartDate.plusDays(1)),
+                    createDailyRanking(4L, 5L, dataStartDate),
+                    createDailyRanking(4L, 5L, dataStartDate.plusDays(1))
             ));
 
             Chef chef1 = ChefTestFixture.createChef(1L, "김셰프", null, Chef.Type.WHITE, "서울시 강남구");
@@ -319,7 +325,7 @@ class RankingServiceTest {
             Chef chef3 = ChefTestFixture.createChef(3L, "박셰프", null, Chef.Type.WHITE, "서울시 송파구");
             Chef chef4 = ChefTestFixture.createChef(4L, "최셰프", null, Chef.Type.WHITE, "서울시 마포구");
 
-            given(chefRankingRepository.findDailyRankingsByPeriodRange(weekStart, weekEnd))
+            given(chefRankingRepository.findDailyRankingsByPeriodRange(dataStartDate, dataEndDate))
                     .willReturn(dailyRankings);
             given(chefRepository.findAllByIdIn(any()))
                     .willReturn(List.of(chef1, chef2, chef3, chef4));
@@ -330,7 +336,7 @@ class RankingServiceTest {
             rankingService.aggregateWeeklyRanking(command);
 
             // then
-            verify(chefRankingRepository).deleteByTypeAndPeriodStart(ChefRanking.Type.WEEKLY, weekStart);
+            verify(chefRankingRepository).deleteByTypeAndPeriodStart(ChefRanking.Type.WEEKLY, displayPeriodStart);
 
             ArgumentCaptor<ChefRanking> captor = ArgumentCaptor.forClass(ChefRanking.class);
             verify(chefRankingRepository, times(topN)).save(captor.capture());
@@ -340,7 +346,7 @@ class RankingServiceTest {
             assertThat(savedRankings).hasSize(topN);
             assertThat(savedRankings).allMatch(r -> r.getType() == ChefRanking.Type.WEEKLY);
             assertThat(savedRankings).allMatch(r -> r.getScore() == 30L);
-            assertThat(savedRankings).allMatch(r -> r.getPeriodStart().equals(weekStart));
+            assertThat(savedRankings).allMatch(r -> r.getPeriodStart().equals(displayPeriodStart));
 
             // chef4는 10점으로 제외됨
             assertThat(savedRankings).noneMatch(r -> r.getChefId().equals(4L));
@@ -352,14 +358,14 @@ class RankingServiceTest {
             // given
             int topN = 3;
             RankingCommand.AggregateWeeklyRanking command = new RankingCommand.AggregateWeeklyRanking(
-                    weekStart, topN
+                    dataStartDate, dataEndDate, displayPeriodStart, topN
             );
 
             // 모두 동점 (30점)
             List<ChefRanking> dailyRankings = new ArrayList<>(List.of(
-                    createDailyRanking(1L, 30L, weekStart),
-                    createDailyRanking(2L, 30L, weekStart),
-                    createDailyRanking(3L, 30L, weekStart)
+                    createDailyRanking(1L, 30L, dataStartDate),
+                    createDailyRanking(2L, 30L, dataStartDate),
+                    createDailyRanking(3L, 30L, dataStartDate)
             ));
 
             // 동점자 정렬: address 있음 > WHITE > 이름순
@@ -367,7 +373,7 @@ class RankingServiceTest {
             Chef chefBlack = ChefTestFixture.createChef(2L, "이셰프", null, Chef.Type.BLACK, "서울시 강남구");
             Chef chefWhite = ChefTestFixture.createChef(3L, "박셰프", null, Chef.Type.WHITE, "서울시 서초구");
 
-            given(chefRankingRepository.findDailyRankingsByPeriodRange(weekStart, weekEnd))
+            given(chefRankingRepository.findDailyRankingsByPeriodRange(dataStartDate, dataEndDate))
                     .willReturn(dailyRankings);
             given(chefRepository.findAllByIdIn(any()))
                     .willReturn(List.of(chefNoAddress, chefBlack, chefWhite));

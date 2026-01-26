@@ -55,10 +55,17 @@ public class RankingFacade {
         LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul"));
         LocalDate latestMonday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
 
-        LocalDate weekStart = latestMonday.minusDays(6);
+        // 집계 대상 기간: 지난 화요일 ~ 이번 월요일
+        LocalDate dataStartDate = latestMonday.minusDays(6);  // 화요일
+        LocalDate dataEndDate = latestMonday;                               // 월요일
+
+        // WEEKLY 데이터 표시 기간: 다음 화요일부터
+        LocalDate displayPeriodStart = latestMonday.plusDays(1);  // 화요일
 
         RankingCommand.AggregateWeeklyRanking aggregateCommand = new RankingCommand.AggregateWeeklyRanking(
-                weekStart,
+                dataStartDate,
+                dataEndDate,
+                displayPeriodStart,
                 aggregateCriteria.topN()
         );
 

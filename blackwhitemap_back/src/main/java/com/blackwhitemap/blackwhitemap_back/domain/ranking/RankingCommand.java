@@ -22,7 +22,9 @@ public class RankingCommand {
     ) {}
 
     public record AggregateWeeklyRanking(
-            LocalDate weekStart,
+            LocalDate dataStartDate,
+            LocalDate dataEndDate,
+            LocalDate displayPeriodStart,
             int topN
     ) {}
 }
