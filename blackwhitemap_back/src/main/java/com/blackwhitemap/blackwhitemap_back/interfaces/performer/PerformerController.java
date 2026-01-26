@@ -37,7 +37,8 @@ public class PerformerController {
                 registerRequest.naverReservationUrl(),
                 registerRequest.catchTableUrl(),
                 registerRequest.instagramUrl(),
-                registerRequest.imageUrls()
+                registerRequest.imageUrls(),
+                registerRequest.finalPlacement()
         );
 
         performerFacade.registerChef(registerCriteria);
@@ -104,6 +105,7 @@ public class PerformerController {
                         result.instagramUrl(),
                         result.region(),
                         imageUrlConverter.toFullUrls(result.imageUrls()),
+                        result.finalPlacement(),
                         result.viewCount()
                 ))
                 .toList();

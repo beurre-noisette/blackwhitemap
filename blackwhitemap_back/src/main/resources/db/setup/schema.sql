@@ -24,6 +24,7 @@ CREATE TABLE chef
     chef_type  VARCHAR(10) NOT NULL,
     view_count BIGINT      NOT NULL DEFAULT 0,
     version    BIGINT,
+    final_placement VARCHAR(20),
 
     -- Restaurant 임베디드 필드
     restaurant_name           VARCHAR(30),

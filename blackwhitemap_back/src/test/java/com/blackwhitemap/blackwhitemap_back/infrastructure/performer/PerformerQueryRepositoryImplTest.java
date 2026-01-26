@@ -273,6 +273,7 @@ class PerformerQueryRepositoryImplTest {
                 null,
                 null,
                 null,
+                null,
                 null
         );
         performerService.registerChef(command);
@@ -285,6 +286,7 @@ class PerformerQueryRepositoryImplTest {
                 type,
                 "가게",
                 null,  // address 없음
+                null,
                 null,
                 null,
                 null,

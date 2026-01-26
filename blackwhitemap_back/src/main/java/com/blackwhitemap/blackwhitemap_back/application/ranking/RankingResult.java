@@ -29,6 +29,9 @@ public class RankingResult {
             // Chef 이미지
             List<String> imageUrls,
 
+            // 최종성적
+            String finalPlacement,
+
             // 조회수
             Long viewCount,
 
@@ -55,6 +58,7 @@ public class RankingResult {
                     chef.getRestaurant() != null ? chef.getRestaurant().getNaverReservationUrl() : null,
                     chef.getRestaurant() != null ? chef.getRestaurant().getCatchTableUrl() : null,
                     chef.getImages() != null ? chef.getImages().getImageUrls() : List.of(),
+                    chef.getFinalPlacement(),
                     chef.getViewCount(),
                     ranking.getRank(),
                     ranking.getScore()
@@ -75,6 +79,9 @@ public class RankingResult {
             String category,
             String naverReservationUrl,
             String catchTableUrl,
+
+            // 최종성적
+            String finalPlacement,
 
             // 랭킹 정보
             Integer rank,
@@ -98,6 +105,7 @@ public class RankingResult {
                     chef.getRestaurant() != null ? chef.getRestaurant().getNaverReservationUrl() : null,
                     chef.getRestaurant() != null ? chef.getRestaurant().getCatchTableUrl() : null,
 
+                    chef.getFinalPlacement(),
                     ranking.getRank(),
                     ranking.getScore()
             );
@@ -126,6 +134,7 @@ public class RankingResult {
                     chef.getRestaurant() != null ? chef.getRestaurant().getNaverReservationUrl() : null,
                     chef.getRestaurant() != null ? chef.getRestaurant().getCatchTableUrl() : null,
 
+                    chef.getFinalPlacement(),
                     rank,
                     score
             );

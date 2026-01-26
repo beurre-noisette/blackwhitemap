@@ -29,6 +29,7 @@ public class ChefTestFixture {
                 null,
                 null,
                 null,
+                null,
                 null
         );
 

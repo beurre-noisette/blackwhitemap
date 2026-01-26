@@ -30,6 +30,9 @@ public class PerformerResponse {
             // Chef 이미지
             List<String> imageUrls,
 
+            // 최종성적
+            String finalPlacement,
+
             // 조회수
             Long viewCount
     ) {}

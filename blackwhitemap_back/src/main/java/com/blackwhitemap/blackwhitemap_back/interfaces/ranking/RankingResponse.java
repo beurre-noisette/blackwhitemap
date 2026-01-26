@@ -29,6 +29,9 @@ public class RankingResponse {
             // Chef 이미지
             List<String> imageUrls,
 
+            // 최종성적
+            String finalPlacement,
+
             // 조회수
             Long viewCount,
 
@@ -53,6 +56,7 @@ public class RankingResponse {
                     rankingResult.naverReservationUrl(),
                     rankingResult.catchTableUrl(),
                     fullImageUrls,
+                    rankingResult.finalPlacement(),
                     rankingResult.viewCount(),
                     rankingResult.rank(),
                     rankingResult.score()
@@ -74,6 +78,9 @@ public class RankingResponse {
             String naverReservationUrl,
             String catchTableUrl,
 
+            // 최종성적
+            String finalPlacement,
+
             // 랭킹 정보
             Integer rank,
             // TODO score 필드 제외
@@ -92,6 +99,7 @@ public class RankingResponse {
                     rankingResult.category(),
                     rankingResult.naverReservationUrl(),
                     rankingResult.catchTableUrl(),
+                    rankingResult.finalPlacement(),
                     rankingResult.rank(),
                     rankingResult.score()
             );

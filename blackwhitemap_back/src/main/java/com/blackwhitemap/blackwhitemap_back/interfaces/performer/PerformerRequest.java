@@ -46,7 +46,11 @@ public class PerformerRequest {
             String instagramUrl,
 
             // ChefImage 관련 필드
-            List<@Size(max = 500, message = "이미지 URL은 최대 500자까지 입력 가능합니다.") @URL String> imageUrls
+            List<@Size(max = 500, message = "이미지 URL은 최대 500자까지 입력 가능합니다.") @URL String> imageUrls,
+
+            // 최종성적 (예: "우승", "준우승", "8강")
+            @Size(max = 20, message = "최종성적은 최대 20자까지 입력 가능합니다.")
+            String finalPlacement
     ) {}
 
     public record UpdateChefInfo(
