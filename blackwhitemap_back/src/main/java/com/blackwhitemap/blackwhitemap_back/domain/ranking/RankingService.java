@@ -173,20 +173,21 @@ public class RankingService {
      */
     @Transactional
     public void aggregateWeeklyRanking(RankingCommand.AggregateWeeklyRanking aggregateCommand) {
-        LocalDate weekStart = aggregateCommand.weekStart();
-        LocalDate weekEnd = weekStart.plusDays(6);
+        LocalDate dataStartDate = aggregateCommand.dataStartDate();
+        LocalDate dataEndDate = aggregateCommand.dataEndDate();
+        LocalDate displayPeriodStart = aggregateCommand.displayPeriodStart();
         int topN = aggregateCommand.topN();
 
-        // 1. 기존 해당 주차 WEEKLY 데이터 삭제
+        // 1. 기존 해당 주차 WEEKLY 데이터 삭제 (표시 기간 기준)
         chefRankingRepository.deleteByTypeAndPeriodStart(
                 ChefRanking.Type.WEEKLY,
-                weekStart
+                displayPeriodStart
         );
 
-        // 2. 해당 기간의 DAILY 데이터 조회
+        // 2. 해당 기간의 DAILY 데이터 조회 (집계 대상 기간)
         List<ChefRanking> targetRankings = chefRankingRepository.findDailyRankingsByPeriodRange(
-                weekStart,
-                weekEnd
+                dataStartDate,
+                dataEndDate
         );
 
         if (targetRankings.isEmpty()) {
@@ -216,14 +217,14 @@ public class RankingService {
                 .limit(topN)
                 .toList();
 
-        // 6. WEEKLY 랭킹 생성 및 저장
+        // 6. WEEKLY 랭킹 생성 및 저장 (표시 기간 시작일로 저장)
         for (int i = 0; i < sortedEntries.size(); i++) {
             Map.Entry<Long, Long> entry = sortedEntries.get(i);
 
             RankingCommand.CreateWeeklyRanking command =
                     new RankingCommand.CreateWeeklyRanking(
                             entry.getKey(),
-                            weekStart,
+                            displayPeriodStart,
                             entry.getValue(),
                             i + 1
                     );
