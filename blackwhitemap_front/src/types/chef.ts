@@ -13,6 +13,7 @@ export interface ChefBase {
   smallAddress: string;
   category: string;
   imageUrls: string[];
+  finalPlacement: string | null; // 최종성적 (예: "우승", "준우승", "8강")
   viewCount: number;
 }
 
@@ -63,5 +64,6 @@ export interface DailyBestChef {
   category: string;
   naverReservationUrl: string | null;
   catchTableUrl: string | null;
+  finalPlacement: string | null; // 최종성적 (예: "우승", "준우승", "8강")
   rank: number;
 }

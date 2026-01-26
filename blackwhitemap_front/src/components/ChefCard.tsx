@@ -50,11 +50,13 @@ export const ChefCard = ({
           )}
         />
 
-        {/* 가게 정보 */}
+        {/* 최종 순위(Best일 경우) | 가게 정보(Detail일 경우) */}
         <div className="flex flex-col py-[5px] flex-1 min-w-0">
           <div className="flex flex-col gap-2">
             <h3 className="text-xl font-bold leading-none tracking-tight text-black truncate">
-              {chef.restaurantName}
+              {variant === "bestChef"
+                ? chef.finalPlacement
+                : chef.restaurantName}
             </h3>
             <p className="text-sm font-semibold leading-none tracking-tight text-black truncate">
               {chef.nickname ?? chef.name}
