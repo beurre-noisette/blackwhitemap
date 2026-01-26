@@ -58,6 +58,7 @@ class PerformerIntegrationTest {
                 null,
                 null,
                 null,
+                null,
                 null
             );
 
@@ -82,6 +83,7 @@ class PerformerIntegrationTest {
                 null,
                 "나폴리맛피아",
                 Chef.Type.BLACK,
+                null,
                 null,
                 null,
                 null,
@@ -125,6 +127,7 @@ class PerformerIntegrationTest {
                 "https://naver.com/reservation",
                 "https://catchtable.com",
                 "https://instagram.com/chef",
+                null,
                 null
             );
 
@@ -174,7 +177,8 @@ class PerformerIntegrationTest {
                 null,
                 null,
                 null,
-                imageUrls
+                imageUrls,
+                null
             );
 
             // when
@@ -221,7 +225,8 @@ class PerformerIntegrationTest {
                 null,
                 null,
                 null,
-                imageUrls
+                imageUrls,
+                null
             );
 
             // when
@@ -261,7 +266,8 @@ class PerformerIntegrationTest {
                     null,
                     null,
                     "https://instagram.com/whitechef",
-                    imageUrls
+                    imageUrls,
+                    null
             );
 
             // when
@@ -308,6 +314,7 @@ class PerformerIntegrationTest {
                     36.123456,
                     127.654321,
                     "월, 일",
+                    null,
                     null,
                     null,
                     null,
@@ -366,6 +373,7 @@ class PerformerIntegrationTest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
             performerService.registerChef(registerCommand);
@@ -419,6 +427,7 @@ class PerformerIntegrationTest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
             performerService.registerChef(registerCommand);
@@ -465,6 +474,7 @@ class PerformerIntegrationTest {
                     36.123456,
                     127.654321,
                     "월, 일",
+                    null,
                     null,
                     null,
                     null,
@@ -557,6 +567,7 @@ class PerformerIntegrationTest {
                     "https://naver.com",
                     "https://catchtable.com",
                     "https://instagram.com",
+                    null,
                     null
             );
             performerService.registerChef(command);
@@ -621,7 +632,8 @@ class PerformerIntegrationTest {
                     null,
                     null,
                     null,
-                    images
+                    images,
+                    null
             );
             performerService.registerChef(command);
             Chef savedChef = chefJpaRepository.findAll().getFirst();
@@ -688,6 +700,7 @@ class PerformerIntegrationTest {
                     "https://naver.com",
                     "https://catchtable.com",
                     "https://instagram.com",
+                    null,
                     null
             );
             performerService.registerChef(command);

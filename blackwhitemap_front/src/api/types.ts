@@ -31,6 +31,7 @@ export interface ChefInfoResponse {
   catchTableUrl: string | null;
   instagramUrl: string | null;
   imageUrls: string[];
+  finalPlacement: string | null;
   viewCount: number;
 }
 
@@ -62,6 +63,7 @@ export interface WeeklyBestChefResponse {
   naverReservationUrl: string | null;
   catchTableUrl: string | null;
   imageUrls: string[];
+  finalPlacement: string | null;
   viewCount: number;
   rank: number;
   score: number;
@@ -81,6 +83,7 @@ export interface DailyBestChefResponse {
   category: string;
   naverReservationUrl: string | null;
   catchTableUrl: string | null;
+  finalPlacement: string | null;
   rank: number;
   score: number;
 }

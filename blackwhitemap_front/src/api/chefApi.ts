@@ -35,6 +35,7 @@ function mapToChefDetail(response: ChefInfoResponse): ChefDetail {
     longitude: response.longitude,
     category: response.category,
     imageUrls: response.imageUrls,
+    finalPlacement: response.finalPlacement,
     viewCount: response.viewCount,
     naverReservationUrl: response.naverReservationUrl,
     catchTableUrl: response.catchTableUrl,

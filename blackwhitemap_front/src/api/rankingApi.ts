@@ -30,6 +30,7 @@ function mapToBestChef(response: WeeklyBestChefResponse): BestChef {
     smallAddress: response.smallAddress,
     category: response.category,
     imageUrls: response.imageUrls,
+    finalPlacement: response.finalPlacement,
     viewCount: response.viewCount,
     naverReservationUrl: response.naverReservationUrl,
     catchTableUrl: response.catchTableUrl,
@@ -69,6 +70,7 @@ function mapToDailyBestChef(response: DailyBestChefResponse): DailyBestChef {
     category: response.category,
     naverReservationUrl: response.naverReservationUrl,
     catchTableUrl: response.catchTableUrl,
+    finalPlacement: response.finalPlacement,
     rank: response.rank,
   };
 }

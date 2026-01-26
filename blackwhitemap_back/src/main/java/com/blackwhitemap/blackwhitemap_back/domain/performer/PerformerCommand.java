@@ -22,7 +22,10 @@ public class PerformerCommand {
             String instagramUrl,
 
             // ChefImage 관련 필드
-            List<String> imageUrls
+            List<String> imageUrls,
+
+            // 최종성적
+            String finalPlacement
     ) {}
 
     /**

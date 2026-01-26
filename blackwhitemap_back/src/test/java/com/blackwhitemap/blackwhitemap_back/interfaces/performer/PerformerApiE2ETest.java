@@ -75,6 +75,7 @@ class PerformerApiE2ETest {
                 null,
                 null,
                 null,
+                null,
                 null
             );
 
@@ -115,7 +116,8 @@ class PerformerApiE2ETest {
                 "https://naver.com/reservation",
                 "https://catchtable.com",
                 "https://instagram.com/chef",
-                List.of("https://example.com/image1.jpg", "https://example.com/image2.jpg")
+                List.of("https://example.com/image1.jpg", "https://example.com/image2.jpg"),
+                null
             );
 
             // when
@@ -145,6 +147,7 @@ class PerformerApiE2ETest {
                     36.123456,
                     127.654321,
                     "월, 일",
+                    null,
                     null,
                     null,
                     null,
@@ -185,6 +188,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
 
@@ -217,6 +221,7 @@ class PerformerApiE2ETest {
                     36.123456,
                     127.654321,
                     "월, 일",
+                    null,
                     null,
                     null,
                     null,
@@ -257,6 +262,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
 
@@ -289,6 +295,7 @@ class PerformerApiE2ETest {
                 36.123456,
                 127.654321,
                 "월, 일",
+                null,
                 null,
                 null,
                 null,
@@ -326,6 +333,7 @@ class PerformerApiE2ETest {
                 null,
                 null,
                 null,
+                null,
                 null
             );
 
@@ -357,6 +365,7 @@ class PerformerApiE2ETest {
                 "월, 일",
                 null,
                 "not-a-url",  // 잘못된 URL
+                null,
                 null,
                 null,
                 null
@@ -392,7 +401,8 @@ class PerformerApiE2ETest {
                 null,
                 null,
                 null,
-                List.of("not-a-url", "12345")  // 잘못된 URL
+                List.of("not-a-url", "12345"),  // 잘못된 URL
+                null
             );
 
             // when
@@ -425,6 +435,7 @@ class PerformerApiE2ETest {
                 null,
                 null,
                 null,
+                null,
                 null
             );
 
@@ -451,6 +462,7 @@ class PerformerApiE2ETest {
                 null,  // 이름 없음
                 null,  // 별명 없음
                 "WHITE",
+                null,
                 null,
                 null,
                 null,
@@ -502,7 +514,8 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
-                    List.of("https://example.com/image1.jpg")
+                    List.of("https://example.com/image1.jpg"),
+                    null
             ));
 
             chefJpaRepository.save(targetChef);
@@ -557,7 +570,8 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
-                    List.of("https://example.com/image1.jpg")
+                    List.of("https://example.com/image1.jpg"),
+                    null
             ));
 
             chefJpaRepository.save(targetChef);
@@ -612,7 +626,8 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
-                    List.of("https://example.com/image1.jpg")
+                    List.of("https://example.com/image1.jpg"),
+                    null
             ));
 
             chefJpaRepository.save(targetChef);
@@ -666,7 +681,8 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
-                    List.of("https://example.com/image1.jpg")
+                    List.of("https://example.com/image1.jpg"),
+                    null
             ));
 
             chefJpaRepository.save(targetChef);
@@ -732,7 +748,8 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
-                    List.of("https://example.com/image.jpg")
+                    List.of("https://example.com/image.jpg"),
+                    null
             ));
 
             chefJpaRepository.save(targetChef);
@@ -796,7 +813,8 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
-                    List.of("https://example.com/image1.jpg")
+                    List.of("https://example.com/image1.jpg"),
+                    null
             ));
 
             chefJpaRepository.save(targetChef);
@@ -884,7 +902,8 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
-                    List.of("https://example.com/image1.jpg")
+                    List.of("https://example.com/image1.jpg"),
+                    null
             ));
 
             chefJpaRepository.save(targetChef);
@@ -938,7 +957,8 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
-                    List.of("https://example.com/image1.jpg")
+                    List.of("https://example.com/image1.jpg"),
+                    null
             ));
 
             chefJpaRepository.save(targetChef);
@@ -992,7 +1012,8 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
-                    List.of("https://example.com/image1.jpg")
+                    List.of("https://example.com/image1.jpg"),
+                    null
             ));
 
             chefJpaRepository.save(targetChef);
@@ -1050,7 +1071,8 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
-                    List.of("https://example.com/image1.jpg")
+                    List.of("https://example.com/image1.jpg"),
+                    null
             ));
 
             chefJpaRepository.save(targetChef);
@@ -1108,7 +1130,8 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
-                    List.of("https://example.com/image1.jpg")
+                    List.of("https://example.com/image1.jpg"),
+                    null
             ));
 
             chefJpaRepository.save(targetChef);
@@ -1167,7 +1190,8 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
-                    List.of("https://example.com/image1.jpg")
+                    List.of("https://example.com/image1.jpg"),
+                    null
             ));
 
             // given - WHITE 요리사 (address 있음)
@@ -1185,6 +1209,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
+                    null,
                     null
             ));
 
@@ -1199,6 +1224,7 @@ class PerformerApiE2ETest {
                     55.55,
                     88.88,
                     "금, 토",
+                    null,
                     null,
                     null,
                     null,
@@ -1242,7 +1268,8 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
-                    List.of("https://example.com/image1.jpg")
+                    List.of("https://example.com/image1.jpg"),
+                    null
             ));
 
             // given - BLACK 요리사 (address 있음)
@@ -1260,7 +1287,8 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
-                    List.of("https://example.com/image1.jpg")
+                    List.of("https://example.com/image1.jpg"),
+                    null
             ));
 
             // given - WHITE 요리사 (address 있음 - 조회되지 않아야 함)
@@ -1275,6 +1303,7 @@ class PerformerApiE2ETest {
                     127.654321,
                     "월, 일",
                     Restaurant.Category.KOREAN,
+                    null,
                     null,
                     null,
                     null,
@@ -1321,6 +1350,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
+                    null,
                     null
             ));
 
@@ -1339,7 +1369,8 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
-                    List.of("https://example.com/image1.jpg")
+                    List.of("https://example.com/image1.jpg"),
+                    null
             ));
 
             chefJpaRepository.save(whiteChefWithAddress);
@@ -1379,7 +1410,8 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
-                    List.of("https://example.com/image1.jpg")
+                    List.of("https://example.com/image1.jpg"),
+                    null
             ));
 
             Chef whiteChefWithAddress = Chef.of(new PerformerCommand.RegisterChef(
@@ -1393,6 +1425,7 @@ class PerformerApiE2ETest {
                     127.654321,
                     "월, 일",
                     Restaurant.Category.KOREAN,
+                    null,
                     null,
                     null,
                     null,
@@ -1431,6 +1464,7 @@ class PerformerApiE2ETest {
                     36.123456,
                     127.654321,
                     "월, 일",
+                    null,
                     null,
                     null,
                     null,
@@ -1488,7 +1522,8 @@ class PerformerApiE2ETest {
                     "https://naver.com/reservation",
                     "https://catchtable.com",
                     "https://instagram.com/chef",
-                    List.of("https://example.com/image1.jpg", "https://example.com/image2.jpg")
+                    List.of("https://example.com/image1.jpg", "https://example.com/image2.jpg"),
+                    null
             ));
 
             chefJpaRepository.save((blackChefWithAddress));
@@ -1551,6 +1586,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
+                    null,
                     null
             ));
 
@@ -1565,6 +1601,7 @@ class PerformerApiE2ETest {
                     127.654321,
                     "월, 일",
                     Restaurant.Category.KOREAN,
+                    null,
                     null,
                     null,
                     null,
@@ -1585,6 +1622,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
+                    null,
                     null
             ));
 
@@ -1600,6 +1638,7 @@ class PerformerApiE2ETest {
                     127.654321,
                     "월, 일",
                     Restaurant.Category.JAPANESE,
+                    null,
                     null,
                     null,
                     null,
@@ -1644,6 +1683,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
+                    null,
                     null
             ));
 
@@ -1661,6 +1701,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
+                    null,
                     null
             ));
 
@@ -1674,6 +1715,7 @@ class PerformerApiE2ETest {
                     36.123456,
                     127.654321,
                     "월, 일",
+                    null,
                     null,
                     null,
                     null,
@@ -1731,6 +1773,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
 
@@ -1766,6 +1809,7 @@ class PerformerApiE2ETest {
                     36.123456,
                     127.654321,
                     "월, 일",
+                    null,
                     null,
                     null,
                     null,
@@ -1808,6 +1852,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
+                    null,
                     null
             ));
 
@@ -1825,6 +1870,7 @@ class PerformerApiE2ETest {
                     null,
                     null,
                     null,
+                    null,
                     null
             ));
 
@@ -1838,6 +1884,7 @@ class PerformerApiE2ETest {
                     36.123456,
                     127.654321,
                     "월, 일",
+                    null,
                     null,
                     null,
                     null,
@@ -1884,6 +1931,7 @@ class PerformerApiE2ETest {
                     36.123456,
                     127.654321,
                     "월, 일",
+                    null,
                     null,
                     null,
                     null,

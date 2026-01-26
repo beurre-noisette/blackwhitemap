@@ -40,6 +40,7 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
 
@@ -62,6 +63,7 @@ class PerformerTest {
                     "나폴리맛피아",
                     Chef.Type.BLACK,
                     "비아톨레도 파스타바",
+                    null,
                     null,
                     null,
                     null,
@@ -101,6 +103,7 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
 
@@ -131,6 +134,7 @@ class PerformerTest {
                     "https://naver.com/reservation",
                     "https://catchtable.com",
                     "https://instagram.com/chef",
+                    null,
                     null
             );
 
@@ -171,7 +175,8 @@ class PerformerTest {
                     null,
                     null,
                     null,
-                    imageUrls
+                    imageUrls,
+                    null
             );
 
             // when
@@ -206,7 +211,8 @@ class PerformerTest {
                     null,
                     null,
                     "https://instagram.com/whitechef",
-                    imageUrls
+                    imageUrls,
+                    null
             );
 
             // when
@@ -232,6 +238,7 @@ class PerformerTest {
             // given
             PerformerCommand.RegisterChef command = new PerformerCommand.RegisterChef(
                     "손종원",
+                    null,
                     null,
                     null,
                     null,
@@ -274,6 +281,7 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
 
@@ -295,6 +303,7 @@ class PerformerTest {
                     emptySource,
                     emptySource,
                     Chef.Type.WHITE,
+                    null,
                     null,
                     null,
                     null,
@@ -441,6 +450,7 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
             Chef chef = Chef.of(registerCommand);
@@ -462,6 +472,7 @@ class PerformerTest {
                     "요리천재",
                     Chef.Type.WHITE,
                     "라망 시크레",
+                    null,
                     null,
                     null,
                     null,
@@ -501,6 +512,7 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
             Chef chef = Chef.of(registerCommand);
@@ -521,6 +533,7 @@ class PerformerTest {
                     "손종원",
                     null,
                     Chef.Type.WHITE,
+                    null,
                     null,
                     null,
                     null,
@@ -562,6 +575,7 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
             Chef chef = Chef.of(registerCommand);
@@ -582,6 +596,7 @@ class PerformerTest {
                     "손종원",
                     "",
                     Chef.Type.WHITE,
+                    null,
                     null,
                     null,
                     null,
@@ -627,6 +642,7 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
             Chef chef = Chef.of(registerCommand);
@@ -647,6 +663,7 @@ class PerformerTest {
                     "권성준",
                     "나폴리맛피아",
                     Chef.Type.BLACK,
+                    null,
                     null,
                     null,
                     null,
@@ -687,6 +704,7 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
             Chef chef = Chef.of(registerCommand);
@@ -707,6 +725,7 @@ class PerformerTest {
                     null,
                     "나폴리맛피아",
                     Chef.Type.BLACK,
+                    null,
                     null,
                     null,
                     null,
@@ -748,6 +767,7 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
             Chef chef = Chef.of(registerCommand);
@@ -768,6 +788,7 @@ class PerformerTest {
                     "",
                     "나폴리맛피아",
                     Chef.Type.BLACK,
+                    null,
                     null,
                     null,
                     null,
@@ -813,6 +834,7 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
             Chef chef = Chef.of(registerCommand);
@@ -832,6 +854,7 @@ class PerformerTest {
                     "손종원",
                     null,
                     Chef.Type.WHITE,
+                    null,
                     null,
                     null,
                     null,
@@ -871,6 +894,7 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
             Chef chef = Chef.of(registerCommand);
@@ -896,6 +920,7 @@ class PerformerTest {
                     "손종원",
                     null,
                     Chef.Type.WHITE,
+                    null,
                     null,
                     null,
                     null,
@@ -956,6 +981,7 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
             Chef chef = Chef.of(registerCommand);
@@ -1006,6 +1032,7 @@ class PerformerTest {
                     "https://naver.com",
                     "https://catchtable.com",
                     "https://instagram.com",
+                    null,
                     null
             );
             Chef chef = Chef.of(command);
@@ -1047,6 +1074,7 @@ class PerformerTest {
                     "https://naver.com",
                     "https://catchtable.com",
                     "https://instagram.com",
+                    null,
                     null
             );
             Chef chef = Chef.of(command);
@@ -1101,6 +1129,7 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
             Chef chef = Chef.of(registerCommand);
@@ -1138,7 +1167,8 @@ class PerformerTest {
                     null,
                     null,
                     null,
-                    images
+                    images,
+                    null
             );
             Chef chef = Chef.of(registerCommand);
 
@@ -1172,7 +1202,8 @@ class PerformerTest {
                     null,
                     null,
                     null,
-                    images
+                    images,
+                    null
             );
             Chef chef = Chef.of(registerCommand);
             ChefImages oldImages = chef.getImages();
@@ -1212,6 +1243,7 @@ class PerformerTest {
                     null,
                     null,
                     null,
+                    null,
                     null
             );
             Chef chef = Chef.of(registerCommand);
@@ -1238,6 +1270,7 @@ class PerformerTest {
                     "손종원",
                     "요리천재",
                     Chef.Type.WHITE,
+                    null,
                     null,
                     null,
                     null,

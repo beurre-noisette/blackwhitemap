@@ -50,11 +50,13 @@ export const ChefCard = ({
           )}
         />
 
-        {/* 가게 정보 */}
+        {/* 최종 순위(Best일 경우) | 가게 정보(Detail일 경우) */}
         <div className="flex flex-col py-[5px] flex-1 min-w-0">
           <div className="flex flex-col gap-2">
             <h3 className="text-xl font-bold leading-none tracking-tight text-black truncate">
-              {chef.restaurantName}
+              {variant === "bestChef"
+                ? chef.finalPlacement
+                : chef.restaurantName}
             </h3>
             <p className="text-sm font-semibold leading-none tracking-tight text-black truncate">
               {chef.nickname ?? chef.name}
@@ -69,26 +71,32 @@ export const ChefCard = ({
           >
             {/* 카테고리 - Category ENUM name을 한글로 변환 */}
             <ChefInfoRow iconName="category" label="카테고리">
-              {formatCategoryLabel(chef.category)}
+              {chef.category ? formatCategoryLabel(chef.category) : "정보 없음"}
             </ChefInfoRow>
 
             {/* 위치 */}
             <ChefInfoRow iconName="location" label="위치">
-              {chef.smallAddress || ""}
+              {chef.smallAddress || "정보 없음"}
             </ChefInfoRow>
 
             {/* 휴무일 */}
             <ChefInfoRow iconName="watch" label="휴무일">
-              {chef.closedDays.map((day, index) => (
-                <div key={day} className="flex items-center gap-1">
-                  {index > 0 && (
-                    <div className="w-1 h-1 rounded-full bg-gray-200" />
-                  )}
-                  <span className="text-xs font-normal leading-none tracking-tight text-gray-500">
-                    {day}
-                  </span>
-                </div>
-              ))}
+              {chef.closedDays && chef.closedDays.length > 0 ? (
+                chef.closedDays.map((day, index) => (
+                  <div key={day} className="flex items-center gap-1">
+                    {index > 0 && (
+                      <div className="w-1 h-1 rounded-full bg-gray-200" />
+                    )}
+                    <span className="text-xs font-normal leading-none tracking-tight text-gray-500">
+                      {day}
+                    </span>
+                  </div>
+                ))
+              ) : (
+                <span className="text-xs font-normal leading-none tracking-tight text-gray-500">
+                  정보 없음
+                </span>
+              )}
             </ChefInfoRow>
 
             {/* 인스타그램 (chefDetail에서만 표시) */}

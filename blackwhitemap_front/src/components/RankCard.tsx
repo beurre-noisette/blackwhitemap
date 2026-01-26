@@ -90,7 +90,7 @@ export const RankCard = ({ chef, className }: RankCardProps) => {
             isBlack ? "text-white" : "text-[#0E0D0D]",
           )}
         >
-          {chef.restaurantName}
+          {chef.restaurantName || "업장이 없습니다."}
         </span>
 
         {/* 위치 | 카테고리 */}
@@ -101,7 +101,7 @@ export const RankCard = ({ chef, className }: RankCardProps) => {
               isBlack ? "text-[#B7B6B6]" : "text-[#868686]",
             )}
           >
-            {chef.smallAddress}
+            {chef.smallAddress || "정보 없음"}
           </span>
           <div className="w-px h-[10px] bg-[#D3D2D2] shrink-0 rounded-full" />
           <span

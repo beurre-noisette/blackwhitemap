@@ -40,6 +40,9 @@ public class Chef extends BaseEntity {
     @Column(name = "version")
     private Long version;
 
+    @Column(name = "final_placement", length = 20)
+    private String finalPlacement;
+
     @Getter
     @RequiredArgsConstructor
     public enum Type {
@@ -80,7 +83,8 @@ public class Chef extends BaseEntity {
             String nickname,
             Type type,
             Restaurant restaurant,
-            ChefImages images
+            ChefImages images,
+            String finalPlacement
     ) {
         this.name = name;
         this.nickname = nickname;
@@ -88,6 +92,7 @@ public class Chef extends BaseEntity {
         this.restaurant = restaurant;
         this.images = images;
         this.viewCount = 0L;
+        this.finalPlacement = finalPlacement;
     }
 
     public static Chef of(PerformerCommand.RegisterChef command) {
@@ -113,7 +118,8 @@ public class Chef extends BaseEntity {
                 command.nickname(),
                 command.type(),
                 restaurant,
-                images
+                images,
+                command.finalPlacement()
         );
     }
 
@@ -217,6 +223,14 @@ public class Chef extends BaseEntity {
      */
     public void updateImages(List<String> imageUrls) {
         this.images = ChefImages.of(imageUrls);
+    }
+
+    /**
+     * 셰프 최종성적 수정
+     * - 예: "우승", "준우승", "8강" 등
+     */
+    public void updateFinalPlacement(String finalPlacement) {
+        this.finalPlacement = finalPlacement;
     }
 
 }

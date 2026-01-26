@@ -41,7 +41,8 @@ public class PerformerFacade {
                 registerCriteria.naverReservationUrl(),
                 registerCriteria.catchTableUrl(),
                 registerCriteria.instagramUrl(),
-                registerCriteria.imageUrls()
+                registerCriteria.imageUrls(),
+                registerCriteria.finalPlacement()
         );
 
         performerService.registerChef(registerCommand);

@@ -33,6 +33,9 @@ public class PerformerResult {
             // Chef 이미지
             List<String> imageUrls,
 
+            // 최종성적
+            String finalPlacement,
+
             // 조회수
             Long viewCount
     ) {
@@ -61,6 +64,7 @@ public class PerformerResult {
                     chef.getRestaurant() != null ? chef.getRestaurant().getInstagramUrl() : null,
                     region != null ? region.name() : null,
                     chef.getImages() != null ? chef.getImages().getImageUrls() : List.of(),
+                    chef.getFinalPlacement(),
                     chef.getViewCount()
             );
         }
