@@ -143,9 +143,18 @@ export const BottomSheet = ({
         )}
         // expanded 상태에서 스크롤 시 드래그 이벤트가 발생하지 않도록 이벤트 전파 차단
         // onPointerDownCapture: 포인터 다운 이벤트를 캡처 단계에서 잡아서 상위로 전파 방지
-        onPointerDownCapture={
-          state.includes("expanded") ? (e) => e.stopPropagation() : undefined
-        }
+        // 단, Swiper 요소 내부에서는 이벤트 전파를 허용하여 좌우 스와이프가 동작하도록 함
+        onPointerDownCapture={(e) => {
+          if (state.includes("expanded")) {
+            // Swiper 요소 내부에서는 이벤트 전파 허용 (좌우 스와이프 동작)
+            const isSwiper = (e.target as HTMLElement)?.closest(
+              ".swiper, .swiper-slide, .swiper-wrapper"
+            );
+            if (!isSwiper) {
+              e.stopPropagation();
+            }
+          }
+        }}
       >
         {children}
       </div>
